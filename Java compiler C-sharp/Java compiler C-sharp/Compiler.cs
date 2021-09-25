@@ -46,24 +46,18 @@ namespace Java_compiler_C_sharp
 
                 //Execution
                 compileTask.StandardInput.WriteLine(compileCommand);
+                compileTask.StandardInput.Flush();
+                compileTask.StandardInput.Close();
 
 
-                //TODO catching the error
+           
                 //Checking
-                while (true)
-                {
-                    string error = compileTask.StandardError.ReadLine();
-                    if (error == null)
-                    {
-                        break;
-                    }
+                string error = compileTask.StandardError.ReadToEnd();
+                if (error.Length > 0) throw new Exception(error);
 
-                }
-               
-
-                
-                
-
+                //Closing
+                compileTask.WaitForExit();
+                compileTask.Close();
             }
         }
     }

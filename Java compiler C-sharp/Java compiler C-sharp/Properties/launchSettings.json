@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Java compiler C-sharp": {
+      "commandName": "Project"
+    }
+  }
+}

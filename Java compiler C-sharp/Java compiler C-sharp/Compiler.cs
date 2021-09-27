@@ -19,23 +19,23 @@ namespace Java_compiler_C_sharp
         }
 
 
-        public void Compile(string path, string file)
+        public void Compile(string pathExport, string pathFiles, string pathSources, string pathRes)
         {
 
             using (var compileTask = new Process())
             {
                 //Checks
                 if (!Directory.Exists(CompilerPath)) throw new Exception("Invalid java directory");
-                if (!File.Exists(path + @"\" + file)) throw new Exception("Invalid file path");
+                if ((!Directory.Exists(pathFiles)) && (!Directory.Exists(pathExport)) && (!Directory.Exists(pathSources))) throw new Exception("Invalid file path");
 
 
 
                 //Arguments
-                string compileCommand = $"javac {file}";
+                string compileCommand = @"javac -cp " + pathSources + @"\*.jar ^ " + pathFiles + @"\*.java  ^ " + pathRes + @"\* -d " + pathExport;
 
                 //Process
                 compileTask.StartInfo.FileName = @"cmd.exe";
-                compileTask.StartInfo.WorkingDirectory = path;
+                compileTask.StartInfo.WorkingDirectory = pathExport;
                 compileTask.StartInfo.EnvironmentVariables["Path"] = this.CompilerPath;
                 compileTask.StartInfo.RedirectStandardInput = true;
                 compileTask.StartInfo.RedirectStandardOutput = true;
@@ -50,7 +50,6 @@ namespace Java_compiler_C_sharp
                 compileTask.StandardInput.Close();
 
 
-           
                 //Checking
                 string error = compileTask.StandardError.ReadToEnd();
                 if (error.Length > 0) throw new Exception(error);
@@ -58,6 +57,11 @@ namespace Java_compiler_C_sharp
                 //Closing
                 compileTask.WaitForExit();
                 compileTask.Close();
+
+
+
+
+
             }
         }
     }

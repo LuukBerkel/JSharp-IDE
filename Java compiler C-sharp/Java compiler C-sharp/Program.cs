@@ -10,7 +10,7 @@ namespace Java_compiler_C_sharp
 
             try
             {
-                compiler.Compile(@"C:\Users\berke\Downloads\", "helloworld.java");
+                compiler.Compile(@"D:\CompileTest\out", @"D:\CompileTest\src", @"D:\CompileTest\lib", @"D:\CompileTest\res");
             } catch (Exception e)
             {
                 Console.WriteLine(e.Message);

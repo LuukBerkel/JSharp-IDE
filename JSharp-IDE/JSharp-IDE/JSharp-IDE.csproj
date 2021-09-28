@@ -10,7 +10,6 @@
   <Import Project="..\JSharp-Shared\JSharp-Shared.projitems" Label="Shared" />
 
   <ItemGroup>
-    <None Remove="Hammer_30x.png" />
     <None Remove="Resources\Hammer_30x.png" />
     <None Remove="Resources\Run_16x.png" />
   </ItemGroup>
@@ -20,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Hammer_30x.png" />
     <Resource Include="Resources\Hammer_30x.png" />
     <Resource Include="Resources\Run_16x.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

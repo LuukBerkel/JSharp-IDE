@@ -42,11 +42,57 @@ namespace Java_compiler_C_sharp
 
                 //Resouces
                 string resCommand = pathRes + ";";
-                
+
+                //Files
+                string fileFinderCompiler(string pathFiles)
+                {
+
+                    string[] directory = Directory.GetDirectories(pathFiles);
+
+
+                    if (directory.Length == 0)
+                    {
+                        string result = "";
+                        string[] files = Directory.GetFiles(pathFiles);
+
+                        foreach(string file in files)
+                        {
+                         
+                            if (file.Contains(".java"))
+                                result += file + " ";
+                        }
+
+
+                        return result;
+                    }
+                    else
+                    {
+                     
+                        string result = "";
+
+                        string[] files = Directory.GetFiles(pathFiles);
+                        foreach (string file in files)
+                        {
+         
+                            if (file.Contains(".java"))
+                            result += file + " ";
+                        }
+
+
+                        foreach (string dir in directory)
+                        {
+                            result += fileFinderCompiler(dir);
+                        }
+
+                        return result;
+                    }
+
+                    throw new Exception("No files found");
+                }
 
 
                 //Arguments
-                string compileCommand = @"javac -cp " + libCommand + resCommand + @" ^ " + pathSrc + @"\*.java -d " + pathOut;
+                string compileCommand = @"javac -cp " + libCommand + resCommand + @" ^ "  + fileFinderCompiler(pathSrc);
 
                 //Process
                 compileTask.StartInfo.FileName = @"cmd.exe";
@@ -65,7 +111,7 @@ namespace Java_compiler_C_sharp
 
                 //Checking
                 string error = compileTask.StandardError.ReadToEnd();
-                if (error.Length > 0) throw new Exception(error);
+                if (error.Length > 0 && error.Contains("error")) throw new Exception(error);
 
                 //Closing
                 compileTask.WaitForExit();
@@ -95,9 +141,6 @@ namespace Java_compiler_C_sharp
                 //Resources
                 string resCommand = pathRes + "; ";
 
-   
-
-
                 //Arguments
                 string executeCommand = @"java -classpath " + libCommand + resCommand + main;
 
@@ -115,8 +158,5 @@ namespace Java_compiler_C_sharp
                 executeTask.Close();
             }
         }
-
-
-       
     }
 }

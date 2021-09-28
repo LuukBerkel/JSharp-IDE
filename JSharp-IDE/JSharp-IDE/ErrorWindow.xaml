@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JSharp_IDE"
         mc:Ignorable="d"
-        Title="ErrorWindow" Height="150" Width="400" SizeToContent="Manual" WindowStyle="None" Background="{x:Null}" ResizeMode="NoResize" HorizontalAlignment="Left" VerticalAlignment="Top" WindowStartupLocation="Manual" Icon="/icons8-error-58.png">
+        Title="ErrorWindow" Height="150" Width="400" SizeToContent="Manual" WindowStyle="None" Background="{x:Null}" ResizeMode="NoResize" HorizontalAlignment="Left" VerticalAlignment="Top" WindowStartupLocation="Manual">
     <Grid Background="White">
         <Button Content="Button" HorizontalAlignment="Left" Height="46" Margin="336,88,0,0" VerticalAlignment="Top" Width="54" Foreground="#00000000" BorderBrush="#00000000" RenderTransformOrigin="0.118,0.505">
             <Button.Background>

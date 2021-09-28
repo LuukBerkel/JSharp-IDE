@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace IDE_testing
+namespace JSharp_IDE
 {
     class TextFormatter
     {

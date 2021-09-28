@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
+
 using System.Threading.Tasks;
 
-namespace Java_compiler_C_sharp
+namespace JSharp_IDE
 {
     class Compiler
     {
@@ -40,59 +38,48 @@ namespace Java_compiler_C_sharp
                     libCommand = libCommand + lib + ";";
                 }
 
-                //Resouces
+                //Resources
                 string resCommand = pathRes + ";";
 
                 //Files
                 string fileFinderCompiler(string pathFiles)
                 {
-
-                    string[] directory = Directory.GetDirectories(pathFiles);
-
-
-                    if (directory.Length == 0)
+                    //If there is something in the directory
+                    if (Directory.GetDirectories(pathFiles).Length > 0 
+                        || Directory.GetFiles(pathFiles).Length > 0)
                     {
+                        //Variables
                         string result = "";
-                        string[] files = Directory.GetFiles(pathFiles);
 
-                        foreach(string file in files)
+                        //Search for files
+                        string[] files = Directory.GetFiles(pathFiles);
+                        foreach (string file in files)
                         {
-                         
                             if (file.Contains(".java"))
                                 result += file + " ";
                         }
 
-
-                        return result;
-                    }
-                    else
-                    {
-                     
-                        string result = "";
-
-                        string[] files = Directory.GetFiles(pathFiles);
-                        foreach (string file in files)
+                        //Search for direcories
+                        string[] directory = Directory.GetDirectories(pathFiles);
+                        if (directory.Length > 0)
                         {
-         
-                            if (file.Contains(".java"))
-                            result += file + " ";
+                            foreach (string dir in directory)
+                            {
+                                result += fileFinderCompiler(dir);
+                            }
                         }
 
-
-                        foreach (string dir in directory)
-                        {
-                            result += fileFinderCompiler(dir);
-                        }
-
+                        //Returning list..
                         return result;
                     }
-
+                    
+                    //Throw exceptoin when now files are found..
                     throw new Exception("No files found");
                 }
 
 
                 //Arguments
-                string compileCommand = @"javac -cp " + libCommand + resCommand + @" ^ "  + fileFinderCompiler(pathSrc);
+                string compileCommand = @"javac -cp " + libCommand + resCommand + @" ^ "  + fileFinderCompiler(pathSrc) + " -d " + pathOut;
 
                 //Process
                 compileTask.StartInfo.FileName = @"cmd.exe";

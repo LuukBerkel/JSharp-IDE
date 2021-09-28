@@ -36,7 +36,7 @@
                     <TextBlock Text="Run"/>
                 </StackPanel>
             </Button>
-            <Button Click="Button_RunCode" Width="50" HorizontalAlignment="Left">
+            <Button Click="Button_CompileCode" Width="50" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal">
                     <Image Height="16" Stretch="Fill" Source="/Resources/Hammer_30x.png" Width="16"/>
                     <TextBlock Text="Build"/>

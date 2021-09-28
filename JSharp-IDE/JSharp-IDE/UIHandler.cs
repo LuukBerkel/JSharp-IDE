@@ -1,15 +1,13 @@
-﻿using Microsoft.Win32;
+﻿
 using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using static System.Environment;
+using System.Windows.Controls.Primitives;
 
 namespace JSharp_IDE
 {
@@ -88,6 +86,7 @@ namespace JSharp_IDE
             return directoryNode;
         }
 
+
         private string OpenFolderDialog()
         {
             VistaFolderBrowserDialog dlg = new VistaFolderBrowserDialog();
@@ -101,6 +100,43 @@ namespace JSharp_IDE
             }
 
             return path;
+        }
+
+        public void Button_RunCode(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Compiler compiler = new Compiler(@"C:\Program Files\Java\jdk1.8.0_261\bin");
+                compiler.Compile(@"D:\CompileTest\out", @"D:\CompileTest\src", @"D:\CompileTest\lib", @"D:\CompileTest\res");
+                compiler.Execute(@"D:\CompileTest\out", @"D:\CompileTest\lib", @"D:\CompileTest\res", "Sandbox");
+            }
+            catch (Exception ex)
+            {
+                
+                ErrorWindow window = new ErrorWindow();
+                window.Owner = MainWindow.getWindow();
+                window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                window.setError(ex.Message);
+                window.Show();
+            }
+
+           
+        }
+
+
+        public void Button_CompileCode(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Compiler compiler = new Compiler(@"C:\Program Files\Java\jdk1.8.0_261\bin");
+                compiler.Compile(@"D:\CompileTest\out", @"D:\CompileTest\src", @"D:\CompileTest\lib", @"D:\CompileTest\res");
+            }
+            catch (Exception ex)
+            {
+                ErrorWindow window = new ErrorWindow();
+                window.setError(ex.Message);
+                window.Show();
+            }
         }
     }
 }

@@ -16,10 +16,12 @@ namespace JSharp_IDE
     public partial class MainWindow : Window
     {
         private UIHandler uiHandler;
+        private static MainWindow main;
         public MainWindow()
         {
             InitializeComponent();
             this.uiHandler = new UIHandler(this);
+            main = this;
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -74,9 +76,19 @@ namespace JSharp_IDE
             this.uiHandler.MenuItem_New(sender, e);
         }
 
+        private void Button_CompileCode(object sender, RoutedEventArgs e)
+        {
+            this.uiHandler.Button_CompileCode(sender, e);
+        }
+
         private void Button_RunCode(object sender, RoutedEventArgs e)
         {
+            this.uiHandler.Button_RunCode(sender, e);
+        }
 
+        public static MainWindow getWindow()
+        {
+            return main;
         }
     }
 }

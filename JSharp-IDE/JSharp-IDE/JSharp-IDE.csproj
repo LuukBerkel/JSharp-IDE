@@ -10,8 +10,17 @@
   <Import Project="..\JSharp-Shared\JSharp-Shared.projitems" Label="Shared" />
 
   <ItemGroup>
+    <None Remove="icons8-error-58.png" />
+    <None Remove="icons8-ok-50 %281%29.png" />
+    <None Remove="Resources\errror_icon.png" />
     <None Remove="Resources\Hammer_30x.png" />
+    <None Remove="Resources\oke_icon.png" />
     <None Remove="Resources\Run_16x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="icons8-error-58.png" />
+    <Resource Include="Resources\oke_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\errror_icon.png" />
     <Resource Include="Resources\Hammer_30x.png" />
     <Resource Include="Resources\Run_16x.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

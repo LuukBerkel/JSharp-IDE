@@ -7,4 +7,6 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <Import Project="..\JSharp-Shared\JSharp-Shared.projitems" Label="Shared" />
+
 </Project>

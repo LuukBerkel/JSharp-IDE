@@ -14,6 +14,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -27,10 +28,25 @@
                 <MenuItem Header="_Exit"/>
             </MenuItem>
         </Menu>
+        
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="10" Grid.Column="0" Width="Auto" Orientation="Horizontal">
+            <Button Click="Button_RunCode" Width="50" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="16" Stretch="Fill" Source="/Resources/Run_16x.png" Width="16"/>
+                    <TextBlock Text="Run"/>
+                </StackPanel>
+            </Button>
+            <Button Click="Button_RunCode" Width="50" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="16" Stretch="Fill" Source="/Resources/Hammer_30x.png" Width="16"/>
+                    <TextBlock Text="Build"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
 
-        <TreeView Width="Auto" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Loaded="TreeView_Loaded"/>
+        <TreeView Width="Auto" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Loaded="TreeView_Loaded"/>
 
-        <TabControl Grid.Row="1" Grid.Column="2" Width="Auto">
+        <TabControl Grid.Row="2" Grid.Column="2" Width="Auto">
             <TabItem Header="Class.java">
                 <RichTextBox TextChanged="CodeTextBox_TextChanged" DataObject.Pasting="CodeTextBox_Pasting" Background="#FF2E2E2E">
                     <RichTextBox.Resources>
@@ -42,8 +58,8 @@
             </TabItem>
         </TabControl>
 
-        <GridSplitter Grid.Column="0" Width="5" HorizontalAlignment="Right" Grid.RowSpan="1" Grid.Row="1"/>
-        <StatusBar Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0">
+        <GridSplitter Grid.Column="0" Width="5" HorizontalAlignment="Right" Grid.RowSpan="1" Grid.Row="2"/>
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0">
             
         </StatusBar>
     </Grid>

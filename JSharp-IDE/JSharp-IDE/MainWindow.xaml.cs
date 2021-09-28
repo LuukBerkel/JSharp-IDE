@@ -73,5 +73,10 @@ namespace JSharp_IDE
         {
             this.uiHandler.MenuItem_New(sender, e);
         }
+
+        private void Button_RunCode(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

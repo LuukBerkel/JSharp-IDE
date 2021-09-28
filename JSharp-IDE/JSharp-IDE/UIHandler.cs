@@ -52,7 +52,7 @@ namespace JSharp_IDE
             Directory.CreateDirectory(Path.Combine(path, "src"));
             Directory.CreateDirectory(Path.Combine(path, "out"));
             Directory.CreateDirectory(Path.Combine(path, "lib"));
-            Directory.CreateDirectory(Path.Combine(path, "resources"));
+            Directory.CreateDirectory(Path.Combine(path, "res"));
             UpdateTreeView(path);
         }
 

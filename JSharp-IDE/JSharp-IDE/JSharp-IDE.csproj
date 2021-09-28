@@ -10,7 +10,21 @@
   <Import Project="..\JSharp-Shared\JSharp-Shared.projitems" Label="Shared" />
 
   <ItemGroup>
+    <None Remove="Hammer_30x.png" />
+    <None Remove="Resources\Hammer_30x.png" />
+    <None Remove="Resources\Run_16x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Ookii.Dialogs.Wpf" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Hammer_30x.png" />
+    <Resource Include="Resources\Hammer_30x.png" />
+    <Resource Include="Resources\Run_16x.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

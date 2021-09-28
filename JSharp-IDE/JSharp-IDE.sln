@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSharp-IDE", "JSharp-IDE\JSharp-IDE.csproj", "{95D619F8-0C28-42BC-B0E7-CE25ECABF956}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSharp-Server", "JSharp-Server\JSharp-Server.csproj", "{94B61A45-2FD3-4363-AC69-DD5FE55E1572}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95D619F8-0C28-42BC-B0E7-CE25ECABF956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95D619F8-0C28-42BC-B0E7-CE25ECABF956}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95D619F8-0C28-42BC-B0E7-CE25ECABF956}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95D619F8-0C28-42BC-B0E7-CE25ECABF956}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94B61A45-2FD3-4363-AC69-DD5FE55E1572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94B61A45-2FD3-4363-AC69-DD5FE55E1572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94B61A45-2FD3-4363-AC69-DD5FE55E1572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94B61A45-2FD3-4363-AC69-DD5FE55E1572}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D01184E5-6A8C-4B49-AF9E-3225FF336C8D}
+	EndGlobalSection
+EndGlobal

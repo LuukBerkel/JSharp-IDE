@@ -18,6 +18,7 @@ namespace JSharp_IDE
         //Keywords
         private static SolidColorBrush keyWordColor = Brushes.Orange;
         private static string keywords = @"\b(public|private|class|void|import|protected|static|final|enum|synchronized|super|this|boolean|while|for|;|true|false|case|break|if|switch|else|int|new|return|try|catch|finally|implements|extends)\b\s*";
+        private static string symbols = @"(;|,)";
 
         //Annotations
         private static SolidColorBrush annotationColor = Brushes.YellowGreen;
@@ -70,6 +71,7 @@ namespace JSharp_IDE
                     if (start.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
                     {
                         MatchRegexAndHighlight(start, new Regex(keywords), keyWordColor);
+                        MatchRegexAndHighlight(start, new Regex(symbols), keyWordColor);
                         MatchRegexAndHighlight(start, new Regex(annotations, RegexOptions.Compiled | RegexOptions.IgnoreCase), annotationColor);
                         start = MatchRegexAndHighlight(start, new Regex(comments, RegexOptions.Compiled | RegexOptions.IgnoreCase), commentColor);
                     }

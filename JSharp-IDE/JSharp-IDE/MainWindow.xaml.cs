@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,9 +15,11 @@ namespace JSharp_IDE
     /// </summary>
     public partial class MainWindow : Window
     {
+        private UIHandler uiHandler;
         public MainWindow()
         {
             InitializeComponent();
+            this.uiHandler = new UIHandler(this);
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -52,12 +55,23 @@ namespace JSharp_IDE
 
         private void CodeTextBox_Pasting(object sender, DataObjectPastingEventArgs e)
         {
-            RichTextBox rtb = sender as RichTextBox;
-            Task.Run(async () =>
-            {
-                Debug.WriteLine("CodeTextBox_Pasting");
-                await TextFormatter.OnTextPasted(rtb);
-            });
+            this.uiHandler.CodeTextBox_Pasting(sender, e);
+        }
+
+        //This method will display the current project directory (with files) when it's loaded.
+        private void TreeView_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.uiHandler.TreeView_Loaded(sender, e);
+        }
+
+        private void MenuItem_Open(object sender, RoutedEventArgs e)
+        {
+            this.uiHandler.MenuItem_Open(sender, e);
+        }
+
+        private void MenuItem_New(object sender, RoutedEventArgs e)
+        {
+            this.uiHandler.MenuItem_New(sender, e);
         }
     }
 }

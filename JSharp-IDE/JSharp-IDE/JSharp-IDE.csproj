@@ -9,4 +9,8 @@
 
   <Import Project="..\JSharp-Shared\JSharp-Shared.projitems" Label="Shared" />
 
+  <ItemGroup>
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="4.0.0" />
+  </ItemGroup>
+
 </Project>

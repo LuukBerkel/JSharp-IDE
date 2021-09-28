@@ -57,6 +57,9 @@ namespace JSharp_IDE
                         ChangeSelectedTextColor(range, standardColor);
                         CheckSyntaxAtBlock(blocks.ElementAt(i));
                     }
+                } else
+                {
+                    Debug.WriteLine("OnTextPasted: block == null");
                 }
             });
             return 1;

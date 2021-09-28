@@ -6,34 +6,45 @@
         xmlns:local="clr-namespace:JSharp_IDE"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Top">
-            <Button Content="Run" Width="Auto">
-                
-            </Button>
-        </StackPanel>
 
-        <TreeView DockPanel.Dock="Left">
-            
-        </TreeView>
-        <TabControl Width="Auto">
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5">
-                    <RichTextBox DataObject.Pasting="CodeTextBox_Pasting" TextChanged="CodeTextBox_TextChanged" KeyDown="CodeTextBox_KeyDown" FontFamily="Consolas" Background="#FF272727" AcceptsTab="False" Foreground="White">
-                        <RichTextBox.Resources>
-                            <Style TargetType="{x:Type Paragraph}">
-                                <Setter Property="Margin" Value="0" />
-                            </Style>
-                        </RichTextBox.Resources>
-                    </RichTextBox>
-                </Grid>
-            </TabItem>
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5">
-                    
-                </Grid>
+    <Grid ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Menu Grid.Row="0" Grid.ColumnSpan="10" Grid.Column="0">
+            <MenuItem Header="File">
+                <MenuItem Header="_New" Click="MenuItem_New"/>
+                <MenuItem Header="_Open" Click="MenuItem_Open"/>
+                <MenuItem Header="_Save"/>
+                <Separator/>
+                <MenuItem Header="_Exit"/>
+            </MenuItem>
+        </Menu>
+
+        <TreeView Width="Auto" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Loaded="TreeView_Loaded"/>
+
+        <TabControl Grid.Row="1" Grid.Column="2" Width="Auto">
+            <TabItem Header="Class.java">
+                <RichTextBox TextChanged="CodeTextBox_TextChanged" DataObject.Pasting="CodeTextBox_Pasting" Background="#FF2E2E2E">
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
             </TabItem>
         </TabControl>
 
-    </DockPanel>
+        <GridSplitter Grid.Column="0" Width="5" HorizontalAlignment="Right" Grid.RowSpan="1" Grid.Row="1"/>
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0">
+            
+        </StatusBar>
+    </Grid>
 </Window>

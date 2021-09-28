@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace IDE_testing
+namespace JSharp_IDE
 {
     class TextFormatter
     {
@@ -17,7 +17,8 @@ namespace IDE_testing
 
         //Keywords
         private static SolidColorBrush keyWordColor = Brushes.Orange;
-        private static string keywords = @"\b(public|private|class|void|import|protected|static|final|enum|synchronized|super|this|boolean|while|for|;|true|false|case|break|if|switch|else|int|new|return|try|catch|finally|implements|extends)\b\s*";
+        private static string keywords = @"(\b(public|private|class|void|import|protected|static|final|enum|synchronized|super|this|boolean|while|for|;|true|false|case|break|if|switch|else|int|new|return|try|catch|finally|implements|extends)\b\s*)";
+        private static string symbols = @"(;|,)";
 
         //Annotations
         private static SolidColorBrush annotationColor = Brushes.YellowGreen;
@@ -25,7 +26,8 @@ namespace IDE_testing
         
         //Comments
         private static SolidColorBrush commentColor = Brushes.Green;
-        private static string comments = @"(\/\*\*)(.|\n)+?(\*\/)";
+        private static string singleLineComment = @"//.*";
+        private static string multiLineComment = @"(/\*\*|\*).*((\*/)?)";
 
         public static async Task<int> OnTextChanged(RichTextBox rtb)
         {
@@ -69,9 +71,11 @@ namespace IDE_testing
                 {
                     if (start.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
                     {
+                        MatchRegexAndHighlight(start, new Regex(singleLineComment, RegexOptions.Compiled | RegexOptions.IgnoreCase), commentColor);
+                        MatchRegexAndHighlight(start, new Regex(multiLineComment, RegexOptions.Compiled | RegexOptions.IgnoreCase), commentColor);
                         MatchRegexAndHighlight(start, new Regex(keywords), keyWordColor);
+                        MatchRegexAndHighlight(start, new Regex(symbols), keyWordColor);
                         MatchRegexAndHighlight(start, new Regex(annotations, RegexOptions.Compiled | RegexOptions.IgnoreCase), annotationColor);
-                        start = MatchRegexAndHighlight(start, new Regex(comments, RegexOptions.Compiled | RegexOptions.IgnoreCase), commentColor);
                     }
                     start = start.GetNextContextPosition(LogicalDirection.Forward);
                 }

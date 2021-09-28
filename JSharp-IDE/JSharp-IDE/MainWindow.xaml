@@ -19,7 +19,13 @@
         <TabControl Width="Auto">
             <TabItem Header="TabItem">
                 <Grid Background="#FFE5E5E5">
-                    
+                    <RichTextBox DataObject.Pasting="CodeTextBox_Pasting" TextChanged="CodeTextBox_TextChanged" KeyDown="CodeTextBox_KeyDown" FontFamily="Consolas" Background="#FF272727" AcceptsTab="False" Foreground="White">
+                        <RichTextBox.Resources>
+                            <Style TargetType="{x:Type Paragraph}">
+                                <Setter Property="Margin" Value="0" />
+                            </Style>
+                        </RichTextBox.Resources>
+                    </RichTextBox>
                 </Grid>
             </TabItem>
             <TabItem Header="TabItem">

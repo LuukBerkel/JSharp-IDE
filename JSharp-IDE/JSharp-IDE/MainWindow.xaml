@@ -6,7 +6,28 @@
         xmlns:local="clr-namespace:JSharp_IDE"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Top">
+            <Button Content="Run" Width="Auto">
+                
+            </Button>
+        </StackPanel>
 
-    </Grid>
+        <TreeView DockPanel.Dock="Left">
+            
+        </TreeView>
+        <TabControl Width="Auto">
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5">
+                    
+                </Grid>
+            </TabItem>
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5">
+                    
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </DockPanel>
 </Window>

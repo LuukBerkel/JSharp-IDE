@@ -16,7 +16,7 @@ namespace JSharp_IDE
     {
         public MainWindow()
         {
-            
+            InitializeComponent();
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)

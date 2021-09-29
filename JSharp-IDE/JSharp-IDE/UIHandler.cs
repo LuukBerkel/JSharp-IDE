@@ -104,15 +104,13 @@ namespace JSharp_IDE
             try
             {
                 Compiler compiler = new Compiler(@"C:\Program Files\Java\jdk1.8.0_261\bin");
-                compiler.Compile(@"D:\CompileTest\out", @"D:\CompileTest\src", @"D:\CompileTest\lib", @"D:\CompileTest\res");
-                compiler.Execute(@"D:\CompileTest\out", @"D:\CompileTest\lib", @"D:\CompileTest\res", "Sandbox");
+                compiler.Compile(@"C:\TEst\out", @"C:\TEst\src", @"C:\TEst\lib", @"C:\TEst\res");
+                compiler.Execute(@"C:\TEst\out", @"C:\TEst\lib", @"C:\TEst\res", "AngryBirds");
             }
             catch (Exception ex)
             {
                 
                 ErrorWindow window = new ErrorWindow();
-                window.Owner = MainWindow.getWindow();
-                window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 window.setError(ex.Message);
                 window.Show();
             }
@@ -126,7 +124,7 @@ namespace JSharp_IDE
             try
             {
                 Compiler compiler = new Compiler(@"C:\Program Files\Java\jdk1.8.0_261\bin");
-                compiler.Compile(@"D:\CompileTest\out", @"D:\CompileTest\src", @"D:\CompileTest\lib", @"D:\CompileTest\res");
+                compiler.Compile(@"C:\TEst\out", @"C:\TEst\src", @"C:\TEst\lib", @"C:\TEst\res");
             }
             catch (Exception ex)
             {

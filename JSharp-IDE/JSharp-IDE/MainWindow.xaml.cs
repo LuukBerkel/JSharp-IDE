@@ -22,6 +22,7 @@ namespace JSharp_IDE
             InitializeComponent();
             this.uiHandler = new UIHandler(this);
             main = this;
+            this.WindowState = WindowState.Maximized;
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -84,11 +85,6 @@ namespace JSharp_IDE
         private void Button_RunCode(object sender, RoutedEventArgs e)
         {
             this.uiHandler.Button_RunCode(sender, e);
-        }
-
-        public static MainWindow getWindow()
-        {
-            return main;
         }
     }
 }

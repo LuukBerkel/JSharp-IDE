@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JSharp_IDE"
         mc:Ignorable="d"
-        Title="ErrorWindow" Height="150" Width="400" SizeToContent="Manual" WindowStyle="None" Background="{x:Null}" ResizeMode="NoResize" HorizontalAlignment="Left" VerticalAlignment="Top" WindowStartupLocation="Manual">
+        Title="ErrorWindow" Height="150" Width="400" SizeToContent="Manual" WindowStyle="None" Background="{x:Null}" ResizeMode="NoResize" HorizontalAlignment="Left" VerticalAlignment="Top" WindowStartupLocation="CenterScreen">
     <Grid Background="White">
-        <Button Content="Button" HorizontalAlignment="Left" Height="46" Margin="336,88,0,0" VerticalAlignment="Top" Width="54" Foreground="#00000000" BorderBrush="#00000000" RenderTransformOrigin="0.118,0.505">
+        <Button Content="Button" HorizontalAlignment="Left" Height="46" Margin="336,88,0,0" VerticalAlignment="Top" Width="54" Foreground="#00000000" BorderBrush="#00000000" RenderTransformOrigin="0.118,0.505" Click="Destroy">
             <Button.Background>
                 <ImageBrush Stretch="Uniform" ImageSource="/Resources/oke_icon.png"/>
             </Button.Background>
         </Button>
-        <TextBox x:Name="ErrorBox" HorizontalAlignment="Left" Height="124" Margin="10,0,0,0" Text="Error occured" TextWrapping="Wrap" VerticalAlignment="Center" Width="311" Background="#00000000" Foreground="Black" BorderBrush="#00000000" FontSize="18" SelectionBrush="#00000000" IsEnabled="False"/>
         <Image Stretch="Fill" Source="/Resources/errror_icon.png"  Margin="336,10,10,89"/>
+        <ScrollViewer Margin="10,15,69,16">
+            <TextBox Name="ErrorBox" TextWrapping="Wrap" SelectionBrush="#00000000"/>
+        </ScrollViewer>
     </Grid>
 </Window>

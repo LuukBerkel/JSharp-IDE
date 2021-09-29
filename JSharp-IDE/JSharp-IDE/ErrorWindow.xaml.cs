@@ -28,5 +28,10 @@ namespace JSharp_IDE
         {
             this.ErrorBox.Text = error;
         }
+
+        private void Destroy(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

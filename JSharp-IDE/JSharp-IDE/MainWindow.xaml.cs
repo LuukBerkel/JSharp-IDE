@@ -17,6 +17,7 @@ namespace JSharp_IDE
     {
         private UIHandler uiHandler;
         private static MainWindow main;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,6 +42,26 @@ namespace JSharp_IDE
                     rtb.TextChanged += CodeTextBox_TextChanged;
                 }
             });
+        }
+
+        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseEventArgs e)
+        {
+            TreeViewItem item = e.Source as TreeViewItem;
+            Trace.WriteLine(item.Header);
+            if (item != null)
+            {
+                Trace.WriteLine("Right clicked on item");
+                //item.Focus();
+                item.IsSelected = true;
+                e.Handled = true;
+
+                Debug.WriteLine(sender);
+            }
+        }
+
+        private void ContextMenu_AddFile(object sender, RoutedEventArgs e)
+        {
+            this.uiHandler.AddFile();
         }
 
         private void CodeTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -85,6 +106,21 @@ namespace JSharp_IDE
         private void Button_RunCode(object sender, RoutedEventArgs e)
         {
             this.uiHandler.Button_RunCode(sender, e);
+        }
+
+        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            this.uiHandler.TreeViewItem_MouseDoubleClick(sender, e, TabControl, CreateCodeTextBox());
+        }
+
+        private RichTextBox CreateCodeTextBox()
+        {
+            RichTextBox rtb = new RichTextBox();
+            rtb.TextChanged += CodeTextBox_TextChanged;
+            rtb.Background = Brushes.DarkGray;
+            //rtb += CodeTextBox_Pasting;
+
+            return rtb;
         }
     }
 }

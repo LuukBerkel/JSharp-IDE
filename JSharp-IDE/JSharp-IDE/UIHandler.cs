@@ -1,16 +1,20 @@
-﻿using Ookii.Dialogs.Wpf;
+﻿using Microsoft.Win32;
+using Ookii.Dialogs.Wpf;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace JSharp_IDE
 {
     class UIHandler
     {
         private TreeView treeView;
+
         public UIHandler(Window window)
         {
         }
@@ -24,6 +28,21 @@ namespace JSharp_IDE
             });
         }
 
+        public void AddFile()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.FileName = "Class";
+            saveFileDialog.DefaultExt = ".java";
+            saveFileDialog.Filter = "Java classes|*.java";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                File.WriteAllText(saveFileDialog.FileName, $"public class {Path.GetFileNameWithoutExtension(saveFileDialog.FileName)} {{{Environment.NewLine}{Environment.NewLine}}}");
+                UpdateTreeView(saveFileDialog.FileName);
+            }
+        }
+
         public void TreeView_Loaded(object sender, RoutedEventArgs e)
         {
             TreeView treeView = sender as TreeView;
@@ -32,7 +51,6 @@ namespace JSharp_IDE
 
         public void MenuItem_Open(object sender, RoutedEventArgs e)
         {
-
             UpdateTreeView(OpenFolderDialog());
         }
 
@@ -44,15 +62,25 @@ namespace JSharp_IDE
         public void MenuItem_New(object sender, RoutedEventArgs e)
         {
             string path = OpenFolderDialog();
-            Directory.CreateDirectory(Path.Combine(path, "src"));
-            Directory.CreateDirectory(Path.Combine(path, "out"));
-            Directory.CreateDirectory(Path.Combine(path, "lib"));
-            Directory.CreateDirectory(Path.Combine(path, "res"));
-            UpdateTreeView(path);
+            if (path != null)
+            {
+                Directory.CreateDirectory(Path.Combine(path, "src"));
+                Directory.CreateDirectory(Path.Combine(path, "out"));
+                Directory.CreateDirectory(Path.Combine(path, "lib"));
+                Directory.CreateDirectory(Path.Combine(path, "res"));
+                File.WriteAllText(Path.Combine(path, "src", "Main.java"), $"public class Main {{{Environment.NewLine}{Environment.NewLine}}}");
+                UpdateTreeView(path);
+            }
         }
 
+        /// <summary>
+        /// This method will update the treeview to display the current file hierarchy.
+        /// !! This will also update current project dir in Compiler !!
+        /// </summary>
+        /// <param name="projectPath"></param>
         private void UpdateTreeView(string projectPath)
         {
+            Compiler.projectPath = projectPath;
             this.treeView.Dispatcher.Invoke(() => {
                 this.treeView.Items.Clear();
                 var rootDirectoryInfo = new DirectoryInfo(projectPath);
@@ -65,6 +93,7 @@ namespace JSharp_IDE
         {
             TreeViewItem directoryNode = new TreeViewItem();
             directoryNode.Header = directoryInfo.Name;
+            directoryNode.Tag = directoryInfo.FullName;
             foreach (var directory in directoryInfo.GetDirectories())
             {
                 try
@@ -78,11 +107,48 @@ namespace JSharp_IDE
 
             foreach (var file in directoryInfo.GetFiles())
             {
-                directoryNode.Items.Add(new TreeViewItem().Header = file.Name);
+                TreeViewItem item = new TreeViewItem();
+                item.Header = file.Name;
+                item.Tag = file.FullName;
+                Trace.WriteLine(file.FullName);
+                directoryNode.Items.Add(item);
             }
+
             return directoryNode;
         }
 
+
+        /// <summary>
+        /// Open the double clicked class file in a new rich text box in a TabView.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="tabControl"></param>
+        /// <param name="rtb"></param>
+        public void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e, TabControl tabControl, RichTextBox rtb)
+        {
+            Trace.WriteLine((this.treeView.SelectedItem as TreeViewItem).Tag);
+            string path = (this.treeView.SelectedItem as TreeViewItem).Tag.ToString();
+
+            if (File.Exists(path))
+            {
+                TabItem tab = new TabItem();
+                FlowDocument doc = new FlowDocument();
+
+                foreach (string line in File.ReadAllLines(path))
+                {
+                    Run run = new Run(line);
+                    Paragraph p = new Paragraph();
+                    p.Inlines.Add(run);
+                    doc.Blocks.Add(p);
+                }
+
+                rtb.Document = doc;
+                tab.Content = rtb;
+                tab.Header = new DirectoryInfo(path).Name;
+                tabControl.Items.Add(tab);
+            }
+        }
 
         private string OpenFolderDialog()
         {
@@ -114,10 +180,7 @@ namespace JSharp_IDE
                 window.setError(ex.Message);
                 window.Show();
             }
-
-           
         }
-
 
         public void Button_CompileCode(object sender, RoutedEventArgs e)
         {

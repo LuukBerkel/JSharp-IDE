@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +30,13 @@ namespace JSharp_Server.Data
         {
             JArray data = JArray.FromObject(users);
             File.WriteAllText(Directory.GetCurrentDirectory() + @"\userData.txt", data.ToString());
+        }
+
+        private static SHA256 shaM = new SHA256Managed();
+
+        public static string HashUserPassword(string data)
+        {
+            return BitConverter.ToString(shaM.ComputeHash(Encoding.UTF32.GetBytes(data)));
         }
     }
 }

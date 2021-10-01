@@ -11,6 +11,12 @@ namespace JSharp_Server.Comms
     class Interpreter
     {
         private bool Authorized = false;
+        private Interpreter interpreter;
+
+        public Interpreter(Interpreter interpreter)
+        {
+            this.interpreter = interpreter;
+        }
 
         public void Command(JObject json)
         {
@@ -19,7 +25,7 @@ namespace JSharp_Server.Comms
             {
                 string command = token.ToString();
 
-                MethodInfo[] methods = typeof(Interpreter).GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
+                MethodInfo[] methods = typeof(Interpreter).GetMethods(BindingFlags.NonPublic);
                 foreach (MethodInfo method in methods)
                 {
                     if (method.GetCustomAttribute<AuthorizationAttribute>().GetCommand() == command
@@ -29,20 +35,17 @@ namespace JSharp_Server.Comms
                     }
                 }
             }
-
-            
-
         }
 
         [Authorization(false, "login")]
-        public void Login(JObject json)
+        private void Login(JObject json)
         {
 
             this.Authorized = true;
         }
 
         [Authorization(false, "register")]
-        public void Register(JObject json)
+        private void Register(JObject json)
         {
 
         }

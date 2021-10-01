@@ -1,4 +1,5 @@
 ﻿using CommClass;
+using JSharp_Server.Data;
 using JSharp_Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -14,14 +15,13 @@ namespace JSharp_Server.Comms
 {
     class Session
     {
-        private TcpClient client;
         private ISender sender;
+        private Interpreter interpreter;
 
-        public Session(TcpClient client)
+        public Session(TcpClient client, Manager manager)
         {
-            this.client = client;
             this.sender = new EncryptedSender(client.GetStream());
-
+            this.interpreter = new Interpreter(manager);
         }
 
         public void StartSession()
@@ -33,9 +33,7 @@ namespace JSharp_Server.Comms
                     string encoded = this.sender.ReadMessage();
                     JObject decoded = (JObject)JsonConvert.DeserializeObject(encoded);
 
-
-
-
+                    this.interpreter.Command(decoded);
                 }
             }).Start();
         }

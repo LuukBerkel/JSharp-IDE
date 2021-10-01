@@ -1,0 +1,89 @@
+----- LOGIN/REGISTER -----
+{
+	instruction: "login/register",
+	data: 
+	{
+		username: "",
+		password: ""
+	}
+}
+
+----- ADD/REMOVE USER TO PROJECT -----
+{
+	instruction: "addUserToProject/removeUserFromProject",
+	data:
+	{
+		users:
+		[
+			{
+				username: ""
+			},
+		]
+	}
+}
+
+----- NOTIFICATION -----
+{
+	instruction: "notification",
+	data: 
+	{
+		title: "",
+		message: ""
+	}
+}
+
+----- ADD PROJECT -----
+{
+	instruction: "addProject",
+	data: 
+	{
+		title: "",
+		files:
+		[
+			{
+				filePath: "",
+				data: ""
+			}
+		]
+	}
+}
+
+----- SEND FILE -----
+{
+	instruction: "sendFile",
+	data:
+	{
+		time: ""
+		files:
+		[
+			{
+				filePath: "",
+				data: ""
+			}
+		]
+	}
+}
+
+----- REMOVE FILE -----
+{
+	instruction: "removeFile",
+	data:
+	{
+		files:
+		[
+			{
+				filePath: ""
+			}
+		]
+	}
+}
+
+----- LOGOUT -----
+{
+	instruction: "logout",
+	data:
+	{
+		username: ""
+	}
+}
+

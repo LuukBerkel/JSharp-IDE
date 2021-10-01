@@ -7,6 +7,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
   <Import Project="..\JSharp-Shared\JSharp-Shared.projitems" Label="Shared" />
 
 </Project>

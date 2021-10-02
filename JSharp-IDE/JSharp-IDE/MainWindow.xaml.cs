@@ -117,7 +117,7 @@ namespace JSharp_IDE
         {
             RichTextBox rtb = new RichTextBox();
             rtb.TextChanged += CodeTextBox_TextChanged;
-            rtb.Background = Brushes.DarkGray;
+            rtb.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x2E, 0x2E));
             //rtb += CodeTextBox_Pasting;
 
             return rtb;

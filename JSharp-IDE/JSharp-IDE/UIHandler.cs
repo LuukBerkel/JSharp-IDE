@@ -39,7 +39,7 @@ namespace JSharp_IDE
             if (saveFileDialog.ShowDialog() == true)
             {
                 File.WriteAllText(saveFileDialog.FileName, $"public class {Path.GetFileNameWithoutExtension(saveFileDialog.FileName)} {{{Environment.NewLine}{Environment.NewLine}}}");
-                UpdateTreeView(saveFileDialog.FileName);
+                UpdateTreeView(Compiler.projectPath);
             }
         }
 
@@ -99,9 +99,9 @@ namespace JSharp_IDE
                 try
                 {
                     directoryNode.Items.Add(CreateDirectoryNode(directory));
-                } catch (Exception e)
+                } catch (UnauthorizedAccessException e)
                 {
-                    Debug.WriteLine(e);
+                    Debug.WriteLine($"No access to folder \n {e.Message}");
                 }
             }
 
@@ -140,12 +140,15 @@ namespace JSharp_IDE
                     Run run = new Run(line);
                     Paragraph p = new Paragraph();
                     p.Inlines.Add(run);
+                    p.LineHeight = 2;
                     doc.Blocks.Add(p);
                 }
 
                 rtb.Document = doc;
                 tab.Content = rtb;
                 tab.Header = new DirectoryInfo(path).Name;
+                tab.IsSelected = true;
+                tab.Focus();
                 tabControl.Items.Add(tab);
             }
         }

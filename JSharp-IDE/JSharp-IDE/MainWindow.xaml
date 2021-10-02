@@ -76,17 +76,7 @@
             </TreeView.ContextMenu>
         </TreeView>
 
-        <TabControl Grid.Row="2" Grid.Column="2" Width="Auto" Name="TabControl">
-            <TabItem Header="Class.java">
-                <RichTextBox TextChanged="CodeTextBox_TextChanged" DataObject.Pasting="CodeTextBox_Pasting" Background="#FF2E2E2E">
-                    <RichTextBox.Resources>
-                        <Style TargetType="{x:Type Paragraph}">
-                            <Setter Property="Margin" Value="0" />
-                        </Style>
-                    </RichTextBox.Resources>
-                </RichTextBox>
-            </TabItem>
-        </TabControl>
+        <TabControl Grid.Row="2" Grid.Column="2" Width="Auto" Name="TabControl"/>
 
         <GridSplitter Grid.Column="0" Width="5" HorizontalAlignment="Right" Grid.RowSpan="1" Grid.Row="2"/>
         <StatusBar Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0"/>

@@ -103,7 +103,7 @@ namespace JSharp_IDE
 
                 //Closing
                 compileTask.WaitForExit();
-                compileTask.Close();
+                //compileTask.Close();
             }
         }
 
@@ -143,7 +143,7 @@ namespace JSharp_IDE
                 executeTask.StandardInput.Flush();
                 executeTask.StandardInput.Close();
                 executeTask.WaitForExit();
-                executeTask.Close();
+                //executeTask.Close();
             }
         }
     }

@@ -82,6 +82,7 @@ namespace JSharp_IDE
                 sp.Orientation = Orientation.Horizontal;
                 //Close button
                 Button closeButton = new Button();
+                closeButton.Content = "X";
                 closeButton.Click += (x, y) => MainWindow.CodePanels.Items.RemoveAt(MainWindow.CodePanels.SelectedIndex);
                 //Label
                 Label label = new Label();
@@ -181,7 +182,6 @@ namespace JSharp_IDE
         public static string OpenFolderDialog()
         {
             VistaFolderBrowserDialog dlg = new VistaFolderBrowserDialog();
-            dlg.SelectedPath = Environment.SpecialFolder.MyDocuments.ToString();
             dlg.ShowNewFolderButton = true;
             bool? success = dlg.ShowDialog();
             string path = null;

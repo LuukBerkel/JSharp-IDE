@@ -7,6 +7,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace JSharp_IDE.ViewModel
@@ -53,6 +55,7 @@ namespace JSharp_IDE.ViewModel
                     {
                         try
                         {
+                            SaveAllOpenedFiles();
                             Compiler compiler = new Compiler(javaPath);
                             compiler.Compile(Path.Combine(Project.ProjectDirectory, "out"), 
                                 Path.Combine(Project.ProjectDirectory, "src"), 
@@ -62,7 +65,7 @@ namespace JSharp_IDE.ViewModel
                                 Path.Combine(Project.ProjectDirectory, "out"),
                                 Path.Combine(Project.ProjectDirectory, "lib"),
                                 Path.Combine(Project.ProjectDirectory, "res"),
-                                Project.ProjectName);
+                                "Main");
                             DebugWindow = "";
                         }
                         catch (Exception ex)
@@ -87,6 +90,7 @@ namespace JSharp_IDE.ViewModel
                     {
                         try
                         {
+                            SaveAllOpenedFiles();
                             Compiler compiler = new Compiler(@"C:\Program Files\Java\jdk1.8.0_261\bin"); 
                             compiler.Compile(Path.Combine(Project.ProjectDirectory, "out"),
                                  Path.Combine(Project.ProjectDirectory, "src"),
@@ -102,6 +106,22 @@ namespace JSharp_IDE.ViewModel
                     param => true);
                 }
                 return mCompileCommand;
+            }
+        }
+
+        private void SaveAllOpenedFiles()
+        {
+            foreach (TabItem item in MainWindow.CodePanels.Items)
+            {
+                RichTextBox rtb = item.Content as RichTextBox;
+
+                string[] lines = new string[rtb.Document.Blocks.Count];
+                for (int i = 0; i < rtb.Document.Blocks.Count; i++)
+                {
+                    lines[i] = new TextRange(rtb.Document.Blocks.ElementAt(i).ContentStart, rtb.Document.Blocks.ElementAt(i).ContentEnd).Text;
+                }
+                Debug.WriteLine(lines);
+                File.WriteAllLines(item.Tag.ToString(), lines);
             }
         }
     }

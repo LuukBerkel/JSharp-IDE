@@ -16,10 +16,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <view:FileMenuView Grid.Row="0" Grid.ColumnSpan="10" Grid.Column="0"/>
@@ -44,6 +45,9 @@
         <TabControl Grid.Row="2" Grid.Column="2" Width="Auto" Name="TabControl"/>
 
         <GridSplitter Grid.Column="0" Width="5" HorizontalAlignment="Right" Grid.RowSpan="1" Grid.Row="2" IsTabStop="False"/>
-        <StatusBar Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0"/>
+
+        <ScrollViewer Grid.Column="1" Height="50" Grid.Row="3">
+            <TextBlock Text="{Binding DebugWindow}" TextWrapping="Wrap"/>
+        </ScrollViewer>
     </Grid>
 </Window>

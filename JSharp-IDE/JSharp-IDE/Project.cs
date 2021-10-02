@@ -50,7 +50,7 @@ namespace JSharp_IDE
             if (saveFileDialog.ShowDialog() == true)
             {
                 File.WriteAllText(saveFileDialog.FileName, $"public class {Path.GetFileNameWithoutExtension(saveFileDialog.FileName)} {{{Environment.NewLine}{Environment.NewLine}}}");
-                UpdateTreeView(saveFileDialog.FileName);
+                UpdateTreeView(ProjectDirectory);
             }
         }
 
@@ -61,7 +61,7 @@ namespace JSharp_IDE
         /// <param name="projectPath"></param>
         public static void UpdateTreeView(string projectPath)
         {
-            Project.ProjectDirectory = projectPath;
+            ProjectDirectory = projectPath;
             Debug.WriteLine($"Current project path: {projectPath}");
             TreeView treeView = ProjectHierarchyView.ProjectHierarchyTree;
             if (treeView != null)

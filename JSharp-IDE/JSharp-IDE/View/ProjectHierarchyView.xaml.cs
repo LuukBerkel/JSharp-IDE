@@ -40,5 +40,15 @@ namespace JSharp_IDE.View
                 e.Handled = true;
             }
         }
+
+        /// <summary>
+        /// Open the double clicked class file in a new rich text box in a TabView.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void MouseDoubleClickOnItem(object sender, MouseButtonEventArgs e)
+        {
+            Project.OpenFileToEdit();
+        }
     }
 }

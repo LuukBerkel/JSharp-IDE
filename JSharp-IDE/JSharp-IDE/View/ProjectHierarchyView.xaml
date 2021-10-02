@@ -13,9 +13,8 @@
     <TreeView ItemsSource="{Binding ParentItem}" Name="ProjectHierarchyElement">
         <TreeView.ItemContainerStyle>
             <Style TargetType="{x:Type TreeViewItem}">
-                <!-- We have to select the item which is right-clicked on -->
                 <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="RightMouseButtonOnItem"/>
-                <!--<EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick"/>-->
+                <EventSetter Event="TreeViewItem.MouseDoubleClick" Handler="MouseDoubleClickOnItem"/>
             </Style>
         </TreeView.ItemContainerStyle>
 

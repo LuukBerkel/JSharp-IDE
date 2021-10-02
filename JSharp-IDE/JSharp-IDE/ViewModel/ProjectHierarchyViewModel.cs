@@ -39,7 +39,7 @@ namespace JSharp_IDE.ViewModel
                 {
                     mOpenCommand = new RelayCommand(param =>
                     {
-                        Project.UpdateTreeView(Project.OpenFolderDialog());
+                        //Open a file in to the editor here.
                     },
                     param => true);
                 }

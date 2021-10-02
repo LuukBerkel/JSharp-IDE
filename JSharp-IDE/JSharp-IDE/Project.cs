@@ -4,7 +4,10 @@ using Ookii.Dialogs.Wpf;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace JSharp_IDE
 {
@@ -35,6 +38,9 @@ namespace JSharp_IDE
             }
         }
 
+        /// <summary>
+        /// Add a file to the project
+        /// </summary>
         public static void AddFile()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -47,6 +53,66 @@ namespace JSharp_IDE
             {
                 File.WriteAllText(saveFileDialog.FileName, $"public class {Path.GetFileNameWithoutExtension(saveFileDialog.FileName)} {{{Environment.NewLine}{Environment.NewLine}}}");
                 UpdateTreeView(ProjectDirectory);
+            }
+        }
+
+        public static void OpenFileToEdit()
+        {
+            //Get the current selected item
+            TreeViewItem treeViewItem = ProjectHierarchyView.ProjectHierarchyTree.SelectedItem as TreeViewItem;
+            if (treeViewItem == null) { return; }
+            string path = treeViewItem.Tag.ToString();
+
+            //If the file is already opened, focus on that tab and exit this method.
+            foreach (TabItem item in MainWindow.CodePanels.Items)
+            {
+                if (item.Tag.ToString() == path)
+                {
+                    item.Focus();
+                    return;
+                }
+            }
+
+            if (File.Exists(path))
+            {
+                RichTextBoxView rtbv = new RichTextBoxView();
+                TabItem tabItem = new TabItem();
+                //Create stack panel
+                StackPanel sp = new StackPanel();
+                sp.Orientation = Orientation.Horizontal;
+                //Close button
+                Button closeButton = new Button();
+                closeButton.Click += (x, y) => MainWindow.CodePanels.Items.RemoveAt(MainWindow.CodePanels.SelectedIndex);
+                //Label
+                Label label = new Label();
+                label.Content = treeViewItem.Header.ToString();
+                //Add to stackpanel
+                sp.Children.Add(label);
+                sp.Children.Add(closeButton);
+                tabItem.Header = sp;
+                tabItem.Tag = path;
+
+                FlowDocument doc = new FlowDocument();
+
+                foreach (string line in File.ReadAllLines(path))
+                {
+                    Run run = new Run(line);
+                    Paragraph p = new Paragraph();
+                    p.Inlines.Add(run);
+                    p.Margin = new Thickness(0);
+                    doc.Blocks.Add(p);
+                }
+
+                rtbv.RichTextBox.Document = doc;
+                tabItem.Content = rtbv.RichTextBox;
+                tabItem.IsSelected = true;
+                tabItem.Focus();
+                MainWindow.CodePanels.Items.Add(tabItem);
+
+                Task.Run(async () =>
+                {
+                    await TextFormatter.OnTextPasted(rtbv.RichTextBox);
+                });
             }
         }
 
@@ -102,7 +168,6 @@ namespace JSharp_IDE
                 TreeViewItem item = new TreeViewItem();
                 item.Header = file.Name;
                 item.Tag = file.FullName;
-                Trace.WriteLine(file.FullName);
                 directoryNode.Items.Add(item);
             }
 

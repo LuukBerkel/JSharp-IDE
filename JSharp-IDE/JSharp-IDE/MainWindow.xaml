@@ -5,24 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JSharp_IDE.ViewModel" xmlns:view="clr-namespace:JSharp_IDE.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="JSharp IDE" Height="450" Width="800">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
-    
-    <Window.Resources>
-        <ContextMenu x:Key="TreeViewContextMenu">
-            <MenuItem Header="Add file" Click="ContextMenu_AddFile"/>
-            <MenuItem Header="Rename file">
-
-            </MenuItem>
-            <Separator />
-            <MenuItem Header="Delete file">
-
-            </MenuItem>
-
-        </ContextMenu>
-    </Window.Resources>
 
     <Grid ShowGridLines="False" Name="MainGrid">
         <Grid.ColumnDefinitions>

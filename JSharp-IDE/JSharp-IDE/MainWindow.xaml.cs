@@ -27,11 +27,6 @@ namespace JSharp_IDE
             this.WindowState = WindowState.Maximized;
             grid = MainGrid;
         }
-        
-        public static object FindElementInMainView(string name)
-        {
-            return grid.FindName(name);
-        }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -51,11 +46,6 @@ namespace JSharp_IDE
             });
         }
 
-        private void ContextMenu_AddFile(object sender, RoutedEventArgs e)
-        {
-            this.uiHandler.AddFile();
-        }
-
         private void CodeTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             RichTextBox rtb = sender as RichTextBox;
@@ -73,32 +63,6 @@ namespace JSharp_IDE
         {
             this.uiHandler.CodeTextBox_Pasting(sender, e);
         }
-
-        //This method will display the current project directory (with files) when it's loaded.
-        private void TreeView_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.uiHandler.TreeView_Loaded(sender, e);
-        }
-
-        /*private void MenuItem_Open(object sender, RoutedEventArgs e)
-        {
-            this.uiHandler.MenuItem_Open(sender, e);
-        }
-
-        private void MenuItem_New(object sender, RoutedEventArgs e)
-        {
-            this.uiHandler.MenuItem_New(sender, e);
-        }*/
-
-        /*private void Button_CompileCode(object sender, RoutedEventArgs e)
-        {
-            this.uiHandler.Button_CompileCode(sender, e);
-        }*/
-
-        /*private void Button_RunCode(object sender, RoutedEventArgs e)
-        {
-            this.uiHandler.Button_RunCode(sender, e);
-        }*/
 
         private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

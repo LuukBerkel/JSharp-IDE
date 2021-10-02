@@ -9,7 +9,6 @@ namespace JSharp_IDE
 {
     class Compiler
     {
-        public static string projectPath;
         public string CompilerPath { get; set; }
 
         public Compiler(string compilerPath)

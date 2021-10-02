@@ -39,7 +39,7 @@ namespace JSharp_IDE
             if (saveFileDialog.ShowDialog() == true)
             {
                 File.WriteAllText(saveFileDialog.FileName, $"public class {Path.GetFileNameWithoutExtension(saveFileDialog.FileName)} {{{Environment.NewLine}{Environment.NewLine}}}");
-                UpdateTreeView(Compiler.projectPath);
+                //UpdateTreeView(Compiler.projectPath);
             }
         }
 
@@ -49,17 +49,17 @@ namespace JSharp_IDE
             this.treeView = treeView;
         }
 
-        public void MenuItem_Open(object sender, RoutedEventArgs e)
+        /*public void MenuItem_Open(object sender, RoutedEventArgs e)
         {
             UpdateTreeView(OpenFolderDialog());
-        }
+        }*/
 
         /// <summary>
         /// This method will also update the treeview, and create the new project folders.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void MenuItem_New(object sender, RoutedEventArgs e)
+/*        public void MenuItem_New(object sender, RoutedEventArgs e)
         {
             string path = OpenFolderDialog();
             if (path != null)
@@ -71,51 +71,9 @@ namespace JSharp_IDE
                 File.WriteAllText(Path.Combine(path, "src", "Main.java"), $"public class Main {{{Environment.NewLine}{Environment.NewLine}}}");
                 UpdateTreeView(path);
             }
-        }
+        }*/
 
-        /// <summary>
-        /// This method will update the treeview to display the current file hierarchy.
-        /// !! This will also update current project dir in Compiler !!
-        /// </summary>
-        /// <param name="projectPath"></param>
-        private void UpdateTreeView(string projectPath)
-        {
-            Compiler.projectPath = projectPath;
-            this.treeView.Dispatcher.Invoke(() => {
-                this.treeView.Items.Clear();
-                var rootDirectoryInfo = new DirectoryInfo(projectPath);
-                var rootNode = CreateDirectoryNode(rootDirectoryInfo);
-                this.treeView.Items.Add(rootNode);
-            });
-        }
 
-        private static TreeViewItem CreateDirectoryNode(DirectoryInfo directoryInfo)
-        {
-            TreeViewItem directoryNode = new TreeViewItem();
-            directoryNode.Header = directoryInfo.Name;
-            directoryNode.Tag = directoryInfo.FullName;
-            foreach (var directory in directoryInfo.GetDirectories())
-            {
-                try
-                {
-                    directoryNode.Items.Add(CreateDirectoryNode(directory));
-                } catch (UnauthorizedAccessException e)
-                {
-                    Debug.WriteLine($"No access to folder \n {e.Message}");
-                }
-            }
-
-            foreach (var file in directoryInfo.GetFiles())
-            {
-                TreeViewItem item = new TreeViewItem();
-                item.Header = file.Name;
-                item.Tag = file.FullName;
-                Trace.WriteLine(file.FullName);
-                directoryNode.Items.Add(item);
-            }
-
-            return directoryNode;
-        }
 
 
         /// <summary>
@@ -153,22 +111,7 @@ namespace JSharp_IDE
             }
         }
 
-        private string OpenFolderDialog()
-        {
-            VistaFolderBrowserDialog dlg = new VistaFolderBrowserDialog();
-            dlg.SelectedPath = Environment.SpecialFolder.MyDocuments.ToString();
-            dlg.ShowNewFolderButton = true;
-            bool? success = dlg.ShowDialog();
-            string path = null;
-            if (success == true)
-            {
-                path = dlg.SelectedPath;
-            }
-
-            return path;
-        }
-
-        public void Button_RunCode(object sender, RoutedEventArgs e)
+       /* public void Button_RunCode(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -183,9 +126,9 @@ namespace JSharp_IDE
                 window.setError(ex.Message);
                 window.Show();
             }
-        }
+        }*/
 
-        public void Button_CompileCode(object sender, RoutedEventArgs e)
+        /*public void Button_CompileCode(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -198,6 +141,6 @@ namespace JSharp_IDE
                 window.setError(ex.Message);
                 window.Show();
             }
-        }
+        }*/
     }
 }

@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:JSharp_IDE"
+        xmlns:local="clr-namespace:JSharp_IDE.ViewModel" xmlns:view="clr-namespace:JSharp_IDE.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    
     <Window.Resources>
         <ContextMenu x:Key="TreeViewContextMenu">
             <MenuItem Header="Add file" Click="ContextMenu_AddFile"/>
@@ -20,7 +24,7 @@
         </ContextMenu>
     </Window.Resources>
 
-    <Grid ShowGridLines="False">
+    <Grid ShowGridLines="False" Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
             <ColumnDefinition Width="*" />
@@ -32,24 +36,16 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
-        <Menu Grid.Row="0" Grid.ColumnSpan="10" Grid.Column="0">
-            <MenuItem Header="File">
-                <MenuItem Header="_New" Click="MenuItem_New"/>
-                <MenuItem Header="_Open" Click="MenuItem_Open"/>
-                <MenuItem Header="_Save"/>
-                <Separator/>
-                <MenuItem Header="_Exit"/>
-            </MenuItem>
-        </Menu>
-        
+        <view:FileMenuView Grid.Row="0" Grid.ColumnSpan="10" Grid.Column="0"/>
+
         <StackPanel Grid.Row="1" Grid.ColumnSpan="10" Grid.Column="0" Width="Auto" Orientation="Horizontal">
-            <Button Click="Button_RunCode" Width="50" HorizontalAlignment="Left">
+            <Button Command="{Binding RunCommand}" Width="50" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal">
                     <Image Height="16" Stretch="Fill" Source="/Resources/Run_16x.png" Width="16"/>
                     <TextBlock Text="Run"/>
                 </StackPanel>
             </Button>
-            <Button Click="Button_CompileCode" Width="50" HorizontalAlignment="Left">
+            <Button Command="{Binding CompileCommand}" Width="50" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal">
                     <Image Height="16" Stretch="Fill" Source="/Resources/Hammer_30x.png" Width="16"/>
                     <TextBlock Text="Build"/>
@@ -57,24 +53,7 @@
             </Button>
         </StackPanel>
 
-        <TreeView Width="Auto" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Loaded="TreeView_Loaded">
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}">
-                    <!-- We have to select the item which is right-clicked on -->
-                    <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
-                    <EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick"/>
-                </Style>
-            </TreeView.ItemContainerStyle>
-
-            <TreeView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Add file" Click="ContextMenu_AddFile"/>
-                    <MenuItem Header="Rename file"/>
-                    <Separator />
-                    <MenuItem Header="Delete file"/>
-                </ContextMenu>
-            </TreeView.ContextMenu>
-        </TreeView>
+        <view:ProjectHierarchyView Width="Auto" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2"/>
 
         <TabControl Grid.Row="2" Grid.Column="2" Width="Auto" Name="TabControl"/>
 

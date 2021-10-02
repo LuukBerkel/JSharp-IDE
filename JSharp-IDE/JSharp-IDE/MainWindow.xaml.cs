@@ -17,6 +17,7 @@ namespace JSharp_IDE
     {
         private UIHandler uiHandler;
         private static MainWindow main;
+        public static Grid grid;
 
         public MainWindow()
         {
@@ -24,6 +25,12 @@ namespace JSharp_IDE
             this.uiHandler = new UIHandler(this);
             main = this;
             this.WindowState = WindowState.Maximized;
+            grid = MainGrid;
+        }
+        
+        public static object FindElementInMainView(string name)
+        {
+            return grid.FindName(name);
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -42,21 +49,6 @@ namespace JSharp_IDE
                     rtb.TextChanged += CodeTextBox_TextChanged;
                 }
             });
-        }
-
-        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseEventArgs e)
-        {
-            TreeViewItem item = e.Source as TreeViewItem;
-            Trace.WriteLine(item.Header);
-            if (item != null)
-            {
-                Trace.WriteLine("Right clicked on item");
-                //item.Focus();
-                item.IsSelected = true;
-                e.Handled = true;
-
-                Debug.WriteLine(sender);
-            }
         }
 
         private void ContextMenu_AddFile(object sender, RoutedEventArgs e)
@@ -88,7 +80,7 @@ namespace JSharp_IDE
             this.uiHandler.TreeView_Loaded(sender, e);
         }
 
-        private void MenuItem_Open(object sender, RoutedEventArgs e)
+        /*private void MenuItem_Open(object sender, RoutedEventArgs e)
         {
             this.uiHandler.MenuItem_Open(sender, e);
         }
@@ -96,17 +88,17 @@ namespace JSharp_IDE
         private void MenuItem_New(object sender, RoutedEventArgs e)
         {
             this.uiHandler.MenuItem_New(sender, e);
-        }
+        }*/
 
-        private void Button_CompileCode(object sender, RoutedEventArgs e)
+        /*private void Button_CompileCode(object sender, RoutedEventArgs e)
         {
             this.uiHandler.Button_CompileCode(sender, e);
-        }
+        }*/
 
-        private void Button_RunCode(object sender, RoutedEventArgs e)
+        /*private void Button_RunCode(object sender, RoutedEventArgs e)
         {
             this.uiHandler.Button_RunCode(sender, e);
-        }
+        }*/
 
         private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

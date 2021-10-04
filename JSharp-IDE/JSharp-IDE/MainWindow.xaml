@@ -46,8 +46,8 @@
 
         <GridSplitter Grid.Column="0" Width="5" HorizontalAlignment="Right" Grid.RowSpan="1" Grid.Row="2" IsTabStop="False"/>
 
-        <ScrollViewer Grid.Column="1" Height="Auto" Grid.Row="3">
-            <TextBlock Text="{Binding DebugWindow}" TextWrapping="Wrap"/>
+        <ScrollViewer Grid.Column="1" Height="Auto" Grid.Row="3" MaxHeight="150">
+            <TextBlock Text="{Binding DebugWindow}" TextWrapping="Wrap" Height="Auto"/>
         </ScrollViewer>
         <GridSplitter Grid.Column="1" Height="5" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="2" ResizeDirection="Rows" IsTabStop="False"/>
     </Grid>

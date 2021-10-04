@@ -15,13 +15,11 @@ namespace JSharp_IDE
     /// </summary>
     public partial class MainWindow : Window
     {
-        private UIHandler uiHandler;
         public static TabControl CodePanels;
 
         public MainWindow()
         {
             InitializeComponent();
-            this.uiHandler = new UIHandler(this);
             this.WindowState = WindowState.Maximized;
             CodePanels = TabControl;
         }

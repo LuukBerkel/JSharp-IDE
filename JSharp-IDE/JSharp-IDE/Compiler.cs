@@ -11,13 +11,14 @@ namespace JSharp_IDE
     class Compiler
     {
         public string CompilerPath { get; set; }
+        public MainWindowViewModel mwvm;
 
-        public Compiler(string compilerPath)
+        public Compiler(string compilerPath, MainWindowViewModel mwvm)
         {
             if (!Directory.Exists(compilerPath)) throw new Exception("Invalid java systemvariable path");
             this.CompilerPath = compilerPath;
+            this.mwvm = mwvm;
         }
-
 
         public void Compile(string pathOut, string pathSrc, string pathLib, string pathRes)
         {
@@ -96,8 +97,7 @@ namespace JSharp_IDE
                     //Execution
                     compileTask.StandardInput.WriteLine(compileCommand);
                     compileTask.StandardInput.Flush();
-                    //compileTask.StandardInput.Close();
-
+                    compileTask.StandardInput.Close();
 
                     //Checking
                     string error = compileTask.StandardError.ReadToEnd();
@@ -105,7 +105,7 @@ namespace JSharp_IDE
 
                     //Closing
                     compileTask.WaitForExit();
-                    //compileTask.Close();
+                    compileTask.Close();
                 }
             }).Start();
         }
@@ -140,15 +140,40 @@ namespace JSharp_IDE
                     executeTask.StartInfo.FileName = @"cmd.exe";
                     executeTask.StartInfo.WorkingDirectory = pathOut;
                     executeTask.StartInfo.RedirectStandardInput = true;
+                    executeTask.StartInfo.RedirectStandardOutput = true;
                     executeTask.Start();
 
                     //Execution
                     executeTask.StandardInput.WriteLine(executeCommand);
                     executeTask.StandardInput.Flush();
-                    //executeTask.StandardInput.Close();
-                    executeTask.WaitForExit();
-                    //executeTask.Close();
-                }    
+
+                    // To avoid deadlocks, always read the output stream first and then wait.
+                    new Thread(() => {
+                        bool isReading = true;
+                        int exitCode = -1;
+
+                        while (isReading)
+                        {
+                            try
+                            {
+                                isReading = !executeTask.HasExited;
+                                //exitCode = executeTask.ExitCode;
+                                string output = executeTask.StandardOutput.ReadLine();
+                                Debug.WriteLine(output);
+                                this.mwvm.DebugWindow += "\n" + output;
+                            } catch (Exception e)
+                            {
+                                Debug.WriteLine($"Java process finished with exit code {exitCode}");
+                                break;
+                            }
+                        }
+                    }).Start();
+
+                //executeTask.StandardInput.Close();
+                //executeTask.StandardOutput.Close();
+                executeTask.WaitForExit();
+                executeTask.Close();
+                }
             }).Start();
         }
     }

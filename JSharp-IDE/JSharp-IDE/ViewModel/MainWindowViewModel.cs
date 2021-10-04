@@ -56,7 +56,7 @@ namespace JSharp_IDE.ViewModel
                         try
                         {
                             SaveAllOpenedFiles();
-                            Compiler compiler = new Compiler(javaPath);
+                            Compiler compiler = new Compiler(javaPath, this);
                             compiler.Compile(Path.Combine(Project.ProjectDirectory, "out"), 
                                 Path.Combine(Project.ProjectDirectory, "src"), 
                                 Path.Combine(Project.ProjectDirectory, "lib"),
@@ -91,7 +91,7 @@ namespace JSharp_IDE.ViewModel
                         try
                         {
                             SaveAllOpenedFiles();
-                            Compiler compiler = new Compiler(@"C:\Program Files\Java\jdk1.8.0_261\bin"); 
+                            Compiler compiler = new Compiler(@"C:\Program Files\Java\jdk1.8.0_261\bin", this); 
                             compiler.Compile(Path.Combine(Project.ProjectDirectory, "out"),
                                  Path.Combine(Project.ProjectDirectory, "src"),
                                  Path.Combine(Project.ProjectDirectory, "lib"),

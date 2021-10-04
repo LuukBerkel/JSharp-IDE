@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using JSharp_Server.Data;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,23 @@ namespace JSharp_Server.Comms
 {
     class Interpreter
     {
+        //Variables
         private bool Authorized = false;
-        private Interpreter interpreter;
+        private Manager manager;
 
-        public Interpreter(Interpreter interpreter)
+        /// <summary>
+        /// This is the constructor of the interperter
+        /// </summary>
+        /// <param name="manager">This is the management object that handels users management</param>
+        public Interpreter(Manager manager)
         {
-            this.interpreter = interpreter;
+            this.manager = manager;
         }
 
+        /// <summary>
+        /// This the commandhelper that sends the message to the right method
+        /// </summary>
+        /// <param name="json">This is the message received from the client</param>
         public void Command(JObject json)
         {
             JToken? token;
@@ -37,10 +47,17 @@ namespace JSharp_Server.Comms
             }
         }
 
+        /// <summary>
+        /// Checks the login if so than it is authorized
+        /// </summary>
+        /// <param name="json">The login message</param>
         [Authorization(false, "login")]
         private void Login(JObject json)
         {
+           /* JToken?
 
+            if ()
+*/
             this.Authorized = true;
         }
 
@@ -49,6 +66,34 @@ namespace JSharp_Server.Comms
         {
 
         }
+
+        [Authorization(true, "register")]
+        private void CreateProject(JObject json)
+        {
+
+        }
+
+        [Authorization(true, "register")]
+        private void ChangeProject(JObject json)
+        {
+
+        }
+
+        [Authorization(true, "register")]
+        private void RemoveProject(JObject json)
+        {
+            
+        }
+
+        [Authorization(true, "register")]
+        private void NotificateProject(JObject json)
+        {
+
+        }
+
+
+
+
 
     }
 

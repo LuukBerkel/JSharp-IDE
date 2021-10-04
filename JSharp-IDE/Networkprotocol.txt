@@ -8,19 +8,6 @@
 	}
 }
 
------ ADD/REMOVE USER TO PROJECT -----
-{
-	instruction: "addUserToProject/removeUserFromProject",
-	data:
-	{
-		users:
-		[
-			{
-				username: ""
-			},
-		]
-	}
-}
 
 ----- NOTIFICATION -----
 {
@@ -37,7 +24,13 @@
 	instruction: "addProject",
 	data: 
 	{
-		title: "",
+		users:
+		[
+			{
+				Username: "",
+			}
+		]
+
 		files:
 		[
 			{
@@ -48,12 +41,20 @@
 	}
 }
 
------ SEND FILE -----
+----- Change Project -----
 {
 	instruction: "sendFile",
 	data:
-	{
-		time: ""
+	{	
+		userFlag: "1/2"
+		users:
+		[
+			{
+				Username: "",
+			}
+		]
+
+		fileFlag: "1/2"
 		files:
 		[
 			{
@@ -63,27 +64,12 @@
 		]
 	}
 }
+Can have both or one of the two
 
------ REMOVE FILE -----
+
+----- REMOVE Project -----
 {
-	instruction: "removeFile",
-	data:
-	{
-		files:
-		[
-			{
-				filePath: ""
-			}
-		]
-	}
+	instruction: "removeProject",
 }
 
------ LOGOUT -----
-{
-	instruction: "logout",
-	data:
-	{
-		username: ""
-	}
-}
 

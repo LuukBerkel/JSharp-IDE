@@ -14,13 +14,16 @@ namespace JSharp_Server.Data
         public static List<User> LoadUserData()
         {
             List<User> users = new List<User>();
-            string data = File.ReadAllText(Directory.GetCurrentDirectory() + @"\usersData.txt");
+
+            if (File.Exists(Directory.GetCurrentDirectory() + @"\usersData.txt")) {
+                string data = File.ReadAllText(Directory.GetCurrentDirectory() + @"\usersData.txt");
 
 
-            JArray array = JArray.Parse(data);
-            foreach (JObject o in array)
-            {
-                users.Add(o.ToObject<User>());
+                JArray array = JArray.Parse(data);
+                foreach (JObject o in array)
+                {
+                    users.Add(o.ToObject<User>());
+                }
             }
 
             return users;

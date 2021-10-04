@@ -14,7 +14,7 @@ namespace JSharp_Server.Data
         public User(string username, string password, bool hash)
         {
             Username = username;
-            if (hash) Password = ;
+            if (hash) Password = Proccessing.HashUserPassword(password);
             else Password = password;
         }
     }

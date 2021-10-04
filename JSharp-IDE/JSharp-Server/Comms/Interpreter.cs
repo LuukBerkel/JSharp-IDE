@@ -54,38 +54,44 @@ namespace JSharp_Server.Comms
         [Authorization(false, "login")]
         private void Login(JObject json)
         {
-           /* JToken?
-
-            if ()
-*/
-            this.Authorized = true;
+            JToken? username;
+            JToken? password;
+            if (json.TryGetValue("password", out password) && json.TryGetValue("username", out username))
+            {
+                this.Authorized = manager.CheckUser(username.ToString(), password.ToString());
+            }
         }
 
         [Authorization(false, "register")]
         private void Register(JObject json)
         {
-
+            JToken? username;
+            JToken? password;
+            if (json.TryGetValue("password", out password) && json.TryGetValue("username", out username))
+            {
+                manager.AddUser(username.ToString(), password.ToString());
+            }
         }
 
-        [Authorization(true, "register")]
+        [Authorization(true, "createProject")]
         private void CreateProject(JObject json)
         {
 
         }
 
-        [Authorization(true, "register")]
+        [Authorization(true, "changeProject")]
         private void ChangeProject(JObject json)
         {
 
         }
 
-        [Authorization(true, "register")]
+        [Authorization(true, "removeProject")]
         private void RemoveProject(JObject json)
         {
             
         }
 
-        [Authorization(true, "register")]
+        [Authorization(true, "notificateProject")]
         private void NotificateProject(JObject json)
         {
 

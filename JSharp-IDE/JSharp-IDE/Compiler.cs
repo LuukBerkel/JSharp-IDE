@@ -150,20 +150,18 @@ namespace JSharp_IDE
                     // To avoid deadlocks, always read the output stream first and then wait.
                     new Thread(() => {
                         bool isReading = true;
-                        int exitCode = -1;
 
                         while (isReading)
                         {
                             try
                             {
                                 isReading = !executeTask.HasExited;
-                                //exitCode = executeTask.ExitCode;
                                 string output = executeTask.StandardOutput.ReadLine();
                                 Debug.WriteLine(output);
                                 this.mwvm.DebugWindow += "\n" + output;
                             } catch (Exception e)
                             {
-                                Debug.WriteLine($"Java process finished with exit code {exitCode}");
+                                Debug.WriteLine($"Java process finished");
                                 break;
                             }
                         }

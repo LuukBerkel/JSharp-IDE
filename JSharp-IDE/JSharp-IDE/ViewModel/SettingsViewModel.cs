@@ -22,7 +22,8 @@ namespace JSharp_IDE.ViewModel
                 {
                     mApplyCommand = new RelayCommand(param =>
                     {
-
+                        Settings.UpdateUsername(mUsername);
+                        Settings.UpdatePassword(mPassword);
                     },
                     param => true);
                 }
@@ -37,7 +38,7 @@ namespace JSharp_IDE.ViewModel
             {
                 if (mUsername == null)
                 {
-                    Settings.GetUsername();
+                    mUsername = Settings.GetUsername();
                 }
                 return mUsername;
             }
@@ -50,12 +51,30 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        private string mPassword;
+        public string Password
+        {
+            get
+            {
+                if (mPassword == null)
+                {
+                    mPassword = Settings.GetPassword();
+                }
+                return mPassword;
+            }
+
+            set
+            {
+                mPassword = value;
+                OnPropertyChanged("Password");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
     }
 }

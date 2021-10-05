@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,8 +21,7 @@ namespace JSharp_IDE.Utils
 
         public static void CreateSettingsFile()
         {
-            if (!File.Exists(SettingsPath))
-            {
+            if (!Exists()) {
                 File.WriteAllText(SettingsPath, JsonConvert.SerializeObject(new
                 {
                     username = "username",
@@ -57,12 +57,15 @@ namespace JSharp_IDE.Utils
             return GetValue("username");
         }
 
+        public static string GetPassword()
+        {
+            return GetValue("password");
+        }
+
         private static string GetValue(string key)
         {
             if (!Exists()) CreateSettingsFile();
             JObject settings = JObject.Parse(File.ReadAllText(SettingsPath));
-            
-
             return settings.GetValue(key).ToString();
         }
     }

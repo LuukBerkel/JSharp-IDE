@@ -55,6 +55,7 @@
 
         <StatusBar Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Height="Auto">
             <StatusBarItem Content="Server connection"/>
+            <Image Source="/Resources/RecordDot_redNoHalo_16x.png" Height="16" Width="16"/>
         </StatusBar>
     </Grid>
 </Window>

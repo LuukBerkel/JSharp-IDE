@@ -9,7 +9,9 @@
     <Window.DataContext>
         <local:Manager/>
     </Window.DataContext>
-    <ListView ItemsSource="{Binding Projects, Mode=TwoWay}">
+    
+    
+    <ListView x:Name="list" IsSynchronizedWithCurrentItem="True">
         <ListView.View>
             
             <GridView>

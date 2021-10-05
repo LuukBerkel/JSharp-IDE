@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JSharp_Server.Data
 {
-    public class Project : ObservableObject
+    public class Project
     {
         //Actual data
         private IDictionary<string, string> data;

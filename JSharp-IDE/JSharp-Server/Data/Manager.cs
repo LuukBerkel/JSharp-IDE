@@ -1,39 +1,40 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace JSharp_Server.Data
 {
-    public class Manager : ObservableObject
+    [AddINotifyPropertyChangedInterface]
+    public class Manager : INotifyPropertyChanged
     {
-        private ObservableCollection<Project> mProjects;
-        public ObservableCollection<Project> Projects
-        {
-            get
-            {
-                return mProjects;
-            }
 
-            set
-            {
-                mProjects = value;
-                NotifyPropertyChanged();
-            }
-        }
 
+        public ObservableCollection<Project> projects { get; set; }
         private List<User> users;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
         public Manager()
         {
-            this.mProjects = new ObservableCollection<Project>();
+
+            this.projects = new ObservableCollection<Project>();
             this.users = Proccessing.LoadUserData();
-            this.mProjects.Add(new Project(null, null, new User("JoeMama", "help", false), "Weerstation"));
-            NotifyPropertyChanged();
+
+
         }
+
+
 
         public User CheckUser( string username, string password)
         {
@@ -59,15 +60,23 @@ namespace JSharp_Server.Data
 
         public bool AddProject(Project p)
         {
-            if (this.mProjects.Where(e => e.name == p.name).ToList().Count <= 0)
+           
+            if (this.projects.Where(e => e.name == p.name).ToList().Count <= 0)
             {
-                Debug.WriteLine("project added");
-                this.mProjects.Add(p);
-                //Projects = mProjects;
-                NotifyPropertyChanged();
-                return true;
-            }
+
+               
+
+
+               this.projects.Add(p);
+                MainWindow.SetLisview(this.projects);
+               
+            
+            };
+         
             return false;
         }
+
+        
+
     }
 }

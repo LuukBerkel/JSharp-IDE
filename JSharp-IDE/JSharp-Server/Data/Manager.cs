@@ -47,6 +47,7 @@ namespace JSharp_Server.Data
             if (this.projects.Where(e => e.name == p.name).ToList().Count <= 0)
             {
                 this.projects.Add(p);
+                NotifyPropertyChanged("projects");
                 return true;
             }
             return false;

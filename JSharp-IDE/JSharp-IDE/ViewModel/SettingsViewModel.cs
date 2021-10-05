@@ -1,9 +1,11 @@
-﻿using JSharp_IDE.Utils;
+﻿using JSharp_IDE.Network;
+using JSharp_IDE.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +26,33 @@ namespace JSharp_IDE.ViewModel
                     {
                         Settings.UpdateUsername(mUsername);
                         Settings.UpdatePassword(mPassword);
+                        Settings.UpdateServerAddress(mAddress);
+                        Settings.UpdateServerPort(mPort);
                     },
                     param => true);
                 }
                 return mApplyCommand;
+            }
+        }
+        
+        private RelayCommand mSignUpCommand;
+        public ICommand SignUpCommand
+        {
+            get
+            {
+                if (mSignUpCommand == null)
+                {
+                    mSignUpCommand = new RelayCommand(param =>
+                    {
+                        Settings.UpdateUsername(mUsername);
+                        Settings.UpdatePassword(mPassword);
+
+                        Connection c = Connection.GetConnection(Settings.GetServerAddress(), int.Parse(Settings.GetServerPort()));
+                        c.SendCommand(JSONCommand.SignUp());
+                    },
+                    param => true);
+                }
+                return mSignUpCommand;
             }
         }
 
@@ -67,6 +92,44 @@ namespace JSharp_IDE.ViewModel
             {
                 mPassword = value;
                 OnPropertyChanged("Password");
+            }
+        }
+
+        private string mAddress;
+        public string Address
+        {
+            get
+            {
+                if (mAddress == null)
+                {
+                    mAddress = Settings.GetServerAddress();
+                }
+                return mAddress;
+            }
+
+            set
+            {
+                mAddress = value;
+                OnPropertyChanged("Address");
+            }
+        }
+
+        private string mPort;
+        public string Port
+        {
+            get
+            {
+                if (mPort == null)
+                {
+                    mPort = Settings.GetServerPort();
+                }
+                return mPort;
+            }
+
+            set
+            {
+                mPort = value;
+                OnPropertyChanged("Port");
             }
         }
 

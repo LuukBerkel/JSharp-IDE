@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JSharp_IDE.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="350">
+             d:DesignHeight="200" d:DesignWidth="350">
     <Window.DataContext>
         <local:SettingsViewModel/>
     </Window.DataContext>
@@ -18,6 +18,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Label Content="Username" Grid.Row="0" Grid.Column="0"/>
@@ -26,6 +29,13 @@
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding UserName}"/>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password}" />
 
-        <Button Content="Apply" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Command="{Binding ApplyCommand}"/>
+        <Button Content="Sign up" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Command="{Binding SignUpCommand}"/>
+
+        <Label Content="Server Address" Grid.Row="3" Grid.Column="0"/>
+        <Label Content="Server Address" Grid.Row="4" Grid.Column="0"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Address}"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Port}" />
+
+        <Button Content="Apply all" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding ApplyCommand}"/>
     </Grid>
 </Window>

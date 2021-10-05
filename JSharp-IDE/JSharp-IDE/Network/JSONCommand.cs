@@ -30,5 +30,15 @@ namespace JSharp_IDE.Network
                 project = projectName
             };
         }
+
+        public static object HostProject(string projectName)
+        {
+            return new
+            {
+                instruction = "createProject",
+                project = projectName
+
+            };
+        }
     }
 }

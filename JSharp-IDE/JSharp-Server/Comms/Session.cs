@@ -24,7 +24,8 @@ namespace JSharp_Server.Comms
 
         public Session(TcpClient client, Manager manager)
         {
-            this.sender = new EncryptedSender(client.GetStream());
+            //this.sender = new EncryptedSender(client.GetStream());
+            this.sender = new PlaneTextSender(client.GetStream());
             this.replyer = new Replyer(sender);
             this.interpreter = new Interpreter(manager, replyer, this);
             this.interpreter.Event += (s, e) => this.UserAcount = e;

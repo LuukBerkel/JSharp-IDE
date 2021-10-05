@@ -145,6 +145,7 @@ namespace JSharp_Server.Comms
                 if (manager.AddProject(new Project(files, users, session.UserAcount, project)))
                 {
                     this.replyer.Succes();
+                    return;
                 }
                 this.replyer.Failed();
             }

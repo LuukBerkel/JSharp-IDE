@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
@@ -48,7 +49,7 @@ namespace JSharp_IDE.ViewModel
                         {
                             Connection c = Connection.GetConnection(Settings.GetServerAddress(), 6969);
                             c.SendCommand(JSONCommand.Login());
-                            c.SendCommand(JSONCommand.HostProject(mProjectName, new string[] { "hardcoded" }, new Network.File[] { new File("src/Main.java", "joemama") }));
+                            c.SendCommand(JSONCommand.HostProject(mProjectName, new string[] { "hardcoded" }, new Network.File[] { new Network.File(Path.Combine(Directory.GetCurrentDirectory(), "Main.java"), "joemama") }));
                         }
                     },
                     param => true);

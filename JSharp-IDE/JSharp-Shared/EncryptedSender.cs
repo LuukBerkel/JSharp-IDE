@@ -18,14 +18,14 @@ namespace CommClass
         public EncryptedSender(NetworkStream stream)
         {
             //Setting up rsa objects
-            this.RSAIN = new RSACryptoServiceProvider();
-            this.RSAOUT = new RSACryptoServiceProvider();
+            this.RSAIN = new RSACryptoServiceProvider(3096);
+            this.RSAOUT = new RSACryptoServiceProvider(3096);
 
             //Sending the correct keys
             stream.Write(RSAIN.ExportRSAPublicKey());
 
             //Receiving the correct keys
-            byte[] publicKeyServer = new byte[140];
+            byte[] publicKeyServer = new byte[4096];
             int bytesRead = 0;
             stream.Read(publicKeyServer);
             RSAOUT.ImportRSAPublicKey(publicKeyServer, out bytesRead);

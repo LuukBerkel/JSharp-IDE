@@ -26,7 +26,8 @@ namespace JSharp_IDE.Network
             try
             {
                 this.tcpClient = new TcpClient(ip, port);
-                this.sender = new EncryptedSender(this.tcpClient.GetStream());
+                //this.sender = new EncryptedSender(this.tcpClient.GetStream());
+                this.sender = new PlaneTextSender(this.tcpClient.GetStream());
             } catch (Exception e)
             {
                 MessageBox.Show("Could not connect to server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);

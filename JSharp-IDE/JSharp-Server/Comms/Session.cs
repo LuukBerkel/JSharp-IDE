@@ -34,7 +34,6 @@ namespace JSharp_Server.Comms
         {
             new Thread(() =>
             {
-                Debug.WriteLine("Starting session");
                 while (true)
                 {
                     string encoded = this.sender.ReadMessage();

@@ -90,7 +90,6 @@ namespace JSharp_Server.Comms
         [Authorization(false, "register")]
         private void Register(JObject json)
         {
-            Debug.WriteLine("Registered");
             //Getting data from json
             JToken username = json.SelectToken("data.username"); 
             JToken password = json.SelectToken("data.password"); 
@@ -99,11 +98,10 @@ namespace JSharp_Server.Comms
                 //Adding user if valid
                 if (manager.AddUser(username.ToString(), password.ToString()))
                 {
-                    Debug.WriteLine("Registered");
                     this.replyer.Succes();
                     return;
                 }
-                Debug.WriteLine("Cry");
+
                 //Else..
                 this.replyer.Failed();
             }

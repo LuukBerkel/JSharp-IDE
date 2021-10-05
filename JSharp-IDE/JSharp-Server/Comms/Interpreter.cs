@@ -41,7 +41,6 @@ namespace JSharp_Server.Comms
             if (json.TryGetValue("instruction", out token))
             {
                 string command = token.ToString();
-                Debug.WriteLine(command);
 
                 MethodInfo[] methods = typeof(Interpreter).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.ExactBinding);
                 foreach (MethodInfo method in methods)

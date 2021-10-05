@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,15 +10,29 @@ namespace JSharp_Server.Data
 {
     public class Manager : ObservableObject
     {
-        public ObservableCollection<Project> projects { get; set; }
+        private ObservableCollection<Project> mProjects;
+        public ObservableCollection<Project> Projects
+        {
+            get
+            {
+                return mProjects;
+            }
+
+            set
+            {
+                mProjects = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private List<User> users;
 
         public Manager()
         {
-            this.projects = new ObservableCollection<Project>();
+            this.mProjects = new ObservableCollection<Project>();
             this.users = Proccessing.LoadUserData();
-            this.projects.Add(new Project(null, null, new User("JoeMama", "help", false), "Weerstation"));
-            NotifyPropertyChanged("projects");
+            this.mProjects.Add(new Project(null, null, new User("JoeMama", "help", false), "Weerstation"));
+            NotifyPropertyChanged();
         }
 
         public User CheckUser( string username, string password)
@@ -44,10 +59,12 @@ namespace JSharp_Server.Data
 
         public bool AddProject(Project p)
         {
-            if (this.projects.Where(e => e.name == p.name).ToList().Count <= 0)
+            if (this.mProjects.Where(e => e.name == p.name).ToList().Count <= 0)
             {
-                this.projects.Add(p);
-                NotifyPropertyChanged("projects");
+                Debug.WriteLine("project added");
+                this.mProjects.Add(p);
+                //Projects = mProjects;
+                NotifyPropertyChanged();
                 return true;
             }
             return false;

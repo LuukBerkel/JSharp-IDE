@@ -9,7 +9,7 @@
     <Window.DataContext>
         <local:Manager/>
     </Window.DataContext>
-    <ListView ItemsSource="{Binding projects, Mode=TwoWay}">
+    <ListView ItemsSource="{Binding Projects, Mode=TwoWay}">
         <ListView.View>
             
             <GridView>

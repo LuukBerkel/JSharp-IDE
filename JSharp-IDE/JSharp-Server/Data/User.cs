@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace JSharp_Server.Data
 {
 
-    public class User
+    public class User : ObservableObject
     {
         public string Username { get; set; }
         public string Password { get; set; }

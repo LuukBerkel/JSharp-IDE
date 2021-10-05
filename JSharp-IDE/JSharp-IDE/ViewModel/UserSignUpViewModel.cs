@@ -14,44 +14,6 @@ namespace JSharp_IDE.ViewModel
 {
     class UserSignUpViewModel : INotifyPropertyChanged
     {
-        private string mUserName;
-        public string UserName
-        {
-            get
-            {
-                if (mUserName == null)
-                {
-                    mUserName = "Username";
-                }
-                return mUserName;
-            }
-
-            set
-            {
-                mUserName = value;
-                OnPropertyChanged("UserName");
-            }
-        }
-
-        private string mPassword;
-        public string Password
-        {
-            get
-            {
-                if (mPassword == null)
-                {
-                    mPassword = "Password";
-                }
-                return mPassword;
-            }
-
-            set
-            {
-                mPassword = value;
-                OnPropertyChanged("Password");
-            }
-        }
-
         private string mHostname;
         public string Hostname
         {
@@ -118,10 +80,10 @@ namespace JSharp_IDE.ViewModel
                 {
                     mSignUpCommand = new RelayCommand(param =>
                     {
-                        if (mUserName.Length > 0 && mPassword.Length > 0 && mProjectName.Length > 0)
+                        if (mProjectName.Length > 0)
                         {
                             Connection c = Connection.GetConnection(mHostname, 6969);
-                            c.SendCommand(JSONCommand.SignUp(mUserName, mPassword));
+                            c.SendCommand(JSONCommand.SignUp());
                             c.SendCommand(JSONCommand.JoinProject(mProjectName));
                         }
                     },

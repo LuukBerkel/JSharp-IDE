@@ -138,12 +138,7 @@ namespace JSharp_Server.Comms
                 IList<string> users = new List<string>();
                 foreach (JObject o in (JArray)file)
                 {
-                    //Getting objects for dictionary
-                    JToken? username;
-                    if (o.TryGetValue("username", out username))
-                    {
-                        users.Add(username.ToString());
-                    }
+                      users.Add(o.ToString());
                 }
 
                 //Adding it to active projects

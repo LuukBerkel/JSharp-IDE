@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -30,16 +31,19 @@ namespace JSharp_IDE.Network
             {
                 MessageBox.Show("Could not connect to server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            new Thread(() =>
+            {
+                while (true) ReadMessage();
+            }).Start();
         }
 
         public void SendCommand(object o)
         {
             try
             {
-                Debug.WriteLine($"Connection: Sending to server: {JsonConvert.SerializeObject(o)}");
                 if (this.tcpClient != null)
                 {
-                    Debug.WriteLine($"Connection: Sending to server: {JsonConvert.SerializeObject(o)}");
                     this.sender.SendMessage(JsonConvert.SerializeObject(o));
                 }
             }
@@ -47,6 +51,13 @@ namespace JSharp_IDE.Network
             {
                 MessageBox.Show("Could not send message to server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        public string ReadMessage()
+        {
+            string msg = this.sender.ReadMessage();
+            Debug.WriteLine("Client received: " + msg);
+            return msg;
         }
 
         public static Connection GetConnection(string ip, int port)

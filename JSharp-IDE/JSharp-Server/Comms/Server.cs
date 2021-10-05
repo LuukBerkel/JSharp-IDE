@@ -28,11 +28,12 @@ namespace JSharp_Server.Comms
 
         private void HandleClient(IAsyncResult ar)
         {
+            //Handeling of the client
+            Session session = new Session(this.listener.EndAcceptTcpClient(ar), manager);
+            session.StartSession();
             //For the next client
             this.listener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
             
-            //Handeling of the client
-            Session session = new Session(this.listener.EndAcceptTcpClient(ar), manager);
         }
     }
 }

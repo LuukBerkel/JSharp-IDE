@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace JSharp_Server.Comms
 {
-    class Interpreter
+    public class Interpreter
     {
         //Variables
         private bool Authorized = false;
@@ -38,11 +39,13 @@ namespace JSharp_Server.Comms
             if (json.TryGetValue("instruction", out token))
             {
                 string command = token.ToString();
+                Debug.WriteLine(command);
 
-                MethodInfo[] methods = typeof(Interpreter).GetMethods(BindingFlags.NonPublic);
+                MethodInfo[] methods = typeof(Interpreter).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.ExactBinding);
                 foreach (MethodInfo method in methods)
                 {
-                    if (method.GetCustomAttribute<AuthorizationAttribute>().GetCommand() == command
+                    if (method.GetCustomAttribute<AuthorizationAttribute>() != null 
+                        && method.GetCustomAttribute<AuthorizationAttribute>().GetCommand() == command
                         && method.GetCustomAttribute<AuthorizationAttribute>().GetAuthorization() == Authorized)
                     {
                         method.Invoke(this, new object[] { json });
@@ -87,6 +90,7 @@ namespace JSharp_Server.Comms
         [Authorization(false, "register")]
         private void Register(JObject json)
         {
+            Debug.WriteLine("Registered");
             //Getting data from json
             JToken username = json.SelectToken("data.username"); 
             JToken password = json.SelectToken("data.password"); 
@@ -95,10 +99,11 @@ namespace JSharp_Server.Comms
                 //Adding user if valid
                 if (manager.AddUser(username.ToString(), password.ToString()))
                 {
+                    Debug.WriteLine("Registered");
                     this.replyer.Succes();
                     return;
                 }
-
+                Debug.WriteLine("Cry");
                 //Else..
                 this.replyer.Failed();
             }
@@ -157,7 +162,7 @@ namespace JSharp_Server.Comms
 
     }
 
-    internal class AuthorizationAttribute : Attribute
+    public class AuthorizationAttribute : Attribute
     {
         private bool AuthorizationRequirment;
         private string Command;

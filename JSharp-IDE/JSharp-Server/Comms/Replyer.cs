@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JSharp_Server.Comms
 {
-    class Replyer
+    public class Replyer
     {
         private ISender sender;
 

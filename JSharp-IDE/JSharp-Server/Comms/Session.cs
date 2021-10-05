@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -33,18 +34,14 @@ namespace JSharp_Server.Comms
         {
             new Thread(() =>
             {
-                for (;;)
+                Debug.WriteLine("Starting session");
+                while (true)
                 {
                     string encoded = this.sender.ReadMessage();
                     JObject decoded = (JObject)JsonConvert.DeserializeObject(encoded);
-
                     this.interpreter.Command(decoded);
                 }
             }).Start();
         }
-
-     
-
-
     }
 }

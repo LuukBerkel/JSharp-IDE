@@ -1,6 +1,7 @@
 ﻿using JSharp_Server.Comms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,9 @@ namespace JSharp_Server
         public MainWindow()
         {
             InitializeComponent();
-            Server server = new Server(System.Net.IPAddress.Any, 6969); 
+            Server server = new Server(System.Net.IPAddress.Any, 6969);
+            server.Start();
+            Debug.WriteLine("Starting server");
         }
     }
 }

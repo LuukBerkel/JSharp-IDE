@@ -17,7 +17,6 @@ namespace CommClass
             byte[] final = Combine(lenght, payload);
 
             //Debug print of data that is send
-            //Console.WriteLine(BitConverter.ToString(final));
             stream.Write(final, 0, data.Length + 4);
             stream.Flush();
         }
@@ -38,8 +37,6 @@ namespace CommClass
             stream.Read(lenghtArray, 0, 4);
             int lenght = BitConverter.ToInt32(lenghtArray, 0);
 
-            //Console.WriteLine(lenght);
-
             byte[] buffer = new byte[lenght];
             int totalRead = 0;
 
@@ -48,7 +45,6 @@ namespace CommClass
             {
                 int read = stream.Read(buffer, totalRead, buffer.Length - totalRead);
                 totalRead += read;
-                //Console.WriteLine("ReadMessage: " + read);
             }
 
             return buffer;

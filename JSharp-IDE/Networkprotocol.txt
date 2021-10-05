@@ -72,4 +72,10 @@ Can have both or one of the two
 	instruction: "removeProject",
 }
 
+----JOIN Project-------
+{
+	instruciont: "joinProject",
+	project: "..."
+}
+
 

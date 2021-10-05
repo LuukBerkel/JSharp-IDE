@@ -3,10 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:JSharp_Server"
+        xmlns:local="clr-namespace:JSharp_Server.Data"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Window.DataContext>
+        <local:Manager/>
+    </Window.DataContext>
+    <ListView ItemsSource="{Binding projects, Mode=TwoWay}">
+        <ListView.View>
+            
+            <GridView>
 
-    </Grid>
+                <GridViewColumn Header="Owner" Width="150" DisplayMemberBinding="{Binding owner.Username}"/>
+                <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding date}" />
+                <GridViewColumn Header="Project" Width="450" DisplayMemberBinding="{Binding name}" />
+            </GridView>
+        </ListView.View>
+        
+    </ListView>
+
+
+
 </Window>

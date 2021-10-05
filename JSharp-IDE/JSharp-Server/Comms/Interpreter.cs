@@ -111,6 +111,12 @@ namespace JSharp_Server.Comms
 
         }
 
+        [Authorization(true, "notificateProject")]
+        private void JoinProject(JObject json)
+        {
+
+        }
+
 
 
 

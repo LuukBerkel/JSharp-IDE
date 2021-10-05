@@ -34,7 +34,5 @@ namespace JSharp_Server.Comms
             };
             this.sender.SendMessage(JsonConvert.SerializeObject(o));
         }
-
-
     }
 }

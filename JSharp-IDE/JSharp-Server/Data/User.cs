@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JSharp_Server.Data
 {
-    class User
+    public class User
     {
         public string Username { get; set; }
         public string Password { get; set; }

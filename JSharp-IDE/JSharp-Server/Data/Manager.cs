@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JSharp_Server.Data
 {
-    class Manager
+    public class Manager : ObservableObject
     {
-        private List<Project> projects;
+        public ObservableCollection<Project> projects { get; set; }
         private List<User> users;
 
         public Manager()
         {
-            this.projects = new List<Project>();
+            this.projects = new ObservableCollection<Project>();
             this.users = Proccessing.LoadUserData();
+            this.projects.Add(new Project(null, null, new User("JoeMama", "help", false), "Weerstation"));
+            NotifyPropertyChanged("projects");
         }
 
         public User? CheckUser( string username, string password)

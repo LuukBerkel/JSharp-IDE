@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -58,6 +59,10 @@ namespace JSharp_IDE.ViewModel
                     mSettingsCommand = new RelayCommand(param =>
                     {
                         SettingsView sv = new SettingsView();
+                        sv.Width = 350;
+                        sv.Height = 200;
+                        sv.Title = "JSharp IDE - Settings";
+                        sv.ResizeMode = ResizeMode.NoResize;
                         sv.Show();
                     },
                     param => true);

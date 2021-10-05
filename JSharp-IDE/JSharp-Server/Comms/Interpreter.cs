@@ -14,6 +14,8 @@ namespace JSharp_Server.Comms
         //Variables
         private bool Authorized = false;
         private Manager manager;
+        private User user;
+        private Replyer replyer;
 
         /// <summary>
         /// This is the constructor of the interperter
@@ -58,8 +60,15 @@ namespace JSharp_Server.Comms
             JToken? password;
             if (json.TryGetValue("password", out password) && json.TryGetValue("username", out username))
             {
-                this.Authorized = manager.CheckUser(username.ToString(), password.ToString());
+                this.user =  manager.CheckUser(username.ToString(), password.ToString());
+                if (this.user != null)
+                {
+                    this.Authorized = true;
+                    this.replyer.Succes();
+                    return;
+                }
             }
+            this.replyer.Failed();
         }
 
         [Authorization(false, "register")]
@@ -69,8 +78,13 @@ namespace JSharp_Server.Comms
             JToken? password;
             if (json.TryGetValue("password", out password) && json.TryGetValue("username", out username))
             {
-                manager.AddUser(username.ToString(), password.ToString());
+                if (manager.AddUser(username.ToString(), password.ToString()))
+                {
+                    this.replyer.Succes();
+                    return;
+                }
             }
+            this.replyer.Failed();
         }
 
         [Authorization(true, "createProject")]

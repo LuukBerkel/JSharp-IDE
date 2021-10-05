@@ -17,16 +17,16 @@ namespace JSharp_Server.Data
             this.users = Proccessing.LoadUserData();
         }
 
-        public bool CheckUser( string username, string password)
+        public User? CheckUser( string username, string password)
         {
             foreach(User user in this.users) 
             {
                 if (user.Password == Proccessing.HashUserPassword(password) && user.Username == username)
                 {
-                    return true;
+                    return user;
                 }
             }
-            return false;
+            return null;
         }
 
         public bool AddUser(string username, string password)

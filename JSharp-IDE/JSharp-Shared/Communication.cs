@@ -7,8 +7,6 @@ namespace CommClass
 {
     class Communications
     {
-
-
         public static void WriteData(byte[] data, NetworkStream stream)
         {
             byte[] payload = data;

@@ -17,6 +17,7 @@ namespace JSharp_IDE.Network
     public class Connection
     {
         public static Connection Instance;
+        public static bool IsConnectedToServer = false;
 
         private ISender sender;
         private TcpClient tcpClient;
@@ -28,9 +29,11 @@ namespace JSharp_IDE.Network
                 this.tcpClient = new TcpClient(ip, port);
                 //this.sender = new EncryptedSender(this.tcpClient.GetStream());
                 this.sender = new PlaneTextSender(this.tcpClient.GetStream());
+                IsConnectedToServer = true;
             } catch (Exception e)
             {
                 MessageBox.Show("Could not connect to server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
+                IsConnectedToServer = false;
             }
 
             new Thread(() =>
@@ -51,6 +54,7 @@ namespace JSharp_IDE.Network
             catch (Exception e)
             {
                 MessageBox.Show("Could not send message to server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
+                IsConnectedToServer = false;
             }
         }
 

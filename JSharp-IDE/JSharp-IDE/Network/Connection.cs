@@ -36,10 +36,11 @@ namespace JSharp_IDE.Network
         {
             try
             {
+                Debug.WriteLine($"Connection: Sending to server: {JsonConvert.SerializeObject(o)}");
                 if (this.tcpClient != null)
                 {
+                    Debug.WriteLine($"Connection: Sending to server: {JsonConvert.SerializeObject(o)}");
                     this.sender.SendMessage(JsonConvert.SerializeObject(o));
-                    Debug.WriteLine($"Connection: Sent to server: {JsonConvert.SerializeObject(o)}");
                 }
             }
             catch (Exception e)

@@ -80,24 +80,6 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
-        private RelayCommand mSettingsCommand;
-        public ICommand SettingsCommand
-        {
-            get
-            {
-                if (mSettingsCommand == null)
-                {
-                    mSettingsCommand = new RelayCommand(param =>
-                    {
-                        SettingsView sv = new SettingsView();
-                        sv.Show();
-                    },
-                    param => true);
-                }
-                return mSettingsCommand;
-            }
-        }
-
         private RelayCommand mCompileCommand;
         public ICommand CompileCommand
         {

@@ -1,4 +1,5 @@
 ﻿using JSharp_IDE.Network;
+using JSharp_IDE.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,88 +9,13 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace JSharp_IDE.ViewModel
 {
     class UserSignUpViewModel : INotifyPropertyChanged
     {
-        private string mUserName;
-        public string UserName
-        {
-            get
-            {
-                if (mUserName == null)
-                {
-                    mUserName = "Username";
-                }
-                return mUserName;
-            }
-
-            set
-            {
-                mUserName = value;
-                OnPropertyChanged("UserName");
-            }
-        }
-
-        private string mPassword;
-        public string Password
-        {
-            get
-            {
-                if (mPassword == null)
-                {
-                    mPassword = "Password";
-                }
-                return mPassword;
-            }
-
-            set
-            {
-                mPassword = value;
-                OnPropertyChanged("Password");
-            }
-        }
-
-        private string mHostname;
-        public string Hostname
-        {
-            get
-            {
-                if (mHostname == null)
-                {
-                    mHostname = "Hostname";
-                }
-                return mHostname;
-            }
-
-            set
-            {
-                mHostname = value;
-                OnPropertyChanged("Hostname");
-            }
-        }
-
-        private string mPort;
-        public string Port
-        {
-            get
-            {
-                if (mPort == null)
-                {
-                    mPort = "6969";
-                }
-                return mPort;
-            }
-
-            set
-            {
-                mPort = value;
-                OnPropertyChanged("Port");
-            }
-        }
-
         private string mProjectName;
         public string ProjectName
         {
@@ -109,31 +35,52 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
-        private RelayCommand mSignUpCommand;
-        public ICommand SignUpCommand
+        private RelayCommand mHostCommand;
+        public ICommand HostCommand
         {
             get
             {
-                if (mSignUpCommand == null)
+                if (mHostCommand == null)
                 {
-                    mSignUpCommand = new RelayCommand(param =>
+                    mHostCommand = new RelayCommand(param =>
                     {
-                        if (mUserName.Length > 0 && mPassword.Length > 0 && mProjectName.Length > 0)
+                        if (mProjectName.Length > 0)
                         {
-                            Connection c = Connection.GetConnection(mHostname, 6969);
-                            c.SendCommand(JSONCommand.SignUp(mUserName, mPassword));
+                            Connection c = Connection.GetConnection(Settings.GetServerAddress(), 6969);
+                            c.SendCommand(JSONCommand.Login());
+                            c.SendCommand(JSONCommand.HostProject(mProjectName, new string[] { "hardcoded" }, new Network.File[] { new File("src/Main.java", "joemama") }));
+                        }
+                    },
+                    param => true);
+                }
+                return mHostCommand;
+            }
+        }
+
+        private RelayCommand mJoinCommand;
+        public ICommand JoinCommand
+        {
+            get
+            {
+                if (mJoinCommand == null)
+                {
+                    mJoinCommand = new RelayCommand(param =>
+                    {
+                        if (mProjectName.Length > 0)
+                        {
+                            Connection c = Connection.GetConnection(Settings.GetServerAddress(), 6969);
+                            c.SendCommand(JSONCommand.Login());
                             c.SendCommand(JSONCommand.JoinProject(mProjectName));
                         }
                     },
                     param => true);
                 }
-
-                return mSignUpCommand;
+                return mJoinCommand;
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

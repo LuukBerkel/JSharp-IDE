@@ -1,9 +1,11 @@
-﻿using JSharp_IDE.Utils;
+﻿using JSharp_IDE.Network;
+using JSharp_IDE.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +24,35 @@ namespace JSharp_IDE.ViewModel
                 {
                     mApplyCommand = new RelayCommand(param =>
                     {
-
+                        Settings.UpdateUsername(mUsername);
+                        Settings.UpdatePassword(mPassword);
+                        Settings.UpdateServerAddress(mAddress);
+                        Settings.UpdateServerPort(mPort);
                     },
                     param => true);
                 }
                 return mApplyCommand;
+            }
+        }
+        
+        private RelayCommand mSignUpCommand;
+        public ICommand SignUpCommand
+        {
+            get
+            {
+                if (mSignUpCommand == null)
+                {
+                    mSignUpCommand = new RelayCommand(param =>
+                    {
+                        Settings.UpdateUsername(mUsername);
+                        Settings.UpdatePassword(mPassword);
+
+                        Connection c = Connection.GetConnection(Settings.GetServerAddress(), int.Parse(Settings.GetServerPort()));
+                        c.SendCommand(JSONCommand.SignUp());
+                    },
+                    param => true);
+                }
+                return mSignUpCommand;
             }
         }
 
@@ -37,7 +63,7 @@ namespace JSharp_IDE.ViewModel
             {
                 if (mUsername == null)
                 {
-                    Settings.GetUsername();
+                    mUsername = Settings.GetUsername();
                 }
                 return mUsername;
             }
@@ -50,12 +76,68 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        private string mPassword;
+        public string Password
+        {
+            get
+            {
+                if (mPassword == null)
+                {
+                    mPassword = Settings.GetPassword();
+                }
+                return mPassword;
+            }
+
+            set
+            {
+                mPassword = value;
+                OnPropertyChanged("Password");
+            }
+        }
+
+        private string mAddress;
+        public string Address
+        {
+            get
+            {
+                if (mAddress == null)
+                {
+                    mAddress = Settings.GetServerAddress();
+                }
+                return mAddress;
+            }
+
+            set
+            {
+                mAddress = value;
+                OnPropertyChanged("Address");
+            }
+        }
+
+        private string mPort;
+        public string Port
+        {
+            get
+            {
+                if (mPort == null)
+                {
+                    mPort = Settings.GetServerPort();
+                }
+                return mPort;
+            }
+
+            set
+            {
+                mPort = value;
+                OnPropertyChanged("Port");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
     }
 }

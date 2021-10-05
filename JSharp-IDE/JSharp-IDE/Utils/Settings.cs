@@ -2,8 +2,10 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,12 +22,13 @@ namespace JSharp_IDE.Utils
 
         public static void CreateSettingsFile()
         {
-            if (!File.Exists(SettingsPath))
-            {
+            if (!Exists()) {
                 File.WriteAllText(SettingsPath, JsonConvert.SerializeObject(new
                 {
                     username = "username",
-                    password = "password"
+                    password = "password",
+                    serverAddress = "localhost",
+                    serverPort = "6969"
                 }));
             }
         }
@@ -39,6 +42,16 @@ namespace JSharp_IDE.Utils
         {
             //TODO Implement hashing
             UpdateValue("password", password);
+        }
+
+        public static void UpdateServerAddress(string address)
+        {
+            UpdateValue("serverAddress", address);
+        }
+
+        public static void UpdateServerPort(string port)
+        {
+            UpdateValue("serverPort", port);
         }
 
         public static void UpdateValue(string key, string value)
@@ -57,12 +70,25 @@ namespace JSharp_IDE.Utils
             return GetValue("username");
         }
 
+        public static string GetPassword()
+        {
+            return GetValue("password");
+        }
+
+        public static string GetServerAddress()
+        {
+            return GetValue("serverAddress");
+        }
+
+        public static string GetServerPort()
+        {
+            return GetValue("serverPort");
+        }
+
         private static string GetValue(string key)
         {
             if (!Exists()) CreateSettingsFile();
             JObject settings = JObject.Parse(File.ReadAllText(SettingsPath));
-            
-
             return settings.GetValue(key).ToString();
         }
     }

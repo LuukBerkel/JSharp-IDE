@@ -23,6 +23,7 @@ namespace JSharp_Server.Comms
         /// <param name="manager">This is the management object that handels users management</param>
         public Interpreter(Manager manager)
         {
+            this.replyer = replyer;
             this.manager = manager;
         }
 

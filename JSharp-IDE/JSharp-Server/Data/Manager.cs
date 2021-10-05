@@ -20,7 +20,7 @@ namespace JSharp_Server.Data
             NotifyPropertyChanged("projects");
         }
 
-        public User? CheckUser( string username, string password)
+        public User CheckUser( string username, string password)
         {
             foreach(User user in this.users) 
             {
@@ -34,17 +34,22 @@ namespace JSharp_Server.Data
 
         public bool AddUser(string username, string password)
         {
-            foreach (User user in this.users)
+            if (this.users.Where(e => e.Username == username).ToList().Count <= 0)
             {
-                if (user.Username == username)
-                {
-                    return false;
-                }
+                this.users.Add(new User(username, password, true));
+                return true;
             }
+            return false;
+        }
 
-            this.users.Add(new User(username, password, true));
-            return true;
-
+        public bool AddProject(Project p)
+        {
+            if (this.projects.Where(e => e.name == p.name).ToList().Count <= 0)
+            {
+                this.projects.Add(p);
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -43,9 +43,11 @@ namespace JSharp_Server.Data
         {
             if (this.data.ContainsKey(path))
             {
-                //this.data.Add();
-            }
+                this.data.Remove(path);
+            } 
         }
+
+        
 
 
 

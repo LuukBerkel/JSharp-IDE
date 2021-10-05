@@ -1,4 +1,5 @@
-﻿using JSharp_Shared;
+﻿using JSharp_Server.Data;
+using JSharp_Shared;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace JSharp_Server.Comms
         {
             object o = new
             {
-                command = "OK",
+                instruction = "OK",
             };
             this.sender.SendMessage(JsonConvert.SerializeObject(o));
         }
@@ -30,9 +31,25 @@ namespace JSharp_Server.Comms
         {
             object o = new
             {
-                command = "FAILED",
+                instruction = "FAILED",
             };
             this.sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
+
+        public void SendAll(Project p)
+        {
+            
+
+        }
+
+        public void SendUpdate(Project p)
+        {
+
+        }
+
+        public void SendExit(Project p)
+        {
+
         }
     }
 }

@@ -13,14 +13,16 @@ using System.Threading.Tasks;
 
 namespace JSharp_Server.Comms
 {
-    class Session
+    public class Session
     {
         private ISender sender;
         private Interpreter interpreter;
+        protected Manager manager;
 
         public Session(TcpClient client, Manager manager)
         {
             this.sender = new EncryptedSender(client.GetStream());
+            this.manager = manager;
             this.interpreter = new Interpreter(manager);
         }
 
@@ -36,6 +38,11 @@ namespace JSharp_Server.Comms
                     this.interpreter.Command(decoded);
                 }
             }).Start();
+        }
+
+        public void NotifySession(JObject json)
+        {
+            this.sender.SendMessage(JsonConvert.SerializeObject(json));
         }
 
 

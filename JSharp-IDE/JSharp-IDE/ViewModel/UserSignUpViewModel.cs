@@ -47,8 +47,8 @@ namespace JSharp_IDE.ViewModel
                         if (mProjectName.Length > 0)
                         {
                             Connection c = Connection.GetConnection(Settings.GetServerAddress(), 6969);
-                            c.SendCommand(JSONCommand.SignUp());
-                            c.SendCommand(JSONCommand.HostProject(mProjectName));
+                            c.SendCommand(JSONCommand.Login());
+                            c.SendCommand(JSONCommand.HostProject(mProjectName, new string[] { "hardcoded" }, new Network.File[] { new File("src/Main.java", "joemama") }));
                         }
                     },
                     param => true);
@@ -69,7 +69,7 @@ namespace JSharp_IDE.ViewModel
                         if (mProjectName.Length > 0)
                         {
                             Connection c = Connection.GetConnection(Settings.GetServerAddress(), 6969);
-                            c.SendCommand(JSONCommand.SignUp());
+                            c.SendCommand(JSONCommand.Login());
                             c.SendCommand(JSONCommand.JoinProject(mProjectName));
                         }
                     },

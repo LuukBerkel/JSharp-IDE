@@ -22,6 +22,19 @@ namespace JSharp_IDE.Network
             };
         }
 
+        public static object Login()
+        {
+            return new
+            {
+                instruction = "login",
+                data = new
+                {
+                    username = Settings.GetUsername(),
+                    password = Settings.GetPassword()
+                }
+            };
+        }
+
         public static object JoinProject(string projectName)
         {
             return new
@@ -31,13 +44,17 @@ namespace JSharp_IDE.Network
             };
         }
 
-        public static object HostProject(string projectName)
+        public static object HostProject(string projectName, string[] userNames, Network.File[] fileList)
         {
             return new
             {
                 instruction = "createProject",
-                project = projectName
-
+                data = new
+                {
+                    project = projectName,
+                    users = userNames,
+                    files = fileList
+                }
             };
         }
     }

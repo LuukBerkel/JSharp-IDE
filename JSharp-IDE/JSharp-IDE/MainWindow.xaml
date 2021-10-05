@@ -52,5 +52,9 @@
             <TextBlock Text="{Binding DebugWindow}" TextWrapping="Wrap" Height="Auto"/>
         </ScrollViewer>
         <GridSplitter Grid.Column="1" Height="5" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="2" ResizeDirection="Rows" IsTabStop="False"/>
+
+        <StatusBar Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Height="Auto">
+            <StatusBarItem Content="Server connection"/>
+        </StatusBar>
     </Grid>
 </Window>

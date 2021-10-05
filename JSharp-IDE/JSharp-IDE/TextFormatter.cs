@@ -23,7 +23,7 @@ namespace JSharp_IDE
         //Annotations
         private static SolidColorBrush annotationColor = Brushes.YellowGreen;
         private static string annotations = @"@[a-zA-Z]+";
-        
+
         //Comments
         private static SolidColorBrush commentColor = Brushes.Green;
         private static string singleLineComment = @"//.*";
@@ -31,12 +31,16 @@ namespace JSharp_IDE
 
         public static async Task<int> OnTextChanged(RichTextBox rtb)
         {
-            rtb.Dispatcher.Invoke(() => {
-                TextPointer caretPos = rtb.CaretPosition;
-                //Find the current block (line in this case) where the caret (typing cursor) is at.
-                Block block = rtb.Document.Blocks.Where(x => x.ContentStart.CompareTo(caretPos) == -1 && x.ContentEnd.CompareTo(caretPos) == 1).FirstOrDefault();
-                ChangeSelectedTextColor(new TextRange(block.ContentStart, block.ContentEnd), standardColor);
-                CheckSyntaxAtBlock(block);
+            await Task.Run(() =>
+            {
+                rtb.Dispatcher.Invoke(() =>
+                {
+                    TextPointer caretPos = rtb.CaretPosition;
+                    //Find the current block (line in this case) where the caret (typing cursor) is at.
+                    Block block = rtb.Document.Blocks.Where(x => x.ContentStart.CompareTo(caretPos) == -1 && x.ContentEnd.CompareTo(caretPos) == 1).FirstOrDefault();
+                    ChangeSelectedTextColor(new TextRange(block.ContentStart, block.ContentEnd), standardColor);
+                    CheckSyntaxAtBlock(block);
+                });
             });
 
             return 1;
@@ -44,23 +48,28 @@ namespace JSharp_IDE
 
         public static async Task<int> OnTextPasted(RichTextBox rtb)
         {
-            //Filter on all the defined words and give them the correct color.
-            rtb.Dispatcher.Invoke(() => {
-                BlockCollection blocks = rtb.Document.Blocks;
-                if (blocks != null)
+            await Task.Run(() =>
+            {
+                //Filter on all the defined words and give them the correct color.
+                rtb.Dispatcher.Invoke(() =>
                 {
-                    for (int i = 0; i < blocks.Count; i++)
+                    BlockCollection blocks = rtb.Document.Blocks;
+                    if (blocks != null)
                     {
-                        // Check if the user is typing within this block.
-                        var start = blocks.ElementAt(i).ContentStart;
-                        TextRange range = new TextRange(blocks.ElementAt(i).ContentStart, blocks.ElementAt(i).ContentEnd.GetPositionAtOffset(-1));
-                        ChangeSelectedTextColor(range, standardColor);
-                        CheckSyntaxAtBlock(blocks.ElementAt(i));
+                        for (int i = 0; i < blocks.Count; i++)
+                        {
+                            // Check if the user is typing within this block.
+                            var start = blocks.ElementAt(i).ContentStart;
+                            TextRange range = new TextRange(blocks.ElementAt(i).ContentStart, blocks.ElementAt(i).ContentEnd.GetPositionAtOffset(-1));
+                            ChangeSelectedTextColor(range, standardColor);
+                            CheckSyntaxAtBlock(blocks.ElementAt(i));
+                        }
                     }
-                } else
-                {
-                    Debug.WriteLine("OnTextPasted: block == null");
-                }
+                    else
+                    {
+                        Debug.WriteLine("OnTextPasted: block == null");
+                    }
+                });
             });
             return 1;
         }

@@ -3,6 +3,7 @@ using JSharp_Shared;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -30,7 +31,7 @@ namespace JSharp_IDE.Network
                 //this.sender = new EncryptedSender(this.tcpClient.GetStream());
                 this.sender = new PlaneTextSender(this.tcpClient.GetStream());
                 IsConnectedToServer = true;
-            } catch (Exception e)
+            } catch (Exception)
             {
                 MessageBox.Show("Could not connect to server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
                 IsConnectedToServer = false;
@@ -51,7 +52,7 @@ namespace JSharp_IDE.Network
                     this.sender.SendMessage(JsonConvert.SerializeObject(o));
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 MessageBox.Show("Could not send message to server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
                 IsConnectedToServer = false;

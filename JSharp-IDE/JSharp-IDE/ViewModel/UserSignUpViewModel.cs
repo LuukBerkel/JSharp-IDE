@@ -121,7 +121,8 @@ namespace JSharp_IDE.ViewModel
                         if (mUserName.Length > 0 && mPassword.Length > 0 && mProjectName.Length > 0)
                         {
                             Connection c = Connection.GetConnection(mHostname, 6969);
-                            c.SendCommand(JSONCommand.SignUp(mUserName, mPassword, mProjectName));
+                            c.SendCommand(JSONCommand.SignUp(mUserName, mPassword));
+                            c.SendCommand(JSONCommand.JoinProject(mProjectName));
                         }
                     },
                     param => true);

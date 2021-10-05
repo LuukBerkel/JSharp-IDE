@@ -20,5 +20,14 @@ namespace JSharp_IDE.Network
                 }
             };
         }
+
+        public static object JoinProject(string projectName)
+        {
+            return new
+            {
+                instruction = "joinProject",
+                project = projectName
+            };
+        }
     }
 }

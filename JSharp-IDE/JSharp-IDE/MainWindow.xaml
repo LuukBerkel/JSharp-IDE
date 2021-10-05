@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:JSharp_IDE.ViewModel" xmlns:view="clr-namespace:JSharp_IDE.View"
+        xmlns:local="clr-namespace:JSharp_IDE.ViewModel"
+        xmlns:view="clr-namespace:JSharp_IDE.View"
         mc:Ignorable="d"
         Title="JSharp IDE" Height="450" Width="800">
     <Window.DataContext>
@@ -22,8 +23,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <view:FileMenuView Grid.Row="0" Grid.ColumnSpan="10" Grid.Column="0"/>
+
+        <Menu Grid.Row="0" Grid.ColumnSpan="10" Grid.Column="0">
+            <view:FileMenuView />
+            <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
+        </Menu>
         <view:UserSignUpView Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right"/>
 
         <StackPanel Grid.Row="1" Grid.ColumnSpan="10" Grid.Column="0" Width="Auto" Orientation="Horizontal">

@@ -10,13 +10,11 @@
         <local:FileMenuViewModel/>
     </UserControl.DataContext>
 
-    <Menu>
-        <MenuItem Header="File">
-            <MenuItem Header="_New Project" Command="{Binding NewCommand}"/>
-            <MenuItem Header="_Open Project" Command="{Binding OpenCommand}"/>
-            <MenuItem Header="_Save all"/>
-            <Separator/>
-            <MenuItem Header="_Exit"/>
-        </MenuItem>
-    </Menu>
+    <MenuItem Header="File">
+        <MenuItem Header="_New Project" Command="{Binding NewCommand}"/>
+        <MenuItem Header="_Open Project" Command="{Binding OpenCommand}"/>
+        <MenuItem Header="_Save all"/>
+        <Separator/>
+        <MenuItem Header="_Exit"/>
+    </MenuItem>
 </UserControl>

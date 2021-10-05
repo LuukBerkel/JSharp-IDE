@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JSharp_IDE.View;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -76,6 +77,24 @@ namespace JSharp_IDE.ViewModel
                     param => true);
                 }
                 return mRunCommand;
+            }
+        }
+
+        private RelayCommand mSettingsCommand;
+        public ICommand SettingsCommand
+        {
+            get
+            {
+                if (mSettingsCommand == null)
+                {
+                    mSettingsCommand = new RelayCommand(param =>
+                    {
+                        SettingsView sv = new SettingsView();
+                        sv.Show();
+                    },
+                    param => true);
+                }
+                return mSettingsCommand;
             }
         }
 

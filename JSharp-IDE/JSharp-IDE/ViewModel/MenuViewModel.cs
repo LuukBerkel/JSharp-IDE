@@ -1,4 +1,5 @@
-﻿using JSharp_IDE.View;
+﻿using JSharp_IDE;
+using JSharp_IDE.View;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +12,7 @@ using System.Windows.Input;
 
 namespace JSharp_IDE.ViewModel
 {
-    class FileMenuViewModel
+    class MenuViewModel
     {
         private RelayCommand mNewCommand;
         public ICommand NewCommand
@@ -44,6 +45,24 @@ namespace JSharp_IDE.ViewModel
                     param => true);
                 }
                 return mOpenCommand;
+            }
+        }
+
+        private RelayCommand mSettingsCommand;
+        public ICommand SettingsCommand
+        {
+            get
+            {
+                if (mSettingsCommand == null)
+                {
+                    mSettingsCommand = new RelayCommand(param =>
+                    {
+                        SettingsView sv = new SettingsView();
+                        sv.Show();
+                    },
+                    param => true);
+                }
+                return mSettingsCommand;
             }
         }
     }

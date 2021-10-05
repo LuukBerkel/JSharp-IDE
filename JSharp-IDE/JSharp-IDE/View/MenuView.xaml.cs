@@ -18,9 +18,9 @@ namespace JSharp_IDE.View
     /// <summary>
     /// Interaction logic for FileMenuView.xaml
     /// </summary>
-    public partial class FileMenuView : UserControl
+    public partial class MenuView : UserControl
     {
-        public FileMenuView()
+        public MenuView()
         {
             InitializeComponent();
         }

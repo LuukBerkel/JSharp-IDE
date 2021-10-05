@@ -10,11 +10,10 @@
         <local:UserSignUpViewModel/>
     </UserControl.DataContext>
     <StackPanel Orientation="Horizontal" Height="Auto" Width="Auto">
-        <TextBox Text="{Binding UserName}"/>
-        <TextBox Text="{Binding Password}"/>
         <TextBox Text="{Binding Hostname}"/>
         <TextBox Text="{Binding Port}"/>
         <TextBox Text="{Binding ProjectName}"/>
         <Button Content="Sign up" Command="{Binding SignUpCommand}"/>
+        <Button Content="Sign up" Command="{Binding JoinCommand}"/>
     </StackPanel>
 </UserControl>

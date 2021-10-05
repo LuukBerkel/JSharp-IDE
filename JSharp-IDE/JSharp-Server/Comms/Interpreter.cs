@@ -14,17 +14,18 @@ namespace JSharp_Server.Comms
         //Variables
         private bool Authorized = false;
         private Manager manager;
-        private User user;
         private Replyer replyer;
+
+        public event EventHandler<User> Event;
 
         /// <summary>
         /// This is the constructor of the interperter
         /// </summary>
         /// <param name="manager">This is the management object that handels users management</param>
-        public Interpreter(Manager manager)
+        public Interpreter(Manager manager, Replyer replyer)
         {
-            this.replyer = replyer;
             this.manager = manager;
+            this.replyer = replyer;
         }
 
         /// <summary>
@@ -57,41 +58,72 @@ namespace JSharp_Server.Comms
         [Authorization(false, "login")]
         private void Login(JObject json)
         {
-            JToken? username;
-            JToken? password;
-            if (json.TryGetValue("password", out password) && json.TryGetValue("username", out username))
+            //Getting data from json
+            JToken username = json.SelectToken("data.username");
+            JToken password = json.SelectToken("data.password");
+            if ( password != null && username != null)
             {
-                this.user =  manager.CheckUser(username.ToString(), password.ToString());
-                if (this.user != null)
+                //Finding user
+                User user = manager.CheckUser(username.ToString(), password.ToString());
+                Event.Invoke(this, user);
+
+                //If it is a valid user then..
+                if (user != null)
                 {
                     this.Authorized = true;
                     this.replyer.Succes();
                     return;
                 }
+
+                //Else ...
+                this.replyer.Failed();
             }
-            this.replyer.Failed();
         }
 
+        /// <summary>
+        /// Registers a acount;
+        /// </summary>
+        /// <param name="json">The register message</param>
         [Authorization(false, "register")]
         private void Register(JObject json)
         {
-            JToken? username;
-            JToken? password;
-            if (json.TryGetValue("password", out password) && json.TryGetValue("username", out username))
+            //Getting data from json
+            JToken username = json.SelectToken("data.username"); 
+            JToken password = json.SelectToken("data.password"); 
+            if (username != null && password != null)
             {
+                //Adding user if valid
                 if (manager.AddUser(username.ToString(), password.ToString()))
                 {
                     this.replyer.Succes();
                     return;
                 }
+
+                //Else..
+                this.replyer.Failed();
             }
-            this.replyer.Failed();
         }
 
         [Authorization(true, "createProject")]
         private void CreateProject(JObject json)
         {
+           /* //Getting data from json
+            JToken name = json.SelectToken("data.username");
+            JToken user = json.SelectToken("data.password");
+            JToken 
 
+            if (username != null && password != null)
+            {
+                //Adding user if valid
+                if (manager.AddUser(username.ToString(), password.ToString()))
+                {
+                    this.replyer.Succes();
+                    return;
+                }
+
+                //Else..
+                this.replyer.Failed();
+            }*/
         }
 
         [Authorization(true, "changeProject")]
@@ -112,11 +144,12 @@ namespace JSharp_Server.Comms
 
         }
 
-        [Authorization(true, "notificateProject")]
+        [Authorization(true, "joinProject")]
         private void JoinProject(JObject json)
         {
 
         }
+
 
 
 

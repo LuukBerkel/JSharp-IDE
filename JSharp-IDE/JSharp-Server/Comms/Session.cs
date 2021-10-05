@@ -17,13 +17,16 @@ namespace JSharp_Server.Comms
     {
         private ISender sender;
         private Interpreter interpreter;
-        protected Manager manager;
+        private Replyer replyer;
+        private User UserAcount;
+       
 
         public Session(TcpClient client, Manager manager)
         {
             this.sender = new EncryptedSender(client.GetStream());
-            this.manager = manager;
-            this.interpreter = new Interpreter(manager);
+            this.replyer = new Replyer(sender);
+            this.interpreter = new Interpreter(manager, replyer);
+            this.interpreter.Event += (s, e) => this.UserAcount = e;
         }
 
         public void StartSession()
@@ -40,10 +43,7 @@ namespace JSharp_Server.Comms
             }).Start();
         }
 
-        public void NotifySession(JObject json)
-        {
-            this.sender.SendMessage(JsonConvert.SerializeObject(json));
-        }
+     
 
 
     }

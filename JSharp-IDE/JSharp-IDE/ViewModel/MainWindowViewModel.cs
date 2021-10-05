@@ -65,7 +65,7 @@ namespace JSharp_IDE.ViewModel
                                 Path.Combine(Project.ProjectDirectory, "out"),
                                 Path.Combine(Project.ProjectDirectory, "lib"),
                                 Path.Combine(Project.ProjectDirectory, "res"),
-                                "Main");
+                                "AngryBirds");
                             DebugWindow = "";
                         }
                         catch (Exception ex)

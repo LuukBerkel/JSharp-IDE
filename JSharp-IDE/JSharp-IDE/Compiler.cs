@@ -141,38 +141,32 @@ namespace JSharp_IDE
                     executeTask.StartInfo.WorkingDirectory = pathOut;
                     executeTask.StartInfo.RedirectStandardInput = true;
                     executeTask.StartInfo.RedirectStandardOutput = true;
+                    executeTask.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
+                    {
+                        
+                        if (!String.IsNullOrEmpty(e.Data))
+                        {
+                            Debug.WriteLine(e.Data);
+                            this.mwvm.DebugWindow += "\n" + e.Data;
+                           
+                        }
+                    });
+
                     executeTask.Start();
 
                     //Execution
                     executeTask.StandardInput.WriteLine(executeCommand);
                     executeTask.StandardInput.Flush();
+                    executeTask.StandardInput.Close();
+                    executeTask.BeginOutputReadLine();
 
-                    // To avoid deadlocks, always read the output stream first and then wait.
-                    new Thread(() => {
-                        bool isReading = true;
-
-                        while (isReading)
-                        {
-                            try
-                            {
-                                isReading = !executeTask.HasExited;
-                                string output = executeTask.StandardOutput.ReadLine();
-                                Debug.WriteLine(output);
-                                this.mwvm.DebugWindow += "\n" + output;
-                            } catch (Exception e)
-                            {
-                                Debug.WriteLine($"Java process finished");
-                                break;
-                            }
-                        }
-                    }).Start();
-
-                //executeTask.StandardInput.Close();
-                //executeTask.StandardOutput.Close();
-                executeTask.WaitForExit();
-                executeTask.Close();
+                  
+                    executeTask.WaitForExit();
+                    executeTask.Close();
                 }
             }).Start();
         }
+
+
     }
 }

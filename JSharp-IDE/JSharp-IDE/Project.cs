@@ -119,7 +119,9 @@ namespace JSharp_IDE
 
         /// <summary>
         /// This method will update the treeview to display the current file hierarchy.
-        /// !! This will also update current project dir in Compiler !!
+        /// !! This will also update current project dir in 
+        /// 
+        /// !!
         /// </summary>
         /// <param name="projectPath"></param>
         public static void UpdateTreeView(string projectPath)

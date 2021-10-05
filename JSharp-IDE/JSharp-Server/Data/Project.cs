@@ -14,13 +14,13 @@ namespace JSharp_Server.Data
         private IList<Session> activeUsers;
 
         //Logistics
-        private IList<User> users;
+        private IList<string> users;
         public User owner { get; set; }
         public string date { get; set; }
         public string name { get; set; }
 
 
-        public Project(IDictionary<string, string> data, IList<User> users, User owner, string name)
+        public Project(IDictionary<string, string> data, IList<string> users, User owner, string name)
         {
             this.data = data;
             this.users = users;
@@ -29,11 +29,11 @@ namespace JSharp_Server.Data
             this.date = DateTime.Now.ToString();
         }
 
-        public void AddUser(User user)
+        public void AddUser(string user)
         {
             if (!this.users.Contains(user)) this.users.Add(user);
         }
-        public void RemoveUser(User user)
+        public void RemoveUser(string user)
         {
             if (this.users.Contains(user)) this.users.Remove(user);
         }

@@ -16,6 +16,7 @@ namespace JSharp_Server.Comms
         private bool Authorized = false;
         private Manager manager;
         private Replyer replyer;
+        private Session session;
 
         public event EventHandler<User> Event;
 
@@ -23,10 +24,11 @@ namespace JSharp_Server.Comms
         /// This is the constructor of the interperter
         /// </summary>
         /// <param name="manager">This is the management object that handels users management</param>
-        public Interpreter(Manager manager, Replyer replyer)
+        public Interpreter(Manager manager, Replyer replyer, Session session)
         {
             this.manager = manager;
             this.replyer = replyer;
+            this.session = session;
         }
 
         /// <summary>
@@ -110,23 +112,48 @@ namespace JSharp_Server.Comms
         [Authorization(true, "createProject")]
         private void CreateProject(JObject json)
         {
-           /* //Getting data from json
-            JToken name = json.SelectToken("data.username");
-            JToken user = json.SelectToken("data.password");
-            JToken 
-
-            if (username != null && password != null)
+            //Getting data from json
+            JToken name = json.SelectToken("data.project");
+            JToken user = json.SelectToken("data.users");
+            JToken file = json.SelectToken("data.files");
+            if(name != null && user != null && file != null)
             {
-                //Adding user if valid
-                if (manager.AddUser(username.ToString(), password.ToString()))
+                //Getting name
+                string project = name.ToString();
+
+                //Getting files
+                IDictionary<string, string> files = new Dictionary<string, string>();
+                foreach (JObject o in (JArray) file)
                 {
-                    this.replyer.Succes();
-                    return;
+                    //Getting objects for dictionary
+                    JToken? path;
+                    JToken? data;
+                    if (o.TryGetValue("filePath", out path) && o.TryGetValue("data", out data))
+                    {
+                        files.Add(path.ToString(), data.ToString());
+                    }
                 }
 
-                //Else..
+                //Getting users
+                IList<string> users = new List<string>();
+                foreach (JObject o in (JArray)file)
+                {
+                    //Getting objects for dictionary
+                    JToken? username;
+                    if (o.TryGetValue("username", out username))
+                    {
+                        users.Add(username.ToString());
+                    }
+                }
+
+                //Adding it to active projects
+                if (manager.AddProject(new Project(files, users, session.UserAcount, project)))
+                {
+                    this.replyer.Succes();
+                }
                 this.replyer.Failed();
-            }*/
+            }
+            
         }
 
         [Authorization(true, "changeProject")]

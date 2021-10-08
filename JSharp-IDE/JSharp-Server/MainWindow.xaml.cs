@@ -34,8 +34,6 @@ namespace JSharp_Server
 
             Server server = new Server(System.Net.IPAddress.Any, 6969);
             server.Start();
- 
-            
         }
 
 

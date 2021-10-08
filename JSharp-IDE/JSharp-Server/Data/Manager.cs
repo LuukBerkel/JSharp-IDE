@@ -26,7 +26,9 @@ namespace JSharp_Server.Data
         private IList<User> users;
     
 
-
+        /// <summary>
+        /// Constructor of the manager
+        /// </summary>
         public Manager()
         {
             projects = new List<Project>();
@@ -77,8 +79,8 @@ namespace JSharp_Server.Data
                 //If the credentails are found then it will return the user.
                 foreach (User user in this.users)
                 {
-                    //if it are ther credentails then..
-                    if (user.Password == Proccessing.HashUserPassword(password) && user.Username == username)
+                    //if it are ther credentails then and not already online..
+                    if (user.Password == Proccessing.HashUserPassword(password) && user.Username == username && active.Where(e => e.UserAcount != user).ToList().Count <= 0)
                     {
                         return user;
                     }
@@ -160,8 +162,6 @@ namespace JSharp_Server.Data
                             else p.RemoveFile(entry.Key);
                         }
 
-                        //Still logic needed for sending to other users.......
-
                         return;
                     }
                 }
@@ -174,7 +174,7 @@ namespace JSharp_Server.Data
         /// <param name="changeUsers"></param>
         /// <param name="session"></param>
         /// <param name="deleting"></param>
-        public void ChangeUserProject(IList<string> changeUsers, Session session, bool deleting) 
+        public bool ChangeUserProject(IList<string> changeUsers, Session session, bool deleting) 
         {
             //locking for thread safty
             lock (projects)
@@ -184,7 +184,8 @@ namespace JSharp_Server.Data
                 {
 
                     //If project contains active session
-                    if (p.owner.Username == session.UserAcount.Username)
+                    if (p.owner.Username == session.UserAcount.Username
+                       && p.GetSessions().Where(s => s == session).ToList().Count > 0)
                     {
                         foreach (string user in changeUsers)
                         {
@@ -193,9 +194,11 @@ namespace JSharp_Server.Data
 
                         }
 
-                        return;
+                        return true;
                     }
                 }
+
+                return false;
             }
         }
 
@@ -203,7 +206,7 @@ namespace JSharp_Server.Data
         /// Exites the project from the server...
         /// </summary>
         /// <param name="session">The session of the owner</param>
-        public void RemoveProject(Session session)
+        public bool RemoveProject(Session session)
         {
             //locking for thread safty
             lock (projects)
@@ -212,11 +215,42 @@ namespace JSharp_Server.Data
                 foreach (Project p in projects)
                 {
                     //If project contains active session
-                    if (p.owner.Username == session.UserAcount.Username)
+                    if (p.owner.Username == session.UserAcount.Username
+                        && p.GetSessions().Where(s => s == session).ToList().Count > 0)
                     {
                         projects.Remove(p);
+                        MainWindow.SetListview(projects);
+
+                        return true;
                     }
                 }
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// A funtion for the invited to join a project..
+        /// </summary>
+        /// <param name="session"></param>
+        /// <returns></returns>
+        public bool JoinProject(Session session, string projectname)
+        {
+            //locking for thread safty
+            lock (projects)
+            {
+                //Looping throug all projects
+                foreach (Project p in projects)
+                {
+                    //If project contains active session
+                    if (p.GetUsers().Where(e => e == session.UserAcount.Username).ToList().Count > 0 && p.name == projectname)
+                    {
+                        p.AddSession(session);
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
     }

@@ -220,15 +220,17 @@ namespace JSharp_Server.Comms
         [Authorization(true, "removeProject")]
         private void RemoveProject(JObject json)
         {
-            this.manager.RemoveProject(session);
+            bool done = this.manager.RemoveProject(session);
+            if (done) this.replyer.Succes();
+            else this.replyer.Failed();
         }
 
         [Authorization(true, "joinProject")]
         private void JoinProject(JObject json)
         {
-
-
-
+            bool done = this.manager.JoinProject(session);
+            if (done) this.replyer.Succes();
+            else this.replyer.Failed();
         }
     }
 

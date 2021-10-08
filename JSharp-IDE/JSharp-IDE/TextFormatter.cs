@@ -38,8 +38,11 @@ namespace JSharp_IDE
                     TextPointer caretPos = rtb.CaretPosition;
                     //Find the current block (line in this case) where the caret (typing cursor) is at.
                     Block block = rtb.Document.Blocks.Where(x => x.ContentStart.CompareTo(caretPos) == -1 && x.ContentEnd.CompareTo(caretPos) == 1).FirstOrDefault();
-                    ChangeSelectedTextColor(new TextRange(block.ContentStart, block.ContentEnd), standardColor);
-                    CheckSyntaxAtBlock(block);
+                    if (block != null)
+                    {
+                        ChangeSelectedTextColor(new TextRange(block.ContentStart, block.ContentEnd), standardColor);
+                        CheckSyntaxAtBlock(block);
+                    }
                 });
             });
 

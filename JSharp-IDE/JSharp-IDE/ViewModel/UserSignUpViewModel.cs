@@ -65,11 +65,14 @@ namespace JSharp_IDE.ViewModel
                                     files[i] = new Network.File(filePaths[i], System.IO.File.ReadAllBytes(filePaths[i]));
                                 }
 
-                                
+                                if (System.IO.File.Exists(Path.Combine(Project.ProjectDirectory, "users.txt")))
+                                {
+                                    string[] usernames = System.IO.File.ReadAllLines(Path.Combine(Project.ProjectDirectory, "users.txt"));
 
-                                Connection c = Connection.GetConnection(Settings.GetServerAddress(), port);
-                                c.SendCommand(JSONCommand.Login());
-                                c.SendCommand(JSONCommand.HostProject(mProjectName, new string[] { "hardcodedUserName" }, files ));
+                                    Connection c = Connection.GetConnection(Settings.GetServerAddress(), port);
+                                    c.SendCommand(JSONCommand.Login());
+                                    c.SendCommand(JSONCommand.HostProject(mProjectName, usernames, files));
+                                }
                             }
                         }
                     },

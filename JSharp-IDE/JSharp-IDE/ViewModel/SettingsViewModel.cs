@@ -28,6 +28,7 @@ namespace JSharp_IDE.ViewModel
                         Settings.UpdatePassword(mPassword);
                         Settings.UpdateServerAddress(mAddress);
                         Settings.UpdateServerPort(mPort);
+                        Settings.UpdateJavaDir(mJavaDir);
                     },
                     param => true);
                 }
@@ -130,6 +131,25 @@ namespace JSharp_IDE.ViewModel
             {
                 mPort = value;
                 OnPropertyChanged("Port");
+            }
+        }
+
+        private string mJavaDir;
+        public string JavaDir
+        {
+            get
+            {
+                if (mJavaDir == null)
+                {
+                    mJavaDir = Settings.GetJavaBin();
+                }
+                return mJavaDir;
+            }
+
+            set
+            {
+                mJavaDir = value;
+                OnPropertyChanged("JavaDir");
             }
         }
 

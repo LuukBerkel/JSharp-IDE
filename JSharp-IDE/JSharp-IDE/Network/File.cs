@@ -9,9 +9,9 @@ namespace JSharp_IDE.Network
     public struct File
     {
         public string filePath;
-        public string data;
+        public byte[] data;
 
-        public File(string filePath, string data)
+        public File(string filePath, byte[] data)
         {
             this.filePath = filePath;
             this.data = data;

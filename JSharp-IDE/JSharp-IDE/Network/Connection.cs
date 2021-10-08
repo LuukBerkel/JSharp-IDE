@@ -41,7 +41,18 @@ namespace JSharp_IDE.Network
 
             new Thread(() =>
             {
-                while (true) ReadMessage();
+                while (MainWindow.Running && this.tcpClient.Connected)
+                {
+                    try
+                    {
+                        ReadMessage();
+                    } catch (Exception)
+                    {
+                        this.tcpClient.Close();
+                        MessageBox.Show("Lost connection to the server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    }
+                }
             }).Start();
         }
 
@@ -70,6 +81,7 @@ namespace JSharp_IDE.Network
             } catch (Exception)
             {
                 MessageBox.Show("Received invalid data!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw new SocketException();
             }
             return msg;
         }

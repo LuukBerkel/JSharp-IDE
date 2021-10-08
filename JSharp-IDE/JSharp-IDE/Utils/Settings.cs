@@ -28,8 +28,9 @@ namespace JSharp_IDE.Utils
                     username = "username",
                     password = "password",
                     serverAddress = "localhost",
-                    serverPort = "6969"
-                }));
+                    serverPort = "6969",
+                    javaBin = "C:\\Program Files\\Java\\jdk1.8.0_261\\bin"
+                })); ;
             }
         }
 
@@ -52,6 +53,11 @@ namespace JSharp_IDE.Utils
         public static void UpdateServerPort(string port)
         {
             UpdateValue("serverPort", port);
+        }
+
+        public static void UpdateJavaDir(string path)
+        {
+            UpdateValue("javaBin", path);
         }
 
         public static void UpdateValue(string key, string value)
@@ -85,11 +91,16 @@ namespace JSharp_IDE.Utils
             return GetValue("serverPort");
         }
 
+        public static string GetJavaBin()
+        {
+            return GetValue("javaBin");
+        }
+
         private static string GetValue(string key)
         {
             if (!Exists()) CreateSettingsFile();
             JObject settings = JObject.Parse(File.ReadAllText(SettingsPath));
-            return settings.GetValue(key).ToString();
+            return settings.GetValue(key)?.ToString() ?? "";
         }
     }
 }

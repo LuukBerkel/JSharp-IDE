@@ -48,6 +48,23 @@ namespace JSharp_IDE.ViewModel
                 return mOpenCommand;
             }
         }
+        
+        private RelayCommand mSaveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if (mSaveCommand == null)
+                {
+                    mSaveCommand = new RelayCommand(param =>
+                    {
+                        MainWindowViewModel.SaveAllOpenedFiles();
+                    },
+                    param => true);
+                }
+                return mSaveCommand;
+            }
+        }
 
         private RelayCommand mSettingsCommand;
         public ICommand SettingsCommand

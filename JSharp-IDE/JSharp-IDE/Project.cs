@@ -34,6 +34,7 @@ namespace JSharp_IDE
                     $"{Environment.NewLine}        //Write your code here" +
                     $"{Environment.NewLine}    }}" +
                     $"{Environment.NewLine}}}");
+                File.WriteAllText(Path.Combine(path, "users.txt"), "");
                 UpdateTreeView(path);
             }
         }

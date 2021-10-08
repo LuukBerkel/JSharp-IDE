@@ -111,7 +111,7 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
-        private void SaveAllOpenedFiles()
+        public static void SaveAllOpenedFiles()
         {
             foreach (TabItem item in MainWindow.CodePanels.Items)
             {
@@ -122,7 +122,7 @@ namespace JSharp_IDE.ViewModel
                 {
                     lines[i] = new TextRange(rtb.Document.Blocks.ElementAt(i).ContentStart, rtb.Document.Blocks.ElementAt(i).ContentEnd).Text;
                 }
-                Debug.WriteLine(lines);
+                Debug.WriteLine("Saved files");
                 File.WriteAllLines(item.Tag.ToString(), lines);
             }
         }

@@ -14,7 +14,7 @@
         <MenuItem Header="File">
             <MenuItem Header="_New Project" Command="{Binding NewCommand}"/>
             <MenuItem Header="_Open Project" Command="{Binding OpenCommand}"/>
-            <MenuItem Header="_Save all"/>
+            <MenuItem Header="_Save all" Command="{Binding SaveCommand}"/>
             <Separator/>
             <MenuItem Header="_Exit"/>
         </MenuItem>

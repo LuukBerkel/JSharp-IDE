@@ -65,6 +65,8 @@ namespace JSharp_IDE.ViewModel
                                     files[i] = new Network.File(filePaths[i], System.IO.File.ReadAllBytes(filePaths[i]));
                                 }
 
+                                
+
                                 Connection c = Connection.GetConnection(Settings.GetServerAddress(), port);
                                 c.SendCommand(JSONCommand.Login());
                                 c.SendCommand(JSONCommand.HostProject(mProjectName, new string[] { "hardcodedUserName" }, files ));

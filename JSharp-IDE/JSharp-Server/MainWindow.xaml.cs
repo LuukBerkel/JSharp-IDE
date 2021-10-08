@@ -52,7 +52,7 @@ namespace JSharp_Server
 
         public static void SetDebugOutput(string output)
         {
-            main.Dispatcher.Invoke((Action)(() => { main.Debug_output.Text = main.Debug_output.Text + output + "\n"; } ));
+            main.Dispatcher.Invoke((Action)(() => { main.Debug_output.Text = main.Debug_output.Text + output + "\n----------------------------\n"; } ));
         }
     }
 }

@@ -29,16 +29,23 @@ namespace JSharp_Server.Comms
             this.replyer = new Replyer(sender);
             this.interpreter = new Interpreter(manager, replyer, this);
             this.interpreter.Event += (s, e) => this.UserAcount = e;
+
+            //Debug output
+            MainWindow.SetDebugOutput($"{client.Client.RemoteEndPoint} has connected");
         }
 
         public void StartSession()
         {
             new Thread(() =>
             {
+                //Loop for reading
                 while (true)
                 {
                     string encoded = this.sender.ReadMessage();
                     JObject decoded = (JObject)JsonConvert.DeserializeObject(encoded);
+
+                    MainWindow.SetDebugOutput(encoded);
+
                     this.interpreter.Command(decoded);
                 }
             }).Start();

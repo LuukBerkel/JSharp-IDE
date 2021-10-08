@@ -98,7 +98,7 @@ namespace JSharp_IDE.Network
 
         private void Command(JObject json)
         {
-            JToken? token;
+            JToken token;
             if (json.TryGetValue("instruction", out token))
             {
                 string command = token.ToString();

@@ -11,13 +11,23 @@ namespace JSharp_Server.Comms
 {
     public class Replyer
     {
+        /// <summary>
+        /// This is the sender object for sending responses back
+        /// </summary>
         private ISender sender;
 
+        /// <summary>
+        /// This is the constructor for making a replyer
+        /// </summary>
+        /// <param name="sender">This is the sender that sends back the response</param>
         public Replyer(ISender sender)
         {
             this.sender = sender;
         }
 
+        /// <summary>
+        /// Sends a succes back
+        /// </summary>
         public void Succes()
         {
             object o = new
@@ -27,6 +37,9 @@ namespace JSharp_Server.Comms
             this.sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
+        /// <summary>
+        /// Sens a failed back
+        /// </summary>
         public void Failed()
         {
             object o = new
@@ -36,20 +49,61 @@ namespace JSharp_Server.Comms
             this.sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
-        public void SendAll(IDictionary<string, string> project, bool state)
+       /// <summary>
+       /// Sends back all project data back
+       /// </summary>
+       /// <param name="project">Projectfiles in dictonairy</param>
+       /// <param name="projectname">Projectname as string</param>
+        public void SendAll(IDictionary<string, string> project, string projectname)
         {
-            
+            object o = new
+            {
+                instruction = "RequestedProject",
+               
+                data = new
+                {
+                    name = projectname,
+                    files = project
+                }
 
+            };
+
+            this.sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
-        public void SendUpdate(IDictionary<string, string> project. bool state)
+        /// <summary>
+        /// Sends back the updated files
+        /// </summary>
+        /// <param name="project">The updated files in hashmap form</param>
+        /// <param name="state"></param>
+        public void SendUpdate(IDictionary<string, string> project, bool state)
         {
+            int flag = state ? 0 : 1;
 
+            object o = new
+            {
+                instruction = "UpdatedProject",
+
+                data = new
+                {
+                    flag = flag,
+                    files = project
+                }
+
+            };
+
+            this.sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
-        public void SendExit(Project p)
+        /// <summary>
+        /// Sends back that the project has exited
+        /// </summary>
+        public void SendExit()
         {
-
+            object o = new
+            {
+                instruction = "ExitProject"
+            };
         }
     }
 }

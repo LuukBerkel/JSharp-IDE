@@ -42,7 +42,7 @@ namespace JSharp_Server
         /// My dirty little fix still work to do to fix.....
         /// </summary>
         /// <param name="collection"></param>
-        public static void SetLisview(ObservableCollection<Project> collection)
+        public static void SetLisview()
         {
             /*main.Dispatcher.Invoke((Action)(() => { main.list.Items.Clear(); }));
             main.Dispatcher.Invoke((Action)(() => {

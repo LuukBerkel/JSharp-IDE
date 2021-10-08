@@ -168,12 +168,25 @@ namespace JSharp_Server.Comms
                 //Getting data
 
 
+
             }
 
             if (projectToken != null && projectList != null)
             {
                 //Getting flags
                 int fileFlag = int.Parse(projectToken.ToString());
+
+                //Getting files
+                foreach (JObject o in (JArray)projectList)
+                {
+                    //Getting objects for dictionary
+                    JToken path;
+                    JToken data;
+                    if (o.TryGetValue("filePath", out path) && o.TryGetValue("data", out data))
+                    {
+                        
+                    }
+                }
             }
 
 

@@ -228,9 +228,13 @@ namespace JSharp_Server.Comms
         [Authorization(true, "joinProject")]
         private void JoinProject(JObject json)
         {
-            bool done = this.manager.JoinProject(session);
-            if (done) this.replyer.Succes();
-            else this.replyer.Failed();
+            JToken projectname = json.GetValue("data");
+            if (projectname != null)
+            {
+                bool done = this.manager.JoinProject(session, projectname.ToString());
+                if (done) this.replyer.Succes();
+                else this.replyer.Failed();
+            }
         }
     }
 

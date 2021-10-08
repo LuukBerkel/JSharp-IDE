@@ -49,12 +49,20 @@ namespace JSharp_Server.Data
         /// Removes an invited user from the list and kicks him from the session..
         /// </summary>
         /// <param name="user"></param>
-        public void RemoveUser(string user, Session s)
+        public void RemoveUser(string user)
         {
             if (this.users.Contains(user))
             {
                 this.users.Remove(user);
-                this.activeUsers.Remove(s);
+
+                foreach (Session s in activeUsers)
+                {
+                    if (s.UserAcount.Username == user)
+                    {
+                        activeUsers.Remove(s);
+                    }
+                }
+                
             }
         }
 

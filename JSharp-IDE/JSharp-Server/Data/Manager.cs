@@ -1,5 +1,5 @@
 ﻿using JSharp_Server.Comms;
-using PropertyChanged;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +15,7 @@ using System.Windows.Threading;
 
 namespace JSharp_Server.Data
 {
-    [AddINotifyPropertyChangedInterface]
+
     public class Manager
     {
         //Active

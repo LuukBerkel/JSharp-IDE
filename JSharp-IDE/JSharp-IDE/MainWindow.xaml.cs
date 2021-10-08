@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -17,12 +18,22 @@ namespace JSharp_IDE
     public partial class MainWindow : Window
     {
         public static TabControl CodePanels;
+        public static bool Running = true;
 
         public MainWindow()
         {
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
             CodePanels = TabControl;
+            Closing += Stop;
+        }
+
+        public void Stop(object sender, CancelEventArgs e)
+        {
+            if (sender.GetType() == this.GetType())
+            {
+                Running = false;
+            }
         }
 
         private void CodeTextBox_KeyDown(object sender, KeyEventArgs e)

@@ -1,4 +1,5 @@
-﻿using JSharp_IDE.View;
+﻿using JSharp_IDE.Utils;
+using JSharp_IDE.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,7 @@ namespace JSharp_IDE.ViewModel
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string javaPath = @"C:\Program Files\Java\jdk1.8.0_261\bin";
+        private string javaPath = Settings.GetJavaBin();
 
         private string mDebugWindow;
         public string DebugWindow

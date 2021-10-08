@@ -253,6 +253,32 @@ namespace JSharp_Server.Data
                 return false;
             }
         }
+
+        /// <summary>
+        /// Removes the user from the the server
+        /// </summary>
+        /// <param name="session"></param>
+        public void Disconnect(Session session)
+        {
+            //Removing session form sessions
+            foreach (Session s in active)
+            {
+                if (s == session)
+                {
+                    active.Remove(session);
+                }
+            }
+
+            //Removing sessoin from projects
+            foreach (Project p in projects)
+            {
+                if (p.GetSessions().Contains(session))
+                {
+                    p.EndSessoin(session);
+                }
+            }
+
+        }
     }
 
 

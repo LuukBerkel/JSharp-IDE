@@ -19,6 +19,9 @@ namespace JSharp_Server.Comms
         private ISender sender;
         private Interpreter interpreter;
         private Replyer replyer;
+        private TcpClient tcpClient;
+        private Manager management;
+
         public User UserAcount;
        
 
@@ -26,6 +29,8 @@ namespace JSharp_Server.Comms
         {
             //this.sender = new EncryptedSender(client.GetStream());
             this.sender = new PlaneTextSender(client.GetStream());
+            this.tcpClient = client;
+            this.management = manager;
             this.replyer = new Replyer(sender);
             this.interpreter = new Interpreter(manager, replyer, this);
             this.interpreter.Event += (s, e) => this.UserAcount = e;
@@ -41,12 +46,37 @@ namespace JSharp_Server.Comms
                 //Loop for reading
                 while (true)
                 {
-                    string encoded = this.sender.ReadMessage();
-                    JObject decoded = (JObject)JsonConvert.DeserializeObject(encoded);
+                    //Trying to read from client
+                    try
+                    {
+                        //Parsing data
+                        string encoded = this.sender.ReadMessage();
+                        JObject decoded = (JObject)JsonConvert.DeserializeObject(encoded);
 
-                    MainWindow.SetDebugOutput(encoded);
+                        if (decoded != null)
+                        {
 
-                    this.interpreter.Command(decoded);
+                            //Debug output
+                            MainWindow.SetDebugOutput(encoded);
+
+                            //Decoding data
+                            this.interpreter.Command(decoded);
+                        }
+                    }
+
+                    //If connection is broken then...
+                    catch (Exception)
+                    {
+                        //Debug outpot
+                        MainWindow.SetDebugOutput("Connection error occured...");
+
+                        //Clossing connection
+                        this.tcpClient.Close();
+                        this.management.Disconnect(this);
+
+                        //Closing thread
+                        break;
+                    }
                 }
             }).Start();
         }

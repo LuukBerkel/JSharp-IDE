@@ -19,7 +19,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ListView Name="list"  Grid.Column="1" RenderTransformOrigin="0.485,0.366" Margin="0,-1,0,-431" >
+        <ListView Name="list"  Grid.Column="1" RenderTransformOrigin="0.485,0.366" Margin="0,-1,0,-434" >
             <ListView.View>
 
                 <GridView>
@@ -32,10 +32,13 @@
 
         </ListView>
 
-        <ScrollViewer Margin="0,0,0,-431">
-            <TextBox x:Name="Debug_output" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-         ScrollViewer.VerticalScrollBarVisibility="Auto" Width="132"   />
+
+        <ScrollViewer DockPanel.Dock="Left" Margin="0,0,0,-434">
+            <TextBlock  x:Name="Debug_output" Height="auto"/>
         </ScrollViewer>
+
+
+
 
 
 

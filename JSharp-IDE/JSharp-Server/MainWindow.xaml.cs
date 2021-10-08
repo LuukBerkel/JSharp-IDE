@@ -46,13 +46,17 @@ namespace JSharp_Server
             main.Dispatcher.Invoke((Action)(() => { main.list.Items.Clear(); }));
             main.Dispatcher.Invoke((Action)(() =>
             {
-                main.list.Items.Add(collection);
+                foreach (Project p  in collection)
+                {
+                    main.list.Items.Add(p);
+                }
+
             }));
         }
 
         public static void SetDebugOutput(string output)
         {
-            main.Dispatcher.Invoke((Action)(() => { main.Debug_output.Text = main.Debug_output.Text + output + "\n----------------------------\n"; } ));
+            main.Dispatcher.Invoke((Action)(() => { main.Debug_output.Text = main.Debug_output.Text + output + "\n---------------------------\n"; } ));
         }
     }
 }

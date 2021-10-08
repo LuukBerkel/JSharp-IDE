@@ -32,7 +32,12 @@ namespace CommClass
             // 4 bytes lenght == 32 bits, always positive unsigned
             byte[] lenghtArray = new byte[4];
 
+        
+
             stream.Read(lenghtArray, 0, 4);
+
+
+
             int lenght = BitConverter.ToInt32(lenghtArray, 0);
 
             byte[] buffer = new byte[lenght];

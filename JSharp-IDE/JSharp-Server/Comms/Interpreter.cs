@@ -148,9 +148,11 @@ namespace JSharp_Server.Comms
                 if (manager.AddProject(new Project(files, users, session.UserAcount, project) ,session))
                 {
                     this.replyer.Succes();
+                    MainWindow.SetDebugOutput("Project succesfully added");
                     return;
                 }
                 this.replyer.Failed();
+                MainWindow.SetDebugOutput("Project add failed");
             }
             
         }

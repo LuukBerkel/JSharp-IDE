@@ -53,7 +53,6 @@ namespace JSharp_IDE.Network
                         break;
                     }
                 }
-
             }).Start();
         }
 

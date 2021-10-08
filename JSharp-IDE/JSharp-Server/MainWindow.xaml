@@ -11,7 +11,7 @@
     </Window.DataContext>
     
     
-    <ListView x:Name="list" IsSynchronizedWithCurrentItem="True">
+    <ListView Name="list" IsSynchronizedWithCurrentItem="True">
         <ListView.View>
             
             <GridView>

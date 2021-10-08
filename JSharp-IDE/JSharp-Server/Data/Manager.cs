@@ -60,23 +60,14 @@ namespace JSharp_Server.Data
 
         public bool AddProject(Project p)
         {
-           
             if (this.projects.Where(e => e.name == p.name).ToList().Count <= 0)
             {
-
-               
-
-
                this.projects.Add(p);
                 MainWindow.SetLisview(this.projects);
-               
-            
+                return true;
             };
          
             return false;
         }
-
-        
-
     }
 }

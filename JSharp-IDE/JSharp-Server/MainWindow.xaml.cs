@@ -44,10 +44,11 @@ namespace JSharp_Server
         /// <param name="collection"></param>
         public static void SetLisview(ObservableCollection<Project> collection)
         {
-            main.Dispatcher.Invoke((Action)(() => { main.list.Items.Clear(); }));
+            ListView list = main.FindName("list") as ListView;
+            /*main.Dispatcher.Invoke((Action)(() => { main.list.Items.Clear(); }));
             main.Dispatcher.Invoke((Action)(() => {
-                main.list.Items.Add(collection); }));
-
+                main.list.Items.Add(collection); }));*/
+            list.Dispatcher.Invoke(() => list.Items.Refresh());
         }
 
         

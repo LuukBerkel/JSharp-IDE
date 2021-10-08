@@ -177,7 +177,7 @@ namespace JSharp_Server.Comms
             }
 
 
-        userFlag: "1/2"
+        /*userFlag: "1/2"
 
         users:
             [
@@ -197,7 +197,7 @@ namespace JSharp_Server.Comms
 				data: ""
 
             }
-		]
+		]*/
         }
 
         [Authorization(true, "removeProject")]

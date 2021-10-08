@@ -10,16 +10,16 @@
         <local:Manager/>
     </Window.DataContext>
 
-    <Grid ShowGridLines="False" Name="MainGrid">
+    <Grid ShowGridLines="False" Name="MainGrid" Margin="0,0,0,-3" Height="Auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="434"/>
         </Grid.RowDefinitions>
 
-        <ListView Name="list"  Grid.Column="1" RenderTransformOrigin="0.485,0.366" Margin="0,-1,0,-434" >
+        <ListView Name="list"  Grid.Column="1" RenderTransformOrigin="0.485,0.366" Margin="0,-1,0,25" >
             <ListView.View>
 
                 <GridView>
@@ -33,9 +33,12 @@
         </ListView>
 
 
-        <ScrollViewer DockPanel.Dock="Left" Margin="0,0,0,-434">
-            <TextBlock  x:Name="Debug_output" Height="auto"/>
-        </ScrollViewer>
+        <Grid Width="auto" >
+            <ScrollViewer Cursor="ScrollAll" Height="410" VerticalAlignment="Top">
+                <TextBlock x:Name="Debug_output" Width="Auto" TextWrapping="Wrap" Height="auto" />
+            </ScrollViewer>
+        </Grid>
+
 
 
 

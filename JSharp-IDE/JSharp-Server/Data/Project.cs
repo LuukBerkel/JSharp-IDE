@@ -27,6 +27,7 @@ namespace JSharp_Server.Data
             this.owner = owner;
             this.name = name;
             this.date = DateTime.Now.ToString();
+            this.activeUsers = new List<Session>();
         }
 
         public void AddUser(string user)
@@ -50,6 +51,28 @@ namespace JSharp_Server.Data
             {
                 this.data.Remove(path);
             } 
+        }
+
+        public void AddSession(Session s)
+        {
+            foreach (string username in users)
+            {
+                if (username == s.UserAcount.Username)
+                {
+                    this.activeUsers.Add(s);
+                }
+            }
+         
+        }
+
+        public void EndSessoin(Session s)
+        {
+            this.activeUsers.Remove(s);
+        }
+
+        public IList<Session> GetSessions()
+        {
+            return this.activeUsers;
         }
 
         

@@ -108,6 +108,10 @@ namespace JSharp_Server.Comms
             }
         }
 
+        /// <summary>
+        /// Creating a project based on a user
+        /// </summary>
+        /// <param name="json"></param>
         [Authorization(true, "createProject")]
         private void CreateProject(JObject json)
         {
@@ -151,32 +155,51 @@ namespace JSharp_Server.Comms
             
         }
 
+        /// <summary>
+        /// Editing a 
+        /// </summary>
+        /// <param name="json"></param>
         [Authorization(true, "changeProject")]
         private void ChangeProject(JObject json)
         {
+            //Parsing data
             JToken userToken = json.SelectToken("data.userFlag");
             JToken userList = json.SelectToken("data.users");
             JToken projectToken = json.SelectToken("data.fileFlag");
             JToken projectList = json.SelectToken("data.files");
 
+            //For the users if they are in the message
             if (userToken != null && userList != null)
             {
                 //Getting flags
                 int userFlag = int.Parse(userToken.ToString());
-               
+                bool deleting = userFlag == 0 ? true : false;
 
-                //Getting data
+                //Getting users
+                IList<string> users = new List<string>();
+                foreach (JObject o in (JArray)projectList)
+                {
+                    //Getting objects for list
+                    JToken name;
+                    if (o.TryGetValue("username", out name))
+                    {
+                        users.Add(name.ToString());   
+                    }
+                }
 
-
-
+                //Executing
+                this.manager.ChangeUserProject(users, session, deleting);
             }
 
+            //For the files if they are in the message
             if (projectToken != null && projectList != null)
             {
                 //Getting flags
                 int fileFlag = int.Parse(projectToken.ToString());
+                bool deleting = fileFlag == 0 ? true : false;
 
                 //Getting files
+                IDictionary<string, string> files = new Dictionary<string, string>();
                 foreach (JObject o in (JArray)projectList)
                 {
                     //Getting objects for dictionary
@@ -184,33 +207,14 @@ namespace JSharp_Server.Comms
                     JToken data;
                     if (o.TryGetValue("filePath", out path) && o.TryGetValue("data", out data))
                     {
-                        
+                        files.Add(path.ToString(), data.ToString());   
                     }
                 }
-            }
 
-
-        /*userFlag: "1/2"
-
-        users:
-            [
-
-            {
-            Username: "",
-			}
-		]
-
-		fileFlag: "1/2"
-
-        files:
-            [
-
-            {
-            filePath: "",
-				data: ""
+                //Executing
+                this.manager.ChangeFileProject(files, session, deleting);
 
             }
-		]*/
         }
 
         [Authorization(true, "removeProject")]
@@ -228,6 +232,8 @@ namespace JSharp_Server.Comms
         [Authorization(true, "joinProject")]
         private void JoinProject(JObject json)
         {
+
+
 
         }
 

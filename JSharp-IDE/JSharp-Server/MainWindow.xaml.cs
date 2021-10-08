@@ -30,10 +30,11 @@ namespace JSharp_Server
         public MainWindow()
         {
             InitializeComponent();
+            main = this;
+
             Server server = new Server(System.Net.IPAddress.Any, 6969);
             server.Start();
-            Debug.WriteLine("Starting server");
-            main = this;
+ 
             
         }
 
@@ -51,6 +52,9 @@ namespace JSharp_Server
             }));
         }
 
-        
+        public static void SetDebugOutput(string output)
+        {
+            main.Dispatcher.Invoke((Action)(() => { main.Debug_output.Text = main.Debug_output.Text + output + "\n"; } ));
+        }
     }
 }

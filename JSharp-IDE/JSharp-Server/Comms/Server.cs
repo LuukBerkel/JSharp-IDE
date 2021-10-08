@@ -18,12 +18,14 @@ namespace JSharp_Server.Comms
         {
             this.listener = new TcpListener(IP, port);
             this.manager = new Manager();
+            MainWindow.SetDebugOutput($"Server set {IP} at {port}");
         }
 
         public void Start()
         {
             this.listener.Start();
             this.listener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
+            MainWindow.SetDebugOutput($"Server has started.");
         }
 
         private void HandleClient(IAsyncResult ar)

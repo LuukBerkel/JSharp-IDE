@@ -199,6 +199,10 @@ namespace JSharp_Server.Data
             }
         }
 
+        /// <summary>
+        /// Exites the project from the server...
+        /// </summary>
+        /// <param name="session">The session of the owner</param>
         public void RemoveProject(Session session)
         {
             //locking for thread safty

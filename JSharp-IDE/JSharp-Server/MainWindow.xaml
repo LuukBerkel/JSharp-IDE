@@ -5,25 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JSharp_Server.Data"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Server Logger" Height="450" Width="800" ResizeMode="NoResize">
     <Window.DataContext>
         <local:Manager/>
     </Window.DataContext>
-    
-    
-    <ListView Name="list" IsSynchronizedWithCurrentItem="True">
-        <ListView.View>
-            
-            <GridView>
 
-                <GridViewColumn Header="Owner" Width="150" DisplayMemberBinding="{Binding owner.Username}"/>
-                <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding date}" />
-                <GridViewColumn Header="Project" Width="450" DisplayMemberBinding="{Binding name}" />
-            </GridView>
-        </ListView.View>
-        
-    </ListView>
+    <Grid ShowGridLines="False" Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <ListView Name="list" IsSynchronizedWithCurrentItem="True" Grid.Column="1" RenderTransformOrigin="0.485,0.366" Margin="0,-1,0,-435" >
+            <ListView.View>
 
+                <GridView>
+
+                    <GridViewColumn Header="Owner" Width="150" DisplayMemberBinding="{Binding owner.Username}"/>
+                    <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding date}" />
+                    <GridViewColumn Header="Project" Width="350" DisplayMemberBinding="{Binding name}" />
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+        <TextBlock x:Name="Debug_output" TextWrapping="Wrap" Margin="0,0,0,-435"/>
+
+    </Grid>
 
 </Window>

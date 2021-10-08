@@ -223,12 +223,6 @@ namespace JSharp_Server.Comms
             this.manager.RemoveProject(session);
         }
 
-        [Authorization(true, "notificateProject")]
-        private void NotificateProject(JObject json)
-        {
-            //Not yet implemented
-        }
-
         [Authorization(true, "joinProject")]
         private void JoinProject(JObject json)
         {
@@ -236,12 +230,6 @@ namespace JSharp_Server.Comms
 
 
         }
-
-
-
-
-
-
     }
 
     public class AuthorizationAttribute : Attribute

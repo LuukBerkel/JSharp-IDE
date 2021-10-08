@@ -145,7 +145,7 @@ namespace JSharp_Server.Comms
                 }
 
                 //Adding it to active projects
-                if (manager.AddProject(new Project(files, users, session.UserAcount, project)))
+                if (manager.AddProject(new Project(files, users, session.UserAcount, project), session))
                 {
                     this.replyer.Succes();
                     return;

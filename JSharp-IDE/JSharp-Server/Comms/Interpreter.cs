@@ -37,7 +37,7 @@ namespace JSharp_Server.Comms
         /// <param name="json">This is the message received from the client</param>
         public void Command(JObject json)
         {
-            JToken? token;
+            JToken token;
             if (json.TryGetValue("instruction", out token))
             {
                 string command = token.ToString();
@@ -125,8 +125,8 @@ namespace JSharp_Server.Comms
                 foreach (JObject o in (JArray) file)
                 {
                     //Getting objects for dictionary
-                    JToken? path;
-                    JToken? data;
+                    JToken path;
+                    JToken data;
                     if (o.TryGetValue("filePath", out path) && o.TryGetValue("data", out data))
                     {
                         files.Add(path.ToString(), data.ToString());
@@ -154,7 +154,50 @@ namespace JSharp_Server.Comms
         [Authorization(true, "changeProject")]
         private void ChangeProject(JObject json)
         {
+            JToken userToken = json.SelectToken("data.userFlag");
+            JToken userList = json.SelectToken("data.users");
+            JToken projectToken = json.SelectToken("data.fileFlag");
+            JToken projectList = json.SelectToken("data.files");
 
+            if (userToken != null && userList != null)
+            {
+                //Getting flags
+                int userFlag = int.Parse(userToken.ToString());
+               
+
+                //Getting data
+
+
+            }
+
+            if (projectToken != null && projectList != null)
+            {
+                //Getting flags
+                int fileFlag = int.Parse(projectToken.ToString());
+            }
+
+
+        userFlag: "1/2"
+
+        users:
+            [
+
+            {
+            Username: "",
+			}
+		]
+
+		fileFlag: "1/2"
+
+        files:
+            [
+
+            {
+            filePath: "",
+				data: ""
+
+            }
+		]
         }
 
         [Authorization(true, "removeProject")]

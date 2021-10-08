@@ -45,11 +45,30 @@ namespace JSharp_IDE.ViewModel
                 {
                     mHostCommand = new RelayCommand(param =>
                     {
-                        if (mProjectName.Length > 0)
+                        if (Project.ProjectDirectory == null)
                         {
-                            Connection c = Connection.GetConnection(Settings.GetServerAddress(), 6969);
-                            c.SendCommand(JSONCommand.Login());
-                            c.SendCommand(JSONCommand.HostProject(mProjectName, new string[] { "hardcoded" }, new Network.File[] { new Network.File(Path.Combine(Directory.GetCurrentDirectory(), "Main.java"), "joemama") }));
+                            MessageBox.Show("No valid project loaded.", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Information);
+                            return;
+                        }
+                        if (mProjectName.Length > 0 && Directory.Exists(Project.ProjectDirectory))
+                        {
+                            int port;
+                            if (int.TryParse(Settings.GetServerPort(), out port))
+                            {
+                                //Get every file path from the project
+                                string[] filePaths = Directory.GetFiles(Project.ProjectDirectory, "*.*", SearchOption.AllDirectories);
+                                // Store every filepath with the data of that file
+                                Network.File[] files = new Network.File[filePaths.Length];
+
+                                for (int i = 0; i < filePaths.Length; i++)
+                                {
+                                    files[i] = new Network.File(filePaths[i], System.IO.File.ReadAllBytes(filePaths[i]));
+                                }
+
+                                Connection c = Connection.GetConnection(Settings.GetServerAddress(), port);
+                                c.SendCommand(JSONCommand.Login());
+                                c.SendCommand(JSONCommand.HostProject(mProjectName, new string[] { "hardcodedUserName" }, files ));
+                            }
                         }
                     },
                     param => true);

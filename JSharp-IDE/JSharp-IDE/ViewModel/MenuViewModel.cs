@@ -59,8 +59,8 @@ namespace JSharp_IDE.ViewModel
                     mSettingsCommand = new RelayCommand(param =>
                     {
                         SettingsView sv = new SettingsView();
-                        sv.Width = 365;
-                        sv.Height = 200;
+                        sv.Width = 400;
+                        sv.Height = 220;
                         sv.Title = "JSharp IDE - Settings";
                         sv.ResizeMode = ResizeMode.NoResize;
                         sv.Show();

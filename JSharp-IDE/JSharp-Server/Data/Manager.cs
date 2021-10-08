@@ -199,9 +199,21 @@ namespace JSharp_Server.Data
             }
         }
 
-        public void RemoveProject()
+        public void RemoveProject(Session session)
         {
-
+            //locking for thread safty
+            lock (projects)
+            {
+                //Looping throug all projects
+                foreach (Project p in projects)
+                {
+                    //If project contains active session
+                    if (p.owner.Username == session.UserAcount.Username)
+                    {
+                        projects.Remove(p);
+                    }
+                }
+            }
         }
     }
 

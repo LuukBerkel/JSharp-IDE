@@ -145,7 +145,7 @@ namespace JSharp_Server.Comms
                 }
 
                 //Adding it to active projects
-                if (manager.AddProject(new Project(files, users, session.UserAcount, project), session))
+                if (manager.AddProject(new Project(files, users, session.UserAcount, project) ,session))
                 {
                     this.replyer.Succes();
                     return;
@@ -220,13 +220,13 @@ namespace JSharp_Server.Comms
         [Authorization(true, "removeProject")]
         private void RemoveProject(JObject json)
         {
-            
+            this.manager.RemoveProject(session);
         }
 
         [Authorization(true, "notificateProject")]
         private void NotificateProject(JObject json)
         {
-
+            //Not yet implemented
         }
 
         [Authorization(true, "joinProject")]

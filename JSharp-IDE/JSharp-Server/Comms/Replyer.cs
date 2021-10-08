@@ -36,13 +36,13 @@ namespace JSharp_Server.Comms
             this.sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
-        public void SendAll(Project p)
+        public void SendAll(IDictionary<string, string> project, bool state)
         {
             
 
         }
 
-        public void SendUpdate(Project p)
+        public void SendUpdate(IDictionary<string, string> project. bool state)
         {
 
         }

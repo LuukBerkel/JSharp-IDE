@@ -10,7 +10,7 @@
         <local:UserSignUpViewModel/>
     </UserControl.DataContext>
     <StackPanel Orientation="Horizontal" Height="Auto" Width="Auto">
-        <TextBox Text="{Binding ProjectName}"/>
+        <TextBox Text="{Binding ProjectName}" MinWidth="200"/>
         <Button Content=" Host project " Command="{Binding HostCommand}"/>
         <Button Content=" Join project " Command="{Binding JoinCommand}"/>
     </StackPanel>

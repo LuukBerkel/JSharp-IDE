@@ -211,6 +211,14 @@ namespace JSharp_IDE
                         File.Delete(path);
                         ProjectHierarchyView.ProjectHierarchyTree.Items.Remove(treeViewItem);
                         Project.UpdateTreeView(Project.ProjectDirectory);
+                        foreach (TabItem item in MainWindow.CodePanels.Items)
+                        {
+                            if (item.Tag == treeViewItem.Tag)
+                            {
+                                MainWindow.CodePanels.Items.Remove(item);
+                                return;
+                            }
+                        }
                     }
                 }
             } catch (Exception)

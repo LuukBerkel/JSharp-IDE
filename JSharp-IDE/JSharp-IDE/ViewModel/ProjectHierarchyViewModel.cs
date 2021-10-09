@@ -30,20 +30,20 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
-        private RelayCommand mOpenCommand;
-        public ICommand OpenCommand
+        private RelayCommand mDeleteCommand;
+        public ICommand DeleteCommand
         {
             get
             {
-                if (mOpenCommand == null)
+                if (mDeleteCommand == null)
                 {
-                    mOpenCommand = new RelayCommand(param =>
+                    mDeleteCommand = new RelayCommand(param =>
                     {
-                        //Open a file in to the editor here.
+                        Project.DeleteFile();
                     },
                     param => true);
                 }
-                return mOpenCommand;
+                return mDeleteCommand;
             }
         }
     }

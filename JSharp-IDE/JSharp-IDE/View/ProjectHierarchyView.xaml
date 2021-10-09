@@ -23,7 +23,7 @@
                 <MenuItem Header="Add file" Command="{Binding NewFile}"/>
                 <MenuItem Header="Rename file"/>
                 <Separator />
-                <MenuItem Header="Delete file"/>
+                <MenuItem Header="Delete file" Command="{Binding DeleteCommand}"/>
             </ContextMenu>
         </TreeView.ContextMenu>
     </TreeView>

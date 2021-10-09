@@ -195,5 +195,28 @@ namespace JSharp_IDE
 
             return path;
         }
+
+        public static void DeleteFile()
+        {
+            //Get the current selected item
+            TreeViewItem treeViewItem = ProjectHierarchyView.ProjectHierarchyTree.SelectedItem as TreeViewItem;
+            if (treeViewItem == null) { return; }
+            string path = treeViewItem.Tag.ToString();
+            try
+            {
+                if (File.Exists(path)) {
+                    MessageBoxResult mr = MessageBox.Show($"Are you sure you want to delete {new DirectoryInfo(path).Name}", "JSharp IDE", MessageBoxButton.YesNo);
+                    if (mr == MessageBoxResult.Yes)
+                    {
+                        File.Delete(path);
+                        ProjectHierarchyView.ProjectHierarchyTree.Items.Remove(treeViewItem);
+                        Project.UpdateTreeView(Project.ProjectDirectory);
+                    }
+                }
+            } catch (Exception)
+            {
+                Debug.WriteLine($"File not found {path}");
+            }
+        }
     }
 }

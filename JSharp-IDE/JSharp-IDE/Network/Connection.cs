@@ -41,7 +41,7 @@ namespace JSharp_IDE.Network
 
             new Thread(() =>
             {
-                while (MainWindow.Running && this.tcpClient.Connected)
+                while (this.tcpClient != null && MainWindow.Running && this.tcpClient.Connected)
                 {
                     try
                     {
@@ -50,9 +50,11 @@ namespace JSharp_IDE.Network
                     {
                         this.tcpClient.Close();
                         MessageBox.Show("Lost connection to the server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
+                        IsConnectedToServer = false;
                         break;
                     }
                 }
+                IsConnectedToServer = false;
             }).Start();
         }
 
@@ -88,7 +90,7 @@ namespace JSharp_IDE.Network
 
         public static Connection GetConnection(string ip, int port)
         {
-            if (Instance == null)
+            if (Instance == null || !IsConnectedToServer)
             {
                 Instance = new Connection(ip, port);
             }

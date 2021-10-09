@@ -57,6 +57,9 @@ namespace JSharp_IDE.ViewModel
                             {
                                 //Get every file path from the project
                                 string[] filePaths = Directory.GetFiles(Project.ProjectDirectory, "*.*", SearchOption.AllDirectories);
+                                //Remove the out directory from the array.
+                                filePaths = filePaths.Where(value => 
+                                !value.Contains(Path.DirectorySeparatorChar + "out" + Path.DirectorySeparatorChar)).ToArray();
                                 // Store every filepath with the data of that file
                                 Network.File[] files = new Network.File[filePaths.Length];
 

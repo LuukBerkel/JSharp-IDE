@@ -211,8 +211,11 @@ namespace JSharp_IDE
                         Project.UpdateTreeView(Project.ProjectDirectory);
                         foreach (TabItem item in MainWindow.CodePanels.Items)
                         {
-                            if (item.Tag == treeViewItem.Tag)
+                            if (item.Tag.ToString() == GetLocalPath(treeViewItem.Tag.ToString()))
                             {
+                                //Close the panel
+                                item.Visibility = Visibility.Collapsed;
+                                //Remove the actual object
                                 MainWindow.CodePanels.Items.Remove(item);
                                 return;
                             }

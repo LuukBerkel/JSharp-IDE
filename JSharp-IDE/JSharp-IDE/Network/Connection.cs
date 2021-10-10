@@ -129,6 +129,20 @@ namespace JSharp_IDE.Network
             Debug.WriteLine("Action failed");
         }
 
+        [Command("RequestedProject")]
+        private void RequestedProject(JObject json)
+        {
+            Debug.WriteLine("Received all project data");
+        }
+
+        [Command("UpdatedProject")]
+        private void UpdatedProject(JObject json)
+        {
+            JToken path = json.SelectToken("data.path");
+            JToken data = json.SelectToken("data.data");
+            Project.UpdateFile(path.ToString(), data.ToString());
+            Debug.WriteLine("Updated file(s)");
+        }
 
         public class CommandAttribute : Attribute
         {

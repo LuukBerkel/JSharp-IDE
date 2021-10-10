@@ -57,5 +57,17 @@ namespace JSharp_IDE.Network
                 }
             };
         }
+
+        public static object UpdateFiles(File[] fileList)
+        {
+            return new
+            {
+                instruction = "",
+                data = new
+                {
+                    files = fileList
+                }
+            };
+        }
     }
 }

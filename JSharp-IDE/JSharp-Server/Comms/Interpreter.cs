@@ -261,5 +261,4 @@ namespace JSharp_Server.Comms
             return this.Command;
         }
     }
-
 }

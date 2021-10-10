@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace JSharp_IDE.View
         public RichTextBoxView()
         {
             InitializeComponent();
+            //Assign the xml object to the code variable.
             RichTextBox = CodeTextBox;
         }
 
@@ -53,6 +55,21 @@ namespace JSharp_IDE.View
             {
                 await TextFormatter.OnTextPasted(rtb);
             });
+        }
+
+        public void Update(string path)
+        {
+            FlowDocument doc = RichTextBox.Document;
+            doc.Blocks.Clear();
+            //Add each line to the document as a separate block.
+            foreach (string line in File.ReadAllLines(path))
+            {
+                Run run = new Run(line);
+                Paragraph p = new Paragraph();
+                p.Inlines.Add(run);
+                p.Margin = new Thickness(0);
+                doc.Blocks.Add(p);
+            }
         }
     }
 }

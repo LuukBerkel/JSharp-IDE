@@ -67,7 +67,7 @@ namespace JSharp_IDE
             //If the file is already opened, focus on that tab and exit this method.
             foreach (TabItem item in MainWindow.CodePanels.Items)
             {
-                if (item.Tag.ToString() == path)
+                if (GetLocalPath(item.Tag.ToString()) == GetLocalPath(path))
                 {
                     item.Focus();
                     return;
@@ -92,10 +92,12 @@ namespace JSharp_IDE
                 sp.Children.Add(label);
                 sp.Children.Add(closeButton);
                 tabItem.Header = sp;
-                tabItem.Tag = path;
+                //Set the local path as the tag, this makes it easier for the network communication.
+                tabItem.Tag = GetLocalPath(path);
 
                 FlowDocument doc = new FlowDocument();
 
+                //Add each line to the document as a separate block.
                 foreach (string line in File.ReadAllLines(path))
                 {
                     Run run = new Run(line);
@@ -111,18 +113,14 @@ namespace JSharp_IDE
                 tabItem.Focus();
                 MainWindow.CodePanels.Items.Add(tabItem);
 
-                Task.Run(async () =>
-                {
-                    await TextFormatter.OnTextPasted(rtbv.RichTextBox);
-                });
+                //Check syntax on the whole document.
+                Task.Run(async () =>  await TextFormatter.OnTextPasted(rtbv.RichTextBox));
             }
         }
 
         /// <summary>
         /// This method will update the treeview to display the current file hierarchy.
-        /// !! This will also update current project dir in 
-        /// 
-        /// !!
+        /// !! This will also update current project dir !!
         /// </summary>
         /// <param name="projectPath"></param>
         public static void UpdateTreeView(string projectPath)
@@ -201,7 +199,7 @@ namespace JSharp_IDE
             //Get the current selected item
             TreeViewItem treeViewItem = ProjectHierarchyView.ProjectHierarchyTree.SelectedItem as TreeViewItem;
             if (treeViewItem == null) { return; }
-            string path = treeViewItem.Tag.ToString();
+            string path = Path.Combine(ProjectDirectory, treeViewItem.Tag.ToString());
             try
             {
                 if (File.Exists(path)) {
@@ -225,6 +223,46 @@ namespace JSharp_IDE
             {
                 Debug.WriteLine($"File not found {path}");
             }
+        }
+
+        public static void UpdateFile(string path, string data)
+        {
+            try
+            {
+                //Update file on disk
+                Debug.WriteLine($"Full path: {Path.Combine(ProjectDirectory, path)}\n" +
+                                $"Updating file {path}: {data}");
+                //Combine the path with the computers folder path to get the exact location.
+                File.WriteAllBytes(Path.Combine(ProjectDirectory, path), Convert.FromBase64String(data));
+                //Update file in editor
+                foreach (TabItem item in MainWindow.CodePanels.Items)
+                {
+                    if (item.Tag.ToString() == path)
+                    {
+                        RichTextBoxView box = item.Content as RichTextBoxView;
+                        box.Update(path);
+
+                        //Check syntax on the whole document.
+                        Task.Run(async () => await TextFormatter.OnTextPasted(box.RichTextBox));
+                        break;
+                    }
+                }
+            } catch (Exception e)
+            {
+                Debug.WriteLine($"File update failed: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Converts the whole path to a local path that starts from the project directory.
+        /// Example: C:\Users\Joe\Desktop\Project\src\main.java -> Project\src\main.java
+        /// Use: Path.Combine(Project.ProjectDirectory, localFilePath) to get the full path.
+        /// </summary>
+        /// <param name="path">Full path</param>
+        public static string GetLocalPath(string path)
+        {
+            Debug.WriteLine($"LocalPath: {path.Replace(ProjectDirectory + "\\", "")}");
+            return path.Replace(ProjectDirectory + "\\", "");
         }
     }
 }

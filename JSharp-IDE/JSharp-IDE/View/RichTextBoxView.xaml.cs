@@ -66,12 +66,12 @@ namespace JSharp_IDE.View
                 //Add each line to the document as a separate block.
                 foreach (string line in File.ReadAllLines(path))
                 {
-                    Run run = new Run(line);
                     Paragraph p = new Paragraph();
-                    p.Inlines.Add(run);
+                    p.Inlines.Add(new Run(line));
                     p.Margin = new Thickness(0);
                     doc.Blocks.Add(p);
                 }
+
             });
         }
     }

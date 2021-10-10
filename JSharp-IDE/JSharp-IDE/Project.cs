@@ -240,8 +240,10 @@ namespace JSharp_IDE
                     if (item.Tag.ToString() == path)
                     {
                         RichTextBoxView box = item.Content as RichTextBoxView;
-                        box.Update(path);
-
+                        box.Dispatcher.Invoke(() =>
+                        {
+                            box.Update(path);
+                        });
                         //Check syntax on the whole document.
                         Task.Run(async () => await TextFormatter.OnTextPasted(box.RichTextBox));
                         break;

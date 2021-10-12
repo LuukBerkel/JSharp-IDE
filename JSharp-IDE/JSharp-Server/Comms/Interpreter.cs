@@ -47,7 +47,8 @@ namespace JSharp_Server.Comms
                 {
                     if (method.GetCustomAttribute<AuthorizationAttribute>() != null 
                         && method.GetCustomAttribute<AuthorizationAttribute>().GetCommand() == command
-                        && method.GetCustomAttribute<AuthorizationAttribute>().GetAuthorization() == Authorized)
+                        && (method.GetCustomAttribute<AuthorizationAttribute>().GetAuthorization() == Authorized 
+                        || method.GetCustomAttribute<AuthorizationAttribute>().GetAuthorization() == false))
                     {
                         method.Invoke(this, new object[] { json });
                     }

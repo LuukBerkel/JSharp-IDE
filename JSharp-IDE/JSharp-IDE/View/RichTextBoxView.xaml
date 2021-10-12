@@ -9,5 +9,5 @@
     <UserControl.DataContext>
         <local:RichTextBoxViewModel/>
     </UserControl.DataContext>
-    <RichTextBox Name="CodeTextBox" TextChanged="CodeTextBox_TextChanged" Background="#FF323232" Foreground="White" CaretBrush="#FFD1D1D1" DataObject.Pasting="CodeTextBox_Pasting"/>
+    <RichTextBox Name="CodeTextBox" KeyDown="CodeTextBox_KeyDown" TextChanged="CodeTextBox_TextChanged" Background="#FF323232" Foreground="White" CaretBrush="#FFD1D1D1" DataObject.Pasting="CodeTextBox_Pasting" AcceptsTab="False" />
 </UserControl>

@@ -35,18 +35,5 @@ namespace JSharp_IDE
                 Running = false;
             }
         }
-
-        private void CodeTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            RichTextBox rtb = sender as RichTextBox;
-            switch (e.Key)
-            {
-                case Key.Tab:
-                    rtb.CaretPosition.InsertTextInRun("    ");
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }

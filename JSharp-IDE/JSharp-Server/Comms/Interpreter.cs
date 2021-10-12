@@ -242,6 +242,9 @@ namespace JSharp_Server.Comms
         }
     }
 
+    /// <summary>
+    /// This is the attribute used
+    /// </summary>
     public class AuthorizationAttribute : Attribute
     {
         private bool AuthorizationRequirment;

@@ -44,7 +44,8 @@ namespace JSharp_Server.Comms
             new Thread(() =>
             {
                 //Loop for reading
-                while (true)
+                bool running = true;
+                while (running)
                 {
                     //Trying to read from client
                     try
@@ -78,7 +79,7 @@ namespace JSharp_Server.Comms
                         this.management.Disconnect(this);
 
                         //Closing thread
-                        break;
+                        running = false;
                     }
                 }
             }).Start();

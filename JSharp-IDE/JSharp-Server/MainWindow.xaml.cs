@@ -26,14 +26,22 @@ namespace JSharp_Server
     public partial class MainWindow : Window
     {
         private static MainWindow main;
+        private Server server;
 
         public MainWindow()
         {
             InitializeComponent();
             main = this;
 
-            Server server = new Server(System.Net.IPAddress.Any, 6969);
+            server = new Server(System.Net.IPAddress.Any, 6969);
             server.Start();
+
+            this.Closed += OnClose;
+        }
+
+        private void OnClose(object sender, EventArgs e)
+        {
+            Environment.Exit(Environment.ExitCode);
         }
 
 
@@ -58,5 +66,7 @@ namespace JSharp_Server
         {
             main.Dispatcher.Invoke((Action)(() => { main.Debug_output.Text = main.Debug_output.Text + output + "\n---------------------------\n"; } ));
         }
+
+
     }
 }

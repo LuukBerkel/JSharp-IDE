@@ -12,7 +12,8 @@ namespace JSharp_Server.Comms
     class Server
     {
         private TcpListener listener;
-        private Manager manager; 
+        private Manager manager;
+        private bool running;
 
         public Server(IPAddress IP, int port)
         {
@@ -25,17 +26,30 @@ namespace JSharp_Server.Comms
         {
             this.listener.Start();
             this.listener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
+            this.running = true;
             MainWindow.SetDebugOutput($"Server has started.");
         }
 
         private void HandleClient(IAsyncResult ar)
         {
-            //Handeling of the client
-            Session session = new Session(this.listener.EndAcceptTcpClient(ar), manager);
-            session.StartSession();
 
-            //For the next client
-            this.listener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
+            try
+            {
+                //Handeling of the client
+                Session session = new Session(this.listener.EndAcceptTcpClient(ar), manager);
+                session.StartSession();
+
+                //For the next client
+                this.listener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
+            }
+            catch (Exception e)
+            {
+                //Weird errror occured
+                MainWindow.SetDebugOutput(e.Message);
+                this.listener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
+            }
+
         }
     }
+
 }

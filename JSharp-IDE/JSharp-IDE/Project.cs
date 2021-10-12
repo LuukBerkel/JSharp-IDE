@@ -40,6 +40,22 @@ namespace JSharp_IDE
         }
 
         /// <summary>
+        /// Creates a new project with the correct file structure.
+        /// </summary>
+        public static void SignInToProject()
+        {
+            string path = OpenFolderDialog();
+            if (path != null)
+            {
+                Directory.CreateDirectory(Path.Combine(path, "src"));
+                Directory.CreateDirectory(Path.Combine(path, "out"));
+                Directory.CreateDirectory(Path.Combine(path, "lib"));
+                Directory.CreateDirectory(Path.Combine(path, "res"));
+                UpdateTreeView(path);
+            }
+        }
+
+        /// <summary>
         /// Add a file to the project
         /// </summary>
         public static void AddFile()
@@ -235,6 +251,8 @@ namespace JSharp_IDE
                 //Update file on disk
                 Debug.WriteLine($"Full path: {Path.Combine(ProjectDirectory, path)}\n" +
                                 $"Updating file {path}: {data}");
+                //Check if the folder structure exists.
+                new FileInfo(Path.Combine(ProjectDirectory, path)).Directory.Create();
                 //Combine the path with the computers folder path to get the exact location.
                 File.WriteAllBytes(Path.Combine(ProjectDirectory, path), Convert.FromBase64String(data));
                 //Update file in editor

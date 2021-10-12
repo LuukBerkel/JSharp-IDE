@@ -13,7 +13,6 @@ namespace JSharp_Server.Comms
     {
         private TcpListener listener;
         private Manager manager;
-        private bool running;
 
         public Server(IPAddress IP, int port)
         {
@@ -26,7 +25,6 @@ namespace JSharp_Server.Comms
         {
             this.listener.Start();
             this.listener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
-            this.running = true;
             MainWindow.SetDebugOutput($"Server has started.");
         }
 

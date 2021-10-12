@@ -40,43 +40,11 @@ namespace JSharp_IDE.Network
                 IsConnectedToServer = false;
             }
 
-            /*Thread read = new Thread(() =>
-            {
-                while (this.tcpClient != null && MainWindow.Running && this.tcpClient.Connected)
-                {
-                    if (MainWindow.Running)
-                    {
-                        try
-                        {
-                            ReadMessage();
-                        }
-                        catch (Exception)
-                        {
-                            Debug.WriteLine("Exception in connection read thread");
-                            break;
-                        }
-                    } else
-                    {
-                        Debug.WriteLine("Stopping read in connection thread");
-                        break;
-                    }
-                }
-                this.tcpClient.Close();
-                MessageBox.Show("Lost connection to the server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
-                IsConnectedToServer = false;
-            }).Start();*/
             this.readThread = new Thread(() =>
             {
                 while (IsConnectedToServer)
                 {
-                    try
-                    {
-                        ReadMessage();
-                    }
-                    catch (Exception)
-                    {
-                        break;
-                    }
+                    ReadMessage();
                 }
                 this.tcpClient.Close();
                 MessageBox.Show("Lost connection to the server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -88,8 +56,9 @@ namespace JSharp_IDE.Network
         public void Stop()
         {
             IsConnectedToServer = false;
-            this.tcpClient.Close();
+            //this.tcpClient.Close();
             this.readThread.Join();
+            Debug.WriteLine("Closed connection with the server.");
         }
 
         public void SendCommand(object o)
@@ -110,15 +79,18 @@ namespace JSharp_IDE.Network
 
         public string ReadMessage()
         {
-            string msg = this.sender.ReadMessage();
+            string msg = "";
             try
             {
-                Command((JObject)JsonConvert.DeserializeObject(msg));
+                if (IsConnectedToServer)
+                {
+                    msg = this.sender.ReadMessage();
+                    Command((JObject)JsonConvert.DeserializeObject(msg));
+                }
             } catch (Exception)
             {
                 MessageBox.Show("Received invalid data!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
                 IsConnectedToServer = false;
-                throw new SocketException();
             }
             return msg;
         }

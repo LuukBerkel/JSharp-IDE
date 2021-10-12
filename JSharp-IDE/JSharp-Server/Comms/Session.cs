@@ -84,9 +84,9 @@ namespace JSharp_Server.Comms
             }).Start();
         }
 
-        private Exception Exception()
+        public Replyer GetReplyer()
         {
-            throw new NotImplementedException();
+            return replyer;
         }
     }
 }

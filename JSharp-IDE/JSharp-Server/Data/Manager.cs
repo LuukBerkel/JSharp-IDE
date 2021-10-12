@@ -161,6 +161,15 @@ namespace JSharp_Server.Data
                         {
                             if (!deleting) p.AddFile(entry.Key, entry.Value);
                             else p.RemoveFile(entry.Key);
+
+                            //Sending to other clients
+                            foreach (Session s in p.GetSessions())
+                            {
+                                if (s != session)
+                                {
+                                    s.GetReplyer().SendUpdate(changes, deleting);
+                                }
+                            }
                         }
 
                         return;

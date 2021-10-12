@@ -211,11 +211,13 @@ namespace JSharp_Server.Comms
                     {
                         files.Add(path.ToString(), data.ToString());   
                     }
+
                 }
+
 
                 //Executing
                 this.manager.ChangeFileProject(files, session, deleting);
-
+                replyer.SendUpdate(files, deleting);
             }
         }
 

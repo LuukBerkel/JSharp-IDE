@@ -34,7 +34,7 @@
 
 
         <Grid Width="auto" >
-            <ScrollViewer Cursor="ScrollAll" Height="410" VerticalAlignment="Top">
+            <ScrollViewer Cursor="Arrow" Height="410" VerticalAlignment="Top">
                 <TextBlock x:Name="Debug_output" Width="Auto" TextWrapping="Wrap" Height="auto" />
             </ScrollViewer>
         </Grid>

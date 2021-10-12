@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace JSharp_IDE.Network
 {
-    public struct File
+    public struct NetworkFile
     {
         public string filePath;
         public byte[] data;
 
-        public File(string filePath, byte[] data)
+        public NetworkFile(string filePath, byte[] data)
         {
             this.filePath = filePath;
             this.data = data;

@@ -117,15 +117,18 @@ namespace JSharp_IDE.ViewModel
         {
             foreach (TabItem item in MainWindow.CodePanels.Items)
             {
-                RichTextBox rtb = item.Content as RichTextBox;
-
-                string[] lines = new string[rtb.Document.Blocks.Count];
-                for (int i = 0; i < rtb.Document.Blocks.Count; i++)
+                item.Dispatcher.Invoke(() =>
                 {
-                    lines[i] = new TextRange(rtb.Document.Blocks.ElementAt(i).ContentStart, rtb.Document.Blocks.ElementAt(i).ContentEnd).Text;
-                }
-                Debug.WriteLine("Saved files");
-                File.WriteAllLines(Path.Combine(Project.ProjectDirectory, item.Tag.ToString()), lines);
+                    RichTextBox rtb = item.Content as RichTextBox;
+
+                    string[] lines = new string[rtb.Document.Blocks.Count];
+                    for (int i = 0; i < rtb.Document.Blocks.Count; i++)
+                    {
+                        lines[i] = new TextRange(rtb.Document.Blocks.ElementAt(i).ContentStart, rtb.Document.Blocks.ElementAt(i).ContentEnd).Text;
+                    }
+                    Debug.WriteLine("Saved files");
+                    File.WriteAllLines(Path.Combine(Project.ProjectDirectory, item.Tag.ToString()), lines);
+                });
             }
         }
 

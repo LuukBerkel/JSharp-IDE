@@ -145,17 +145,34 @@ namespace JSharp_IDE.Network
         [Command("RequestedProject")]
         private void RequestedProject(JObject json)
         {
-            Debug.WriteLine(json.ToString());
-
+            JToken token = json.SelectToken("data.files");
+            JArray array = JArray.FromObject(token);
+                //Add/Edit files
+                foreach (JObject file in array)
+                {
+                    Project.UpdateFile(file.SelectToken("filePath").ToString(), file.SelectToken("data").ToString());
+                }
+            Debug.WriteLine("Updated file(s)");
             Debug.WriteLine("Received all project data");
         }
 
         [Command("UpdatedProject")]
         private void UpdatedProject(JObject json)
         {
-            JToken path = json.SelectToken("data.path");
-            JToken data = json.SelectToken("data.data");
-            Project.UpdateFile(path.ToString(), data.ToString());
+            JToken token = json.SelectToken("data.files");
+            JArray array = JArray.FromObject(token);
+            if (json.SelectToken("data.flag").ToString() == "0")
+            {
+                //Remove files
+
+            } else
+            {
+                //Add/Edit files
+                foreach (JObject file in array)
+                {
+                    Project.UpdateFile(file.SelectToken("filePath").ToString(), file.SelectToken("data").ToString());
+                }
+            }
             Debug.WriteLine("Updated file(s)");
         }
 

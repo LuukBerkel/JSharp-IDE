@@ -40,7 +40,7 @@ namespace JSharp_Server.Data
         /// Saves the usersdata to disk
         /// </summary>
         /// <param name="users">The list with users</param>
-        public static void SaveUserData(List<User> users)
+        public static void SaveUserData(IList<User> users)
         {
             JArray data = JArray.FromObject(users);
             File.WriteAllText(Directory.GetCurrentDirectory() + @"\userData.txt", data.ToString());

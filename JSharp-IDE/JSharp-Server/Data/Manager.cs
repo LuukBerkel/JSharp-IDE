@@ -107,6 +107,7 @@ namespace JSharp_Server.Data
                 {
                     //Adding user
                     this.users.Add(new User(username, password, true));
+                    Proccessing.SaveUserData(users);
                     return true;
                 }
             }

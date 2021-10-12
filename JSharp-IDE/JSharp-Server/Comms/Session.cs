@@ -43,12 +43,13 @@ namespace JSharp_Server.Comms
         {
             new Thread(() =>
             {
-                //Loop for reading
-                while (true)
+                //When there is no error
+                try
                 {
                     //Trying to read from client
-                    try
+                    while (true)
                     {
+                        
                         //Parsing data
                         string encoded = this.sender.ReadMessage();
                         JObject decoded = (JObject)JsonConvert.DeserializeObject(encoded);
@@ -61,26 +62,25 @@ namespace JSharp_Server.Comms
 
                             //Decoding data
                             this.interpreter.Command(decoded);
-                        } else
+                        }
+                        else
                         {
                             throw new Exception();
                         }
+                        
                     }
 
-                    //If connection is broken then...
-                    catch (Exception)
-                    {
-                        //Debug outpot
-                        MainWindow.SetDebugOutput("Connection error occured...");
+                //When error occurs
+                } catch (Exception)
+                {
+                    //Debug outpot
+                    MainWindow.SetDebugOutput("Connection error occured...");
 
-                        //Clossing connection
-                        this.tcpClient.Close();
-                        this.management.Disconnect(this);
-
-                        //Closing thread
-                        break;
-                    }
+                    //Clossing connection
+                    this.tcpClient.Close();
+                    this.management.Disconnect(this);
                 }
+                
             }).Start();
         }
 

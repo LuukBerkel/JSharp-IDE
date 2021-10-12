@@ -96,6 +96,7 @@ namespace JSharp_IDE.ViewModel
                     {
                         if (mProjectName.Length > 0)
                         {
+                            Project.SignInToProject();
                             Connection c = Connection.GetConnection(Settings.GetServerAddress(), 6969);
                             c.SendCommand(JSONCommand.Login());
                             c.SendCommand(JSONCommand.JoinProject(mProjectName));

@@ -46,7 +46,7 @@ namespace JSharp_IDE.Network
                 {
                     ReadMessage();
                 }
-                this.tcpClient.Close();
+                if (this.tcpClient != null) this.tcpClient.Close();
                 MessageBox.Show("Lost connection to the server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
                 IsConnectedToServer = false;
             });

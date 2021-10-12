@@ -93,12 +93,13 @@ namespace JSharp_IDE.ViewModel
                         try
                         {
                             SaveAllOpenedFiles();
+                            DebugWindow = "Started build";
                             Compiler compiler = new Compiler(@"C:\Program Files\Java\jdk1.8.0_261\bin", this); 
                             compiler.Compile(Path.Combine(Project.ProjectDirectory, "out"),
                                  Path.Combine(Project.ProjectDirectory, "src"),
                                  Path.Combine(Project.ProjectDirectory, "lib"),
                                  Path.Combine(Project.ProjectDirectory, "res"));
-                            DebugWindow = "";
+                            DebugWindow = "Build completed";
                         }
                         catch (Exception ex)
                         {

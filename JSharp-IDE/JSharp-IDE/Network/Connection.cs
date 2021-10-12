@@ -75,7 +75,6 @@ namespace JSharp_IDE.Network
                     }
                     catch (Exception)
                     {
-                        Debug.WriteLine("Exception in connection read thread");
                         break;
                     }
                 }

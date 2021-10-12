@@ -17,8 +17,6 @@ namespace JSharp_IDE.ViewModel
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string javaPath = Settings.GetJavaBin();
-
         private string mDebugWindow;
         public string DebugWindow
         {
@@ -26,7 +24,7 @@ namespace JSharp_IDE.ViewModel
             {
                 if (mDebugWindow == null)
                 {
-                    mDebugWindow = javaPath;
+                    mDebugWindow = Settings.GetJavaBin();
                 }
 
                 return mDebugWindow;
@@ -58,7 +56,7 @@ namespace JSharp_IDE.ViewModel
                         try
                         {
                             SaveAllOpenedFiles();
-                            Compiler compiler = new Compiler(javaPath, this);
+                            Compiler compiler = new Compiler(Settings.GetJavaBin(), this);
                             compiler.Compile(Path.Combine(Project.ProjectDirectory, "out"), 
                                 Path.Combine(Project.ProjectDirectory, "src"), 
                                 Path.Combine(Project.ProjectDirectory, "lib"),
@@ -67,12 +65,12 @@ namespace JSharp_IDE.ViewModel
                                 Path.Combine(Project.ProjectDirectory, "out"),
                                 Path.Combine(Project.ProjectDirectory, "lib"),
                                 Path.Combine(Project.ProjectDirectory, "res"),
-                                "AngryBirds");
+                                compiler.MainSearcher(Path.Combine(Project.ProjectDirectory, "src")));
                             DebugWindow = "";
                         }
                         catch (Exception ex)
                         {
-                            DebugWindow += ("\n{0}f", ex.Message);
+                            DebugWindow += ("\n"+ ex.Message);
                         }
                     },
                     param => true);
@@ -94,7 +92,7 @@ namespace JSharp_IDE.ViewModel
                         {
                             SaveAllOpenedFiles();
                             DebugWindow = "Started build";
-                            Compiler compiler = new Compiler(@"C:\Program Files\Java\jdk1.8.0_261\bin", this); 
+                            Compiler compiler = new Compiler(Settings.GetJavaBin(), this); 
                             compiler.Compile(Path.Combine(Project.ProjectDirectory, "out"),
                                  Path.Combine(Project.ProjectDirectory, "src"),
                                  Path.Combine(Project.ProjectDirectory, "lib"),

@@ -218,7 +218,6 @@ namespace JSharp_Server.Comms
 
                 //Executing
                 this.manager.ChangeFileProject(files, session, deleting);
-                replyer.SendUpdate(files, deleting);
             }
         }
 

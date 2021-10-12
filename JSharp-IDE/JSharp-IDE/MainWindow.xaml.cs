@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using JSharp_IDE.Network;
+using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -30,8 +31,15 @@ namespace JSharp_IDE
 
         public void Stop(object sender, CancelEventArgs e)
         {
+            Debug.WriteLine("Stop");
             if (sender.GetType() == this.GetType())
             {
+                Debug.WriteLine("If stop");
+                Connection c = Connection.Instance;
+                if (c != null)
+                {
+                    c.Stop();
+                }
                 Running = false;
             }
         }

@@ -9,12 +9,15 @@
     <UserControl.DataContext>
         <local:MenuViewModel/>
     </UserControl.DataContext>
+    <UserControl.InputBindings>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
+    </UserControl.InputBindings>
 
     <Menu>
         <MenuItem Header="File">
             <MenuItem Header="_New Project" Command="{Binding NewCommand}"/>
             <MenuItem Header="_Open Project" Command="{Binding OpenCommand}"/>
-            <MenuItem Header="_Save all" Command="{Binding SaveCommand}"/>
+            <MenuItem Header="_Save all" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"/>
             <Separator/>
             <MenuItem Header="_Exit"/>
         </MenuItem>

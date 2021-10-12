@@ -24,6 +24,7 @@ namespace JSharp_IDE.Network
 
         private ISender sender;
         private TcpClient tcpClient;
+        private Thread readThread;
 
         public Connection(string ip, int port)
         {
@@ -39,23 +40,57 @@ namespace JSharp_IDE.Network
                 IsConnectedToServer = false;
             }
 
-            new Thread(() =>
+            /*Thread read = new Thread(() =>
             {
                 while (this.tcpClient != null && MainWindow.Running && this.tcpClient.Connected)
+                {
+                    if (MainWindow.Running)
+                    {
+                        try
+                        {
+                            ReadMessage();
+                        }
+                        catch (Exception)
+                        {
+                            Debug.WriteLine("Exception in connection read thread");
+                            break;
+                        }
+                    } else
+                    {
+                        Debug.WriteLine("Stopping read in connection thread");
+                        break;
+                    }
+                }
+                this.tcpClient.Close();
+                MessageBox.Show("Lost connection to the server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
+                IsConnectedToServer = false;
+            }).Start();*/
+            this.readThread = new Thread(() =>
+            {
+                while (IsConnectedToServer)
                 {
                     try
                     {
                         ReadMessage();
-                    } catch (Exception)
+                    }
+                    catch (Exception)
                     {
-                        this.tcpClient.Close();
-                        MessageBox.Show("Lost connection to the server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
-                        IsConnectedToServer = false;
+                        Debug.WriteLine("Exception in connection read thread");
                         break;
                     }
                 }
+                this.tcpClient.Close();
+                MessageBox.Show("Lost connection to the server!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
                 IsConnectedToServer = false;
-            }).Start();
+            });
+            this.readThread.Start();
+        }
+
+        public void Stop()
+        {
+            IsConnectedToServer = false;
+            this.tcpClient.Close();
+            this.readThread.Join();
         }
 
         public void SendCommand(object o)
@@ -83,6 +118,7 @@ namespace JSharp_IDE.Network
             } catch (Exception)
             {
                 MessageBox.Show("Received invalid data!", "JSharp IDE", MessageBoxButton.OK, MessageBoxImage.Error);
+                IsConnectedToServer = false;
                 throw new SocketException();
             }
             return msg;
@@ -90,6 +126,7 @@ namespace JSharp_IDE.Network
 
         public static Connection GetConnection(string ip, int port)
         {
+            //If this instance does not exist, or if the connection is lost: Create a new connection
             if (Instance == null || !IsConnectedToServer)
             {
                 Instance = new Connection(ip, port);
@@ -100,20 +137,26 @@ namespace JSharp_IDE.Network
 
         private void Command(JObject json)
         {
-            JToken token;
-            if (json.TryGetValue("instruction", out token))
+            if (json != null)
             {
-                string command = token.ToString();
-
-                MethodInfo[] methods = typeof(Connection).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.ExactBinding);
-                foreach (MethodInfo method in methods)
+                JToken token;
+                if (json.TryGetValue("instruction", out token))
                 {
-                    if (method.GetCustomAttribute<CommandAttribute>() != null 
-                        && method.GetCustomAttribute<CommandAttribute>().GetCommand() == command)
+                    string command = token.ToString();
+
+                    MethodInfo[] methods = typeof(Connection).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.ExactBinding);
+                    foreach (MethodInfo method in methods)
                     {
-                        method.Invoke(this, new object[] { json });
+                        if (method.GetCustomAttribute<CommandAttribute>() != null
+                            && method.GetCustomAttribute<CommandAttribute>().GetCommand() == command)
+                        {
+                            method.Invoke(this, new object[] { json });
+                        }
                     }
                 }
+            } else
+            {
+                IsConnectedToServer = false;
             }
         }
 

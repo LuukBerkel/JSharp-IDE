@@ -124,7 +124,7 @@ namespace JSharp_IDE.ViewModel
                     lines[i] = new TextRange(rtb.Document.Blocks.ElementAt(i).ContentStart, rtb.Document.Blocks.ElementAt(i).ContentEnd).Text;
                 }
                 Debug.WriteLine("Saved files");
-                File.WriteAllLines(item.Tag.ToString(), lines);
+                File.WriteAllLines(Path.Combine(Project.ProjectDirectory, item.Tag.ToString()), lines);
             }
         }
     }

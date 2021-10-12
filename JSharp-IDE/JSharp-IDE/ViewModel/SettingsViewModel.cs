@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -72,7 +73,6 @@ namespace JSharp_IDE.ViewModel
             set
             {
                 mUsername = value;
-                Debug.WriteLine("Username changed");
                 OnPropertyChanged("UserName");
             }
         }
@@ -91,7 +91,12 @@ namespace JSharp_IDE.ViewModel
 
             set
             {
-                mPassword = value;
+                using (SHA256 sha = SHA256.Create())
+                {
+                    byte[] bytes = sha.ComputeHash(Encoding.ASCII.GetBytes(value));
+                    mPassword = Encoding.ASCII.GetString(bytes);
+                    Debug.WriteLine(mPassword);
+                }
                 OnPropertyChanged("Password");
             }
         }

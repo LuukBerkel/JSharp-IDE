@@ -97,7 +97,7 @@ namespace JSharp_Server.Data
         {
             foreach (string username in users)
             {
-                if (username == s.UserAcount.Username || username == owner.Username)
+                if (username == s.UserAcount.Username || s.UserAcount.Username == owner.Username)
                 {
                     this.activeUsers.Add(s);
                 }

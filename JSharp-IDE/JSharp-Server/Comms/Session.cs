@@ -61,6 +61,9 @@ namespace JSharp_Server.Comms
 
                             //Decoding data
                             this.interpreter.Command(decoded);
+                        } else
+                        {
+                            throw new Exception();
                         }
                     }
 
@@ -79,6 +82,11 @@ namespace JSharp_Server.Comms
                     }
                 }
             }).Start();
+        }
+
+        private Exception Exception()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -129,8 +129,8 @@ namespace JSharp_Server.Data
                 //If the project name doesn't exist..
                 if (projects.Where(e => e.name == project.name).ToList().Count <= 0)
                 {
-                    projects.Add(project);
                     project.AddSession(session);
+                    projects.Add(project);
                     MainWindow.SetListview(projects);
                     return true;
                 };
@@ -260,24 +260,42 @@ namespace JSharp_Server.Data
         /// <param name="session"></param>
         public void Disconnect(Session session)
         {
-            //Removing session form sessions
-            foreach (Session s in active)
-            {
-                if (s == session)
-                {
-                    active.Remove(session);
-                }
-            }
 
             //Removing sessoin from projects
+            IList<Project> forRemovalProjects = new List<Project>();
             foreach (Project p in projects)
             {
-                if (p.GetSessions().Contains(session))
+                //If project is found it is added for demolition
+                if (p.GetSessions().Contains(session) && session.UserAcount == p.owner)
+                {
+                    forRemovalProjects.Add(p);
+
+                    //Notifying members...
+
+                }else if (p.GetSessions().Contains(session))
                 {
                     p.EndSessoin(session);
                 }
             }
 
+            //Removing project from server if found
+            foreach(Project p in forRemovalProjects)
+            {
+                projects.Remove(p);
+                MainWindow.SetListview(projects);
+            }
+
+            //Removing session form sessions
+            foreach (Session s in active)
+            {
+                MainWindow.SetDebugOutput(s.UserAcount.Username);
+                if (s == session)
+                {
+                    MainWindow.SetDebugOutput("deleting");
+                    active.Remove(session);
+                    break;
+                }
+            }
         }
     }
 

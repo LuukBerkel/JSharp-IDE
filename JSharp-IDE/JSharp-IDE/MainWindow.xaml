@@ -10,6 +10,9 @@
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
+    </Window.InputBindings>
 
     <Grid ShowGridLines="False" Name="MainGrid">
         <Grid.ColumnDefinitions>

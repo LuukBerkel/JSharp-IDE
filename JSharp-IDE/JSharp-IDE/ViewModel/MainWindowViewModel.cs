@@ -1,4 +1,5 @@
-﻿using JSharp_IDE.Utils;
+﻿using JSharp_IDE;
+using JSharp_IDE.Utils;
 using JSharp_IDE.View;
 using System;
 using System.Collections.Generic;
@@ -125,6 +126,23 @@ namespace JSharp_IDE.ViewModel
                 }
                 Debug.WriteLine("Saved files");
                 File.WriteAllLines(Path.Combine(Project.ProjectDirectory, item.Tag.ToString()), lines);
+            }
+        }
+
+        private RelayCommand mSaveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if (mSaveCommand == null)
+                {
+                    mSaveCommand = new RelayCommand(param =>
+                    {
+                        SaveAllOpenedFiles();
+                    },
+                    param => true);
+                }
+                return mSaveCommand;
             }
         }
     }

@@ -141,21 +141,18 @@ namespace JSharp_IDE.Network
             JToken token;
             if (json.TryGetValue("instruction", out token))
             {
-                JToken token;
-                if (json.TryGetValue("instruction", out token))
-                {
-                    string command = token.ToString();
+                string command = token.ToString();
 
-                    MethodInfo[] methods = typeof(Connection).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.ExactBinding);
-                    foreach (MethodInfo method in methods)
+                MethodInfo[] methods = typeof(Connection).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.ExactBinding);
+                foreach (MethodInfo method in methods)
+                {
+                    if (method.GetCustomAttribute<CommandAttribute>() != null
+                        && method.GetCustomAttribute<CommandAttribute>().GetCommand() == command)
                     {
-                        if (method.GetCustomAttribute<CommandAttribute>() != null
-                            && method.GetCustomAttribute<CommandAttribute>().GetCommand() == command)
-                        {
-                            method.Invoke(this, new object[] { json });
-                        }
+                        method.Invoke(this, new object[] { json });
                     }
                 }
+           
             } else
             {
                 IsConnectedToServer = false;

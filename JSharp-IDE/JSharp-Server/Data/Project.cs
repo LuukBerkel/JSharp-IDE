@@ -104,6 +104,11 @@ namespace JSharp_Server.Data
             }
          
         }
+
+        public IDictionary<string, string> GetFiles()
+        {
+            return data;
+        }
         
         /// <summary>
         /// This ends a session from the session list..

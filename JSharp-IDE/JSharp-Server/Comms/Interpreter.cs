@@ -139,9 +139,9 @@ namespace JSharp_Server.Comms
 
                 //Getting users
                 IList<string> users = new List<string>();
-                foreach (JObject o in (JArray)file)
+                foreach (string s in (JArray)user)
                 {
-                      users.Add(o.ToString());
+                      users.Add(s);
                 }
 
                 //Adding it to active projects
@@ -230,10 +230,12 @@ namespace JSharp_Server.Comms
         [Authorization(true, "joinProject")]
         private void JoinProject(JObject json)
         {
-            JToken projectname = json.GetValue("data");
+
+
+            JToken projectname = json.GetValue("project");
             if (projectname != null)
             {
-                bool done = this.manager.JoinProject(session, projectname.ToString());
+                bool done = this.manager.JoinProject(session, projectname.ToString(), replyer);
                 if (done) this.replyer.Succes();
                 else this.replyer.Failed();
             }

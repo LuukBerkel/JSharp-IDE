@@ -137,7 +137,9 @@ namespace JSharp_IDE.Network
 
         private void Command(JObject json)
         {
-            if (json != null)
+            Debug.WriteLine(json.ToString());
+            JToken token;
+            if (json.TryGetValue("instruction", out token))
             {
                 JToken token;
                 if (json.TryGetValue("instruction", out token))
@@ -175,6 +177,8 @@ namespace JSharp_IDE.Network
         [Command("RequestedProject")]
         private void RequestedProject(JObject json)
         {
+            Debug.WriteLine(json.ToString());
+
             Debug.WriteLine("Received all project data");
         }
 

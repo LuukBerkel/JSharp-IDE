@@ -234,7 +234,7 @@ namespace JSharp_Server.Data
         /// </summary>
         /// <param name="session"></param>
         /// <returns></returns>
-        public bool JoinProject(Session session, string projectname)
+        public bool JoinProject(Session session, string projectname, Replyer replyer)
         {
             //locking for thread safty
             lock (projects)
@@ -243,9 +243,18 @@ namespace JSharp_Server.Data
                 foreach (Project p in projects)
                 {
                     //If project contains active session
+                    MainWindow.SetDebugOutput("Count of users in project is: " + p.GetUsers().Count);
+
+                    foreach (string user  in p.GetUsers())
+                    {
+                        MainWindow.SetDebugOutput(user);
+                    }
+
                     if (p.GetUsers().Where(e => e == session.UserAcount.Username).ToList().Count > 0 && p.name == projectname)
                     {
+                       
                         p.AddSession(session);
+                        replyer.SendAll(p.GetFiles(), p.name);
                         return true;
                     }
                 }

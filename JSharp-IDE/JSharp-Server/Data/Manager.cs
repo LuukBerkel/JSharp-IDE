@@ -34,6 +34,7 @@ namespace JSharp_Server.Data
             projects = new List<Project>();
             active = new List<Session>();
             this.users = Proccessing.LoadUserData();
+
         }
 
         /// <summary>

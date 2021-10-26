@@ -19,14 +19,14 @@ namespace CommClass
 
         public void SendMessage(string message)
         {
-            Debug.WriteLine("PlaneTextSender: SendMessage: " + message);
+            //Debug.WriteLine("PlaneTextSender: SendMessage: " + message);
             Communications.WriteData(Encoding.ASCII.GetBytes(message), stream);
         }
 
         public string ReadMessage()
         {
             string received = Encoding.ASCII.GetString(Communications.ReadData(stream));
-            Debug.WriteLine("PlaneTextSender: ReadMessage: " + received);
+            //Debug.WriteLine("PlaneTextSender: ReadMessage: " + received);
             return received;
         }
 

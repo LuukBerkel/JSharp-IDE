@@ -56,10 +56,6 @@ namespace JSharp_Server.Comms
 
                         if (decoded != null)
                         {
-
-                            //Debug output
-                            MainWindow.SetDebugOutput(encoded);
-
                             //Decoding data
                             this.interpreter.Command(decoded);
                         }

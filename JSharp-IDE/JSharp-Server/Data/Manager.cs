@@ -81,7 +81,7 @@ namespace JSharp_Server.Data
                 foreach (User user in this.users)
                 {
                     //if it are ther credentails then and not already online..
-                    if (user.Password == Proccessing.HashUserPassword(password) && user.Username == username && active.Where(e => e.UserAcount != user).ToList().Count <= 0)
+                    if (user.Password == Proccessing.HashUserPassword(password) && user.Username == username && active.Where(e => e.UserAcount == user).ToList().Count <= 0)
                     {
                         return user;
                     }

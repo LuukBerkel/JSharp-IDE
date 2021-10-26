@@ -197,6 +197,7 @@ namespace JSharp_IDE.Network
             if (json.SelectToken("data.flag").ToString() == "0")
             {
                 //Remove files
+                Project.DeleteFile();
 
             } else
             {

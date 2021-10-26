@@ -248,11 +248,17 @@ namespace JSharp_IDE
 
         public static void UpdateFile(string path, string data)
         {
+
+           
+
+
             try
             {
                 //Update file on disk
                 Debug.WriteLine($"Full path: {Path.Combine(ProjectDirectory, path)}\n" +
                                 $"Updating file {path}: {data}");
+
+
                 //Check if the folder structure exists.
                 new FileInfo(Path.Combine(ProjectDirectory, path)).Directory.Create();
                 //Combine the path with the computers folder path to get the exact location.
@@ -272,6 +278,9 @@ namespace JSharp_IDE
                         break;
                     }
                 }
+
+                UpdateTreeView(ProjectDirectory);
+
             } catch (Exception e)
             {
                 Debug.WriteLine($"File update failed: {e.Message}");

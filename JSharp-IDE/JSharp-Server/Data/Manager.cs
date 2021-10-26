@@ -262,7 +262,7 @@ namespace JSharp_Server.Data
                         MainWindow.SetDebugOutput(user);
                     }
 
-                    if (p.GetUsers().Where(e => e == session.UserAcount.Username).ToList().Count > 0 && p.name == projectname)
+                    if (session.UserAcount != null && p.GetUsers().Where(e => e == session.UserAcount.Username).ToList().Count > 0 && p.name == projectname)
                     {
                        
                         p.AddSession(session);

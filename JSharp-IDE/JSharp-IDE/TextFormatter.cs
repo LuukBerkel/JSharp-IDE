@@ -15,20 +15,28 @@ namespace JSharp_IDE
     {
         private static SolidColorBrush standardColor = Brushes.White;
 
-        //Keywords
+        // Keywords
+        // The color determines which color the regex matches get.
         private static SolidColorBrush keyWordColor = Brushes.Orange;
         private static string keywords = @"(\b(public|private|class|void|import|protected|static|final|enum|synchronized|super|this|boolean|while|for|;|true|false|case|break|if|switch|else|int|new|return|try|catch|finally|implements|extends)\b\s*)";
         private static string symbols = @"(;|,)";
 
-        //Annotations
+        // Annotations
+        // The color determines which color the regex matches get.
         private static SolidColorBrush annotationColor = Brushes.YellowGreen;
         private static string annotations = @"@[a-zA-Z]+";
 
-        //Comments
+        // Comments
+        // The color determines which color the regex matches get.
         private static SolidColorBrush commentColor = Brushes.Green;
         private static string singleLineComment = @"//.*";
         private static string multiLineComment = @"(/\*\*|\*).*((\*/)?)";
 
+        /// <summary>
+        /// Event which will go through the currently edited block of text and checks for regex.
+        /// </summary>
+        /// <param name="rtb"></param>
+        /// <returns>1 when finished.</returns>
         public static async Task<int> OnTextChanged(RichTextBox rtb)
         {
             await Task.Run(() =>
@@ -49,6 +57,11 @@ namespace JSharp_IDE
             return 1;
         }
 
+        /// <summary>
+        /// Checks the whole file for regex
+        /// </summary>
+        /// <param name="rtb"></param>
+        /// <returns>1 when finished</returns>
         public static async Task<int> OnTextPasted(RichTextBox rtb)
         {
             await Task.Run(() =>
@@ -77,6 +90,10 @@ namespace JSharp_IDE
             return 1;
         }
 
+        /// <summary>
+        /// Goes through every word in the currently edited block of text.
+        /// </summary>
+        /// <param name="block">The block that is edited.</param>
         private static void CheckSyntaxAtBlock(Block block)
         {
             if (block != null)
@@ -100,6 +117,13 @@ namespace JSharp_IDE
             }
         }
 
+        /// <summary>
+        /// Searches a string of words for regex match and highlights it in the given color.
+        /// </summary>
+        /// <param name="start">Start of the string</param>
+        /// <param name="rex">Regex to find matches with</param>
+        /// <param name="color">Color that needs to be applied</param>
+        /// <returns>A TextPointer whos position is at the end of this string.</returns>
         private static TextPointer MatchRegexAndHighlight(TextPointer start, Regex rex, SolidColorBrush color)
         {
             Match match = rex.Match(start.GetTextInRun(LogicalDirection.Forward));
@@ -108,6 +132,11 @@ namespace JSharp_IDE
             return textRange.End;
         }
 
+        /// <summary>
+        /// Changes the color of a range of text.
+        /// </summary>
+        /// <param name="textRange">String to be colored</param>
+        /// <param name="color">The color that needs to be used.</param>
         private static void ChangeSelectedTextColor(TextRange textRange, SolidColorBrush color)
         {
             textRange.ApplyPropertyValue(TextElement.ForegroundProperty, color);

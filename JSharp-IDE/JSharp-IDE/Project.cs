@@ -75,6 +75,9 @@ namespace JSharp_IDE
             }
         }
 
+        /// <summary>
+        /// Reads the file that is requested and create a new tab for it.
+        /// </summary>
         public static void OpenFileToEdit()
         {
             //Get the current selected item
@@ -212,6 +215,9 @@ namespace JSharp_IDE
             return path;
         }
 
+        /// <summary>
+        /// Deletes a file from the project.
+        /// </summary>
         public static void DeleteFile()
         {
             //Get the current selected item
@@ -246,6 +252,11 @@ namespace JSharp_IDE
             }
         }
 
+        /// <summary>
+        /// Updates a file from the project.
+        /// </summary>
+        /// <param name="path">local file path</param>
+        /// <param name="data">Data of the file.</param>
         public static void UpdateFile(string path, string data)
         {
             try

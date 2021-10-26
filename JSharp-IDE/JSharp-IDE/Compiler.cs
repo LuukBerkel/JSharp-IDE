@@ -21,6 +21,13 @@ namespace JSharp_IDE
             this.mwvm = mwvm;
         }
 
+        /// <summary>
+        /// Compiles the java code into a java project.
+        /// </summary>
+        /// <param name="pathOut">Output directory</param>
+        /// <param name="pathSrc">Source directory</param>
+        /// <param name="pathLib">Library directory</param>
+        /// <param name="pathRes">Resources directory</param>
         public void Compile(string pathOut, string pathSrc, string pathLib, string pathRes)
         {
             new Thread(() =>
@@ -112,6 +119,13 @@ namespace JSharp_IDE
             }).Start();
         }
 
+        /// <summary>
+        /// Runs the compiled java code.
+        /// </summary>
+        /// <param name="pathOut">Output directory</param>
+        /// <param name="pathLib">Library directory</param>
+        /// <param name="pathRes">Resources directory</param>
+        /// <param name="main">Main class directory</param>
         public void Execute(string pathOut, string pathLib, string pathRes, string main)
         {
             new Thread(() =>
@@ -170,13 +184,22 @@ namespace JSharp_IDE
             }).Start();
         }
 
+        /// <summary>
+        /// Searches the main method in all classes.
+        /// </summary>
+        /// <param name="pathSrc">Source directory</param>
+        /// <returns>The path to the main method.</returns>
         public string MainSearcher(string pathSrc)
         {
            return MainFinder(pathSrc);
         }
 
-
-
+        /// <summary>
+        /// Searches the main method in all classes.
+        /// This method is recursive.
+        /// </summary>
+        /// <param name="pathFiles">Source directory</param>
+        /// <returns>The path to the main method.</returns>
         private string MainFinder(string pathFiles)
         {
             //If there is something in the directory
@@ -217,13 +240,8 @@ namespace JSharp_IDE
                     }
                 }
             }
-
             return "";
-
         }
-        
-
-
     }
 }
 

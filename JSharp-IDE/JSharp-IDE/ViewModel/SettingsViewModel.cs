@@ -16,6 +16,9 @@ namespace JSharp_IDE.ViewModel
 {
     public class SettingsViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Apply all values to the settings file.
+        /// </summary>
         private RelayCommand mApplyCommand;
         public ICommand ApplyCommand
         {
@@ -37,6 +40,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
         
+        /// <summary>
+        /// Sign up to the server.
+        /// </summary>
         private RelayCommand mSignUpCommand;
         public ICommand SignUpCommand
         {
@@ -59,6 +65,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Username box
+        /// </summary>
         private string mUsername;
         public string UserName
         {
@@ -78,6 +87,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Password box
+        /// </summary>
         private string mPassword;
         public string Password
         {
@@ -102,6 +114,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// The server ip.
+        /// </summary>
         private string mAddress;
         public string Address
         {
@@ -121,6 +136,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Server port
+        /// </summary>
         private string mPort;
         public string Port
         {
@@ -140,6 +158,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Java bin directory.
+        /// </summary>
         private string mJavaDir;
         public string JavaDir
         {

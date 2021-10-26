@@ -15,6 +15,9 @@ namespace JSharp_IDE.ViewModel
 {
     class MenuViewModel
     {
+        /// <summary>
+        /// Create a new project
+        /// </summary>
         private RelayCommand mNewCommand;
         public ICommand NewCommand
         {
@@ -32,6 +35,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
         
+        /// <summary>
+        /// Open a project
+        /// </summary>
         private RelayCommand mOpenCommand;
         public ICommand OpenCommand
         {
@@ -49,6 +55,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
         
+        /// <summary>
+        /// Save all the opened files from the project.
+        /// </summary>
         private RelayCommand mSaveCommand;
         public ICommand SaveCommand
         {
@@ -66,6 +75,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Open the settings window.
+        /// </summary>
         private RelayCommand mSettingsCommand;
         public ICommand SettingsCommand
         {

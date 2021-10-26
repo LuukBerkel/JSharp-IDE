@@ -17,6 +17,9 @@ namespace JSharp_IDE.ViewModel
 {
     class UserSignUpViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Project name
+        /// </summary>
         private string mProjectName;
         public string ProjectName
         {
@@ -36,6 +39,10 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Host button which automatically logs the user in to the server.
+        /// If the login is valid than the project files are automatically uploaded.
+        /// </summary>
         private RelayCommand mHostCommand;
         public ICommand HostCommand
         {
@@ -88,6 +95,10 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Join button which automatically logs the user in to the server.
+        /// If the login is valid than the project is automatically downloaded to the server.
+        /// </summary>
         private RelayCommand mJoinCommand;
         public ICommand JoinCommand
         {

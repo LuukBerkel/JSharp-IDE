@@ -9,6 +9,11 @@ namespace JSharp_IDE.ViewModel
 {
     class RichTextBoxViewModel
     {
+        /// <summary>
+        /// Event that is triggered when the contents of the textbox has changed.
+        /// </summary>
+        /// <param name="sender">RichTextBox</param>
+        /// <param name="e"></param>
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             RichTextBox rtb = sender as RichTextBox;

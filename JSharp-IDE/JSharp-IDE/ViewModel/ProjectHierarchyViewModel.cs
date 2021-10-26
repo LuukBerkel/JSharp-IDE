@@ -13,6 +13,9 @@ namespace JSharp_IDE.ViewModel
     {
         public static TreeViewItem ParentItem { get; set; }
 
+        /// <summary>
+        /// Add a new file to the project.
+        /// </summary>
         private RelayCommand mAddNewFile;
         public ICommand NewFile
         {
@@ -30,6 +33,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Delete a file from the project.
+        /// </summary>
         private RelayCommand mDeleteCommand;
         public ICommand DeleteCommand
         {

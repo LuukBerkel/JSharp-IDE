@@ -18,6 +18,9 @@ namespace JSharp_IDE.ViewModel
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Debug window is the console output on the bottom of the GUI.
+        /// </summary>
         private string mDebugWindow;
         public string DebugWindow
         {
@@ -45,6 +48,9 @@ namespace JSharp_IDE.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        /// <summary>
+        /// Builds and then runs the code.
+        /// </summary>
         private RelayCommand mRunCommand;
         public ICommand RunCommand
         {
@@ -80,6 +86,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Only builds the code.
+        /// </summary>
         private RelayCommand mCompileCommand;
         public ICommand CompileCommand
         {
@@ -111,6 +120,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Saves all files to the disk that are opened in the editor.
+        /// </summary>
         public static void SaveAllOpenedFiles()
         {
             foreach (TabItem item in MainWindow.CodePanels.Items)
@@ -130,6 +142,9 @@ namespace JSharp_IDE.ViewModel
             }
         }
 
+        /// <summary>
+        /// Save all the opened files.
+        /// </summary>
         private RelayCommand mSaveCommand;
         public ICommand SaveCommand
         {

@@ -288,7 +288,7 @@ namespace JSharp_IDE
                                     doc.Blocks.Add(p);
 
 
-                                    //Task.Run(async () => await TextFormatter.OnTextPasted(box));
+                                    Task.Run(async () => await TextFormatter.OnTextChanged(box));
 
 
                                 }

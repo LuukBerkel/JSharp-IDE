@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace JSharp_IDE.Network
 {
+    /// <summary>
+    /// Struct that is used to make the sharing of files a bit easier in the code.
+    /// </summary>
     public struct NetworkFile
     {
         public string filePath;

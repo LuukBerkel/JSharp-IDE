@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace JSharp_Server.Data
 {
-    class Proccessing
+    public class Proccessing
     {
         /// <summary>
         /// Loads all the user form a file from disk
@@ -24,9 +24,6 @@ namespace JSharp_Server.Data
             //Filling the list if the file exists...
             if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "userData.txt"))) {
                 string data = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "userData.txt"));
-             
-
-
                 //Filling...
                 JArray array = JArray.Parse(data);
                 foreach (JObject o in array)
@@ -34,8 +31,6 @@ namespace JSharp_Server.Data
                     users.Add(o.ToObject<User>());
                 }
             }
-
-            
 
             //Returning list.
             return users;

@@ -10,6 +10,7 @@ namespace JSharp_Server.Data
     public class Project
     {
         //Actual data
+        //Key: path, value: data
         private IDictionary<string, string> data;
         private IList<Session> activeUsers;
 
@@ -37,7 +38,7 @@ namespace JSharp_Server.Data
         }
 
         /// <summary>
-        /// Adds a invitd user to the list of invited users
+        /// Adds an invited user to the list of invited users
         /// </summary>
         /// <param name="user">the string of username</param>
         public void AddUser(string user)
@@ -62,12 +63,11 @@ namespace JSharp_Server.Data
                         activeUsers.Remove(s);
                     }
                 }
-                
             }
         }
 
         /// <summary>
-        /// This function adds a file to the dictonairy with path or repalces it if it already exists,
+        /// This function adds a file to the dictionary with path or replaces it if it already exists.
         /// </summary>
         /// <param name="path">The path of the file</param>
         /// <param name="data">The data in string form</param>
@@ -78,7 +78,7 @@ namespace JSharp_Server.Data
         }
 
         /// <summary>
-        /// This removes a fie from the dicotornair with path and data..
+        /// This removes a file from the dictionary with path and data..
         /// </summary>
         /// <param name="path"></param>
         public void RemoveFile(string path)
@@ -109,7 +109,6 @@ namespace JSharp_Server.Data
             {
                 this.activeUsers.Add(s);
             }
-         
         }
 
         public IDictionary<string, string> GetFiles()
@@ -121,7 +120,7 @@ namespace JSharp_Server.Data
         /// This ends a session from the session list..
         /// </summary>
         /// <param name="s"></param>
-        public void EndSessoin(Session s)
+        public void EndSession(Session s)
         {
             this.activeUsers.Remove(s);
         }
@@ -142,10 +141,5 @@ namespace JSharp_Server.Data
         {
             return this.users;
         }
-
-        
-
-
-
     }
 }

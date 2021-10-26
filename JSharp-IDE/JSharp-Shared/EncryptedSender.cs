@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace CommClass
+namespace JSharp_Shared
 {
     class EncryptedSender : ISender
     {
@@ -36,14 +36,12 @@ namespace CommClass
 
         public void SendMessage(string message)
         {
-            Debug.WriteLine("EncryptedSender: SendMessage: " + message);
             Communications.WriteData(this.RSAOUT.Encrypt(Encoding.ASCII.GetBytes(message), false), stream);
         }
 
         public string ReadMessage()
         {
             string received = Encoding.ASCII.GetString(this.RSAIN.Decrypt(Communications.ReadData(stream), false));
-            Debug.WriteLine("EncryptedSender: ReadMessage: " + received);
             return received;
         }
     }

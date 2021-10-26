@@ -1,4 +1,4 @@
-﻿using CommClass;
+﻿using JSharp_Shared;
 using JSharp_Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -104,6 +104,10 @@ namespace JSharp_IDE.Network
             }
         }
 
+        /// <summary>
+        /// Reads a string from the server.
+        /// </summary>
+        /// <returns>String that is read from the server</returns>
         public string ReadMessage()
         {
             string msg = "";
@@ -122,6 +126,12 @@ namespace JSharp_IDE.Network
             return msg;
         }
 
+        /// <summary>
+        /// Method to get access to the connection instance (singleton).
+        /// </summary>
+        /// <param name="ip">Ip of the server</param>
+        /// <param name="port">Port of the server</param>
+        /// <returns>An instance of connection.</returns>
         public static Connection GetConnection(string ip, int port)
         {
             //If this instance does not exist, or if the connection is lost: Create a new connection
@@ -132,7 +142,10 @@ namespace JSharp_IDE.Network
             return Instance;
         }
 
-
+        /// <summary>
+        /// Check which json command needs to be executed.
+        /// </summary>
+        /// <param name="json">The json with a command in it.</param>
         private void Command(JObject json)
         {
             Debug.WriteLine(json.ToString());
@@ -150,13 +163,16 @@ namespace JSharp_IDE.Network
                         method.Invoke(this, new object[] { json });
                     }
                 }
-           
             } else
             {
                 IsConnectedToServer = false;
             }
         }
 
+        /// <summary>
+        /// Confirmation command
+        /// </summary>
+        /// <param name="json">Json from the server</param>
         [Command("OK")]
         private void Ok(JObject json)
         {
@@ -166,6 +182,10 @@ namespace JSharp_IDE.Network
             Debug.WriteLine("Action successfull");
         }
 
+        /// <summary>
+        /// Failed command
+        /// </summary>
+        /// <param name="json">Json from the server</param>
         [Command("FAILED")]
         private void Failed(JObject json)
         {
@@ -175,6 +195,10 @@ namespace JSharp_IDE.Network
             Debug.WriteLine("Action failed");
         }
 
+        /// <summary>
+        /// This command downloads a project from the server.
+        /// </summary>
+        /// <param name="json">Json from the server</param>
         [Command("RequestedProject")]
         private void RequestedProject(JObject json)
         {
@@ -191,6 +215,10 @@ namespace JSharp_IDE.Network
             Debug.WriteLine("Received all project data");
         }
 
+        /// <summary>
+        /// Update one or more files from the project.
+        /// </summary>
+        /// <param name="json">Json from the server</param>
         [Command("UpdatedProject")]
         private void UpdatedProject(JObject json)
         {
@@ -212,6 +240,9 @@ namespace JSharp_IDE.Network
             Debug.WriteLine("Updated file(s)");
         }
 
+        /// <summary>
+        /// This class is used as an attribute to connect a json command with a method.
+        /// </summary>
         public class CommandAttribute : Attribute
         {
             private string Command;

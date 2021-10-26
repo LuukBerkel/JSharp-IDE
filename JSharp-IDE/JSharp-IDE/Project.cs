@@ -290,6 +290,9 @@ namespace JSharp_IDE
             return path.Replace(ProjectDirectory + "\\", "");
         }
 
+        /// <summary>
+        /// Adds the currently opened and edited file to the server to broadcast the updated version to other clients.
+        /// </summary>
         public static void SendFileToServer()
         {
             string localPath = null;

@@ -17,7 +17,7 @@ namespace JSharp_IDE.Utils
 
         public static bool Exists()
         {
-            return File.Exists(SettingsPath);
+            return File.Exists(SettingsPath) && File.ReadAllLines(SettingsPath).Length != 0;
         }
 
         public static void CreateSettingsFile()
@@ -30,7 +30,7 @@ namespace JSharp_IDE.Utils
                     serverAddress = "localhost",
                     serverPort = "6969",
                     javaBin = "C:\\Program Files\\Java\\jdk1.8.0_261\\bin"
-                })); ;
+                }));
             }
         }
 

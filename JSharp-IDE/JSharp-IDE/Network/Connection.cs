@@ -161,6 +161,7 @@ namespace JSharp_IDE.Network
         private void Ok(JObject json)
         {
             //Deques it because it is ok
+            if (this.feedbackQueu.Count > 0)
             this.feedbackQueu.Dequeue();
             Debug.WriteLine("Action successfull");
         }
@@ -169,7 +170,8 @@ namespace JSharp_IDE.Network
         private void Failed(JObject json)
         {
             //Show the dequed message because an error
-            MessageBox.Show(this.feedbackQueu.Dequeue(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (this.feedbackQueu.Count > 0)
+                MessageBox.Show(this.feedbackQueu.Dequeue(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             Debug.WriteLine("Action failed");
         }
 

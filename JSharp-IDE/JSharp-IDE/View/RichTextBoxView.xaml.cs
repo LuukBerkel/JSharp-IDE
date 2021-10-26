@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -22,17 +23,33 @@ namespace JSharp_IDE.View
     public partial class RichTextBoxView : UserControl
     {
         public RichTextBox RichTextBox;
+        private Timer FileUpdateTimer;
+        private bool TimerFinished = true;
 
         public RichTextBoxView()
         {
             InitializeComponent();
             //Assign the xml object to the code variable.
             RichTextBox = CodeTextBox;
+            FileUpdateTimer = new Timer(2000);
+            FileUpdateTimer.Elapsed += FileUpdateTimer_Elapsed;
+            //Only call the event once.
+            FileUpdateTimer.AutoReset = false;
+        }
+
+        private void FileUpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Project.SendFileToServer();
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             RichTextBox rtb = sender as RichTextBox;
+            //If a timer has finished, start a new one. (Basically to prevent a timer from constantly starting again.)
+            if (!FileUpdateTimer.Enabled && TimerFinished)
+            {
+                FileUpdateTimer.Start();
+            }
             //Remove this event to prevent a recursive call
             rtb.TextChanged -= CodeTextBox_TextChanged;
             int result = 0;

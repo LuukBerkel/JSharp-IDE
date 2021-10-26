@@ -61,14 +61,15 @@ namespace JSharp_IDE.ViewModel
                                 filePaths = filePaths.Where(value => 
                                 !value.Contains(Path.DirectorySeparatorChar + "out" + Path.DirectorySeparatorChar)).ToArray();
                                 // Store every filepath with the data of that file
-                                Network.File[] files = new Network.File[filePaths.Length];
+                                Network.NetworkFile[] files = new NetworkFile[filePaths.Length];
 
                                 for (int i = 0; i < filePaths.Length; i++)
                                 {
-                                    files[i] = new Network.File(filePaths[i], System.IO.File.ReadAllBytes(filePaths[i]));
+                                    string path = Project.GetLocalPath(filePaths[i]);
+                                    files[i] = new NetworkFile(path, File.ReadAllBytes(filePaths[i]));
                                 }
 
-                                if (System.IO.File.Exists(Path.Combine(Project.ProjectDirectory, "users.txt")))
+                                if (File.Exists(Path.Combine(Project.ProjectDirectory, "users.txt")))
                                 {
                                     string[] usernames = System.IO.File.ReadAllLines(Path.Combine(Project.ProjectDirectory, "users.txt"));
 

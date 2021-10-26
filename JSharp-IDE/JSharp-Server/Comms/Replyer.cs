@@ -56,14 +56,19 @@ namespace JSharp_Server.Comms
        /// <param name="projectname">Projectname as string</param>
         public void SendAll(IDictionary<string, string> project, string projectname)
         {
+            NetworkFile[] networkFiles = new NetworkFile[project.Count];
+            for (int i = 0; i < project.Count; i++)
+            {
+                networkFiles[i] = new NetworkFile(project.Keys.ElementAt(i), Convert.FromBase64String(project.Values.ElementAt(i)));
+            }
             object o = new
             {
                 instruction = "RequestedProject",
-               
+
                 data = new
                 {
                     name = projectname,
-                    files = project
+                    files = networkFiles
                 }
 
             };
@@ -80,6 +85,12 @@ namespace JSharp_Server.Comms
         {
             int flag = state ? 0 : 1;
 
+            NetworkFile[] networkFiles = new NetworkFile[project.Count];
+            for (int i = 0; i < project.Count; i++)
+            {
+                networkFiles[i] = new NetworkFile(project.Keys.ElementAt(i), Convert.FromBase64String(project.Values.ElementAt(i)));
+            }
+
             object o = new
             {
                 instruction = "UpdatedProject",
@@ -87,7 +98,7 @@ namespace JSharp_Server.Comms
                 data = new
                 {
                     flag = flag,
-                    files = project
+                    files = networkFiles
                 }
 
             };

@@ -1,4 +1,6 @@
-﻿using JSharp_IDE.View;
+﻿using JSharp_IDE.Network;
+using JSharp_IDE.View;
+using JSharp_IDE.ViewModel;
 using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using System;
@@ -286,6 +288,38 @@ namespace JSharp_IDE
         {
             Debug.WriteLine($"LocalPath: {path.Replace(ProjectDirectory + "\\", "")}");
             return path.Replace(ProjectDirectory + "\\", "");
+        }
+
+        public static void SendFileToServer()
+        {
+            string localPath = null;
+            MainWindow.CodePanels.Dispatcher.Invoke(() => {
+                if (MainWindow.CodePanels.SelectedItem != null)
+                {
+                    localPath = (MainWindow.CodePanels.SelectedItem as TabItem).Tag.ToString();
+                }
+            });
+            Debug.WriteLine("Updating file " + localPath);
+            localPath = GetLocalPath(localPath);
+            Debug.WriteLine("Localpath: " + localPath);
+            MainWindowViewModel.SaveAllOpenedFiles();
+            Connection c = Connection.Instance;
+            if (c != null && localPath != null)
+            {
+                c.SendCommand(JSONCommand.UpdateFiles(new NetworkFile[] { new NetworkFile(localPath, File.ReadAllBytes(Path.Combine(ProjectDirectory, localPath))) }, 1));
+            }
+        }
+
+        public static void RemoveFileFromServer()
+        {
+            /*string localPath = null;
+            MainWindow.CodePanels.Dispatcher.Invoke(() => localPath = (MainWindow.CodePanels.SelectedItem as TabItem).Tag.ToString());
+            Debug.WriteLine("Updating file " + localPath);
+            Connection c = Connection.Instance;
+            if (c != null && localPath != null)
+            {
+                c.SendCommand(JSONCommand.UpdateFiles(new NetworkFile[] { new NetworkFile(localPath, null)}, 0));
+            }*/
         }
     }
 }

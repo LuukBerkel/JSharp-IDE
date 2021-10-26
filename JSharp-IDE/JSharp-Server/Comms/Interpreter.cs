@@ -158,7 +158,8 @@ namespace JSharp_Server.Comms
         }
 
         /// <summary>
-        /// Editing a 
+        /// Flag 0: Delete file
+        /// Flag 1: Add/Edit file
         /// </summary>
         /// <param name="json"></param>
         [Authorization(true, "changeProject")]

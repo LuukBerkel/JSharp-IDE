@@ -44,7 +44,7 @@ namespace JSharp_IDE.Network
             };
         }
 
-        public static object HostProject(string projectName, string[] userNames, Network.File[] fileList)
+        public static object HostProject(string projectName, string[] userNames, Network.NetworkFile[] fileList)
         {
             return new
             {
@@ -58,13 +58,20 @@ namespace JSharp_IDE.Network
             };
         }
 
-        public static object UpdateFiles(File[] fileList)
+        /// <summary>
+        /// Update files
+        /// </summary>
+        /// <param name="fileList">Files to add/edit or remove</param>
+        /// <param name="flag">0: Remove, 1: Add/Edit</param>
+        /// <returns></returns>
+        public static object UpdateFiles(NetworkFile[] fileList, int flag)
         {
             return new
             {
-                instruction = "",
+                instruction = "changeProject",
                 data = new
                 {
+                    fileFlag = flag,
                     files = fileList
                 }
             };

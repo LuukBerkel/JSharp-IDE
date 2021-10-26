@@ -17,6 +17,7 @@ namespace JSharp_IDE
     {
         public static string ProjectDirectory { get; set; }
         public static string ProjectName { get; set; }
+        public static NotificationWindow notification;
 
         /// <summary>
         /// Creates a new project with the correct file structure.
@@ -277,6 +278,12 @@ namespace JSharp_IDE
                                 {
                                     //Enable not edit timer
                                     RichTextBoxViewModel.Enabled = false;
+
+                                   
+                                        notification = new NotificationWindow("This section is edit right now, this notification will dissappear when it is available.");
+                                        notification.Show();
+                                  
+                                    
                                 } else
                                 {
                                     //I know it isn't clean but it is simple.....

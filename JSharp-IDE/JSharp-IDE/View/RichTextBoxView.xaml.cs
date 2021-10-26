@@ -41,6 +41,7 @@ namespace JSharp_IDE.View
         private void ElapsedHandler(object sender, ElapsedEventArgs e)
         {
             RichTextBoxViewModel.Enabled = true;
+            Project.notification.Close();
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)

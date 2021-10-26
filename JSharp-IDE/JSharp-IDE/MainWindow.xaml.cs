@@ -43,5 +43,7 @@ namespace JSharp_IDE
             }*/
             Environment.Exit(Environment.ExitCode);
         }
+
+       
     }
 }

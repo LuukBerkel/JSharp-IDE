@@ -248,10 +248,6 @@ namespace JSharp_IDE
 
         public static void UpdateFile(string path, string data)
         {
-
-           
-
-
             try
             {
                 //Update file on disk
@@ -266,17 +262,53 @@ namespace JSharp_IDE
                 //Update file in editor
                 foreach (TabItem item in MainWindow.CodePanels.Items)
                 {
-                    if (item.Tag.ToString() == path)
+                    MainWindow.CodePanels.Dispatcher.Invoke(() =>
                     {
-                        RichTextBoxView box = item.Content as RichTextBoxView;
-                        box.Dispatcher.Invoke(() =>
+
+
+                        if (item.Tag.ToString() == path)
                         {
-                            box.Update(path);
-                        });
-                        //Check syntax on the whole document.
-                        Task.Run(async () => await TextFormatter.OnTextPasted(box.RichTextBox));
-                        break;
-                    }
+                            RichTextBoxViewModel.Enabled = false;
+
+                            RichTextBox box = item.Content as RichTextBox;
+                            MainWindow.CodePanels.Items.Dispatcher.Invoke(() =>
+                            {
+
+
+                                
+
+                                FlowDocument doc = box.Document;
+                                doc.Blocks.Clear();
+                                //Add each line to the document as a separate block.
+                                foreach (string line in File.ReadAllLines(Path.Combine(ProjectDirectory, path)))
+                                {
+                                    Paragraph p = new Paragraph();
+                                    p.Inlines.Add(new Run(line));
+                                    p.Margin = new Thickness(0);
+                                    doc.Blocks.Add(p);
+
+
+                                    //Task.Run(async () => await TextFormatter.OnTextPasted(box));
+
+
+                                }
+
+                               
+
+
+
+                            });
+
+
+                        }
+
+
+
+                    });
+                   
+
+
+
                 }
 
          
@@ -310,14 +342,20 @@ namespace JSharp_IDE
                     localPath = (MainWindow.CodePanels.SelectedItem as TabItem).Tag.ToString();
                 }
             });
-            Debug.WriteLine("Updating file " + localPath);
-            localPath = GetLocalPath(localPath);
-            Debug.WriteLine("Localpath: " + localPath);
-            MainWindowViewModel.SaveAllOpenedFiles();
-            Connection c = Connection.Instance;
-            if (c != null && localPath != null)
+
+            if (localPath != null)
             {
-                c.SendCommand(JSONCommand.UpdateFiles(new NetworkFile[] { new NetworkFile(localPath, File.ReadAllBytes(Path.Combine(ProjectDirectory, localPath))) }, 1));
+                Debug.WriteLine("Updating file " + localPath);
+                localPath = GetLocalPath(localPath);
+                Debug.WriteLine("Localpath: " + localPath);
+                MainWindowViewModel.SaveAllOpenedFiles();
+                Connection c = Connection.Instance;
+                if (c != null && localPath != null)
+                {
+                    c.SendCommand(JSONCommand.UpdateFiles(new NetworkFile[] { new NetworkFile(localPath, File.ReadAllBytes(Path.Combine(ProjectDirectory, localPath))) }, 1));
+
+
+                }
             }
         }
 

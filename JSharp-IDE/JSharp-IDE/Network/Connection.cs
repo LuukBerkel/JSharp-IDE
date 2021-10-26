@@ -1,5 +1,4 @@
 ﻿using JSharp_Shared;
-using JSharp_Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -227,7 +226,7 @@ namespace JSharp_IDE.Network
             if (json.SelectToken("data.flag").ToString() == "0")
             {
                 //Remove files
-                Project.DeleteFile();
+                
 
             } else
             {
@@ -238,6 +237,10 @@ namespace JSharp_IDE.Network
                 }
             }
             Debug.WriteLine("Updated file(s)");
+            MainWindow.CodePanels.Dispatcher.Invoke(() =>
+            {
+                MainWindow.CodePanels.UpdateLayout();
+            });
         }
 
         /// <summary>

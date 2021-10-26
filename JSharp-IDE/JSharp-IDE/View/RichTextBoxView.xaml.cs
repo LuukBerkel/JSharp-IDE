@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JSharp_IDE.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,14 +33,14 @@ namespace JSharp_IDE.View
             //Assign the xml object to the code variable.
             RichTextBox = CodeTextBox;
             FileUpdateTimer = new Timer(2000);
-            FileUpdateTimer.Elapsed += FileUpdateTimer_Elapsed;
+            FileUpdateTimer.Elapsed += ElapsedHandler;
             //Only call the event once.
             FileUpdateTimer.AutoReset = false;
         }
 
-        private void FileUpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void ElapsedHandler(object sender, ElapsedEventArgs e)
         {
-            Project.SendFileToServer();
+            RichTextBoxViewModel.Enabled = true;
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -49,7 +50,11 @@ namespace JSharp_IDE.View
             if (!FileUpdateTimer.Enabled && TimerFinished)
             {
                 FileUpdateTimer.Start();
+                Project.SendFileToServer();
             }
+
+
+
             //Remove this event to prevent a recursive call
             rtb.TextChanged -= CodeTextBox_TextChanged;
             int result = 0;
@@ -74,22 +79,7 @@ namespace JSharp_IDE.View
             });
         }
 
-        public void Update(string path)
-        {
-            RichTextBox.Dispatcher.Invoke(() =>
-            {
-                FlowDocument doc = RichTextBox.Document;
-                doc.Blocks.Clear();
-                //Add each line to the document as a separate block.
-                foreach (string line in File.ReadAllLines(path))
-                {
-                    Paragraph p = new Paragraph();
-                    p.Inlines.Add(new Run(line));
-                    p.Margin = new Thickness(0);
-                    doc.Blocks.Add(p);
-                }
-            });
-        }
+     
 
         private void CodeTextBox_KeyDown(object sender, KeyEventArgs e)
         {

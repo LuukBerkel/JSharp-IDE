@@ -24,7 +24,7 @@ namespace JSharp_IDE.View
     public partial class RichTextBoxView : UserControl
     {
         public RichTextBox RichTextBox;
-        private Timer FileUpdateTimer;
+        public static Timer FileUpdateTimer;
         private bool TimerFinished = true;
 
         public RichTextBoxView()
@@ -32,7 +32,7 @@ namespace JSharp_IDE.View
             InitializeComponent();
             //Assign the xml object to the code variable.
             RichTextBox = CodeTextBox;
-            FileUpdateTimer = new Timer(2000);
+            FileUpdateTimer = new Timer(7000);
             FileUpdateTimer.Elapsed += ElapsedHandler;
             //Only call the event once.
             FileUpdateTimer.AutoReset = false;
@@ -65,6 +65,7 @@ namespace JSharp_IDE.View
                 });
             } else
             {
+              
                 FileUpdateTimer.Start();
             }
         }

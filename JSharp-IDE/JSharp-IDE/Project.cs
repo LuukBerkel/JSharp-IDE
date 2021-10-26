@@ -273,9 +273,17 @@ namespace JSharp_IDE
                             RichTextBox box = item.Content as RichTextBox;
                             MainWindow.CodePanels.Items.Dispatcher.Invoke(() =>
                             {
-
-                                RichTextBoxViewModel.Enabled = false;
-                                
+                                if (RichTextBoxViewModel.Enabled)
+                                {
+                                    //Enable not edit timer
+                                    RichTextBoxViewModel.Enabled = false;
+                                } else
+                                {
+                                    //I know it isn't clean but it is simple.....
+                                    //If it is false then reset the not edit timer.
+                                    RichTextBoxView.FileUpdateTimer.Stop();
+                                    RichTextBoxView.FileUpdateTimer.Start();
+                                }
 
                                 FlowDocument doc = box.Document;
                                 doc.Blocks.Clear();

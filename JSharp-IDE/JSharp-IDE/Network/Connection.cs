@@ -185,6 +185,8 @@ namespace JSharp_IDE.Network
                 {
                     Project.UpdateFile(file.SelectToken("filePath").ToString(), file.SelectToken("data").ToString());
                 }
+
+                Project.UpdateTreeView(Project.ProjectDirectory);
             Debug.WriteLine("Updated file(s)");
             Debug.WriteLine("Received all project data");
         }

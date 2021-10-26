@@ -47,13 +47,13 @@ namespace JSharp_IDE
         public static void SignInToProject()
         {
             string path = OpenFolderDialog();
+            ProjectDirectory = path;
             if (path != null)
             {
                 Directory.CreateDirectory(Path.Combine(path, "src"));
                 Directory.CreateDirectory(Path.Combine(path, "out"));
                 Directory.CreateDirectory(Path.Combine(path, "lib"));
                 Directory.CreateDirectory(Path.Combine(path, "res"));
-                UpdateTreeView(path);
             }
         }
 
@@ -279,8 +279,7 @@ namespace JSharp_IDE
                     }
                 }
 
-                UpdateTreeView(ProjectDirectory);
-
+         
             } catch (Exception e)
             {
                 Debug.WriteLine($"File update failed: {e.Message}");

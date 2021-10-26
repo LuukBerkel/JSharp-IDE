@@ -211,7 +211,8 @@ namespace JSharp_IDE
                         string data = MainFinder(dir);
                         if (data != "")
                         {
-                            return data;
+                            string target = new DirectoryInfo(dir).Name;
+                            return target + "." + data;
                         }
                     }
                 }

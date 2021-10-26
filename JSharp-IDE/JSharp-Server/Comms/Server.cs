@@ -30,7 +30,6 @@ namespace JSharp_Server.Comms
 
         private void HandleClient(IAsyncResult ar)
         {
-
             try
             {
                 //Handeling of the client
@@ -46,8 +45,6 @@ namespace JSharp_Server.Comms
                 MainWindow.SetDebugOutput(e.Message);
                 this.listener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
             }
-
         }
     }
-
 }

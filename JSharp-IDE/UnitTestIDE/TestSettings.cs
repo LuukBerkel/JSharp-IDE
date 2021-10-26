@@ -48,7 +48,7 @@ namespace UnitTestIDE
         {
             // Arrange
             Settings.SettingsPath = Path.Combine(Directory.GetCurrentDirectory(), "settings.json");
-            string expected = "6969";
+            string expected = "42069";
 
             // Act
             string result = Settings.GetServerPort();

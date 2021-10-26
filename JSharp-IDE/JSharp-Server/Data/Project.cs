@@ -10,6 +10,7 @@ namespace JSharp_Server.Data
     public class Project
     {
         //Actual data
+        //Key: path, value: data
         private IDictionary<string, string> data;
         private IList<Session> activeUsers;
 
@@ -119,7 +120,7 @@ namespace JSharp_Server.Data
         /// This ends a session from the session list..
         /// </summary>
         /// <param name="s"></param>
-        public void EndSessoin(Session s)
+        public void EndSession(Session s)
         {
             this.activeUsers.Remove(s);
         }

@@ -15,7 +15,6 @@ using System.Windows.Threading;
 
 namespace JSharp_Server.Data
 {
-
     public class Manager
     {
         //Active
@@ -25,7 +24,6 @@ namespace JSharp_Server.Data
         //Database
         private IList<User> users;
     
-
         /// <summary>
         /// Constructor of the manager
         /// </summary>
@@ -34,7 +32,6 @@ namespace JSharp_Server.Data
             projects = new List<Project>();
             active = new List<Session>();
             this.users = Proccessing.LoadUserData();
-
         }
 
         /// <summary>
@@ -63,8 +60,6 @@ namespace JSharp_Server.Data
                 active.Remove(s);
             }
         }
-        
-
 
         /// <summary>
         /// Checks a users credentials
@@ -87,7 +82,6 @@ namespace JSharp_Server.Data
                     }
                 }
             }
-
             //Else it will return null
             return null;
         }
@@ -154,7 +148,6 @@ namespace JSharp_Server.Data
                 //Looping throug all projects
                 foreach (Project p in projects)
                 {
-
                     //If project contains active session
                     if (p.GetSessions().Where(s => s == session).ToList().Count > 0)
                     {
@@ -194,7 +187,6 @@ namespace JSharp_Server.Data
                 //Looping throug all projects
                 foreach (Project p in projects)
                 {
-
                     //If project contains active session
                     if (p.owner.Username == session.UserAcount.Username
                        && p.GetSessions().Where(s => s == session).ToList().Count > 0)
@@ -205,11 +197,9 @@ namespace JSharp_Server.Data
                             else p.RemoveUser(user);
 
                         }
-
                         return true;
                     }
                 }
-
                 return false;
             }
         }
@@ -236,7 +226,6 @@ namespace JSharp_Server.Data
                         return true;
                     }
                 }
-
                 return false;
             }
         }
@@ -264,13 +253,11 @@ namespace JSharp_Server.Data
 
                     if (p.GetUsers().Where(e => e == session.UserAcount.Username).ToList().Count > 0 && p.name == projectname)
                     {
-                       
                         p.AddSession(session);
                         replyer.SendAll(p.GetFiles(), p.name);
                         return true;
                     }
                 }
-
                 return false;
             }
         }
@@ -281,7 +268,6 @@ namespace JSharp_Server.Data
         /// <param name="session"></param>
         public void Disconnect(Session session)
         {
-
             //Removing sessoin from projects
             IList<Project> forRemovalProjects = new List<Project>();
             foreach (Project p in projects)
@@ -290,14 +276,10 @@ namespace JSharp_Server.Data
                 if (p.GetSessions().Where(s => s.UserAcount.Username == session.UserAcount.Username).ToList().Count > 0 && session.UserAcount == p.owner)
                 {
                     forRemovalProjects.Add(p);
-
-                 
-
                     //Notifying members...
-
-                }else if (p.GetSessions().Contains(session))
+                } else if (p.GetSessions().Contains(session))
                 {
-                    p.EndSessoin(session);
+                    p.EndSession(session);
                 }
             }
 
@@ -321,6 +303,4 @@ namespace JSharp_Server.Data
             }
         }
     }
-
-
 }

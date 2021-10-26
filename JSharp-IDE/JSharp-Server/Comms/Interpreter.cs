@@ -222,6 +222,10 @@ namespace JSharp_Server.Comms
             }
         }
 
+        /// <summary>
+        /// Remove a project from the server.
+        /// </summary>
+        /// <param name="json"></param>
         [Authorization(true, "removeProject")]
         private void RemoveProject(JObject json)
         {
@@ -230,6 +234,10 @@ namespace JSharp_Server.Comms
             else this.replyer.Failed();
         }
 
+        /// <summary>
+        /// Join a project that is hosted on the server (only when user is valid and logged in).
+        /// </summary>
+        /// <param name="json"></param>
         [Authorization(true, "joinProject")]
         private void JoinProject(JObject json)
         {

@@ -21,6 +21,9 @@ namespace JSharp_Server.Comms
             MainWindow.SetDebugOutput($"Server set {IP} at {port}");
         }
 
+        /// <summary>
+        /// Start the tcplistener and begin accepting clients.
+        /// </summary>
         public void Start()
         {
             this.listener.Start();
@@ -28,6 +31,10 @@ namespace JSharp_Server.Comms
             MainWindow.SetDebugOutput($"Server has started.");
         }
 
+        /// <summary>
+        /// Called when a client is connected.
+        /// </summary>
+        /// <param name="ar"></param>
         private void HandleClient(IAsyncResult ar)
         {
             try

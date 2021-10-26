@@ -39,6 +39,9 @@ namespace JSharp_Server.Comms
             MainWindow.SetDebugOutput($"{client.Client.RemoteEndPoint} has connected");
         }
 
+        /// <summary>
+        /// Start a new session with the client.
+        /// </summary>
         public void StartSession()
         {
             new Thread(() =>
@@ -84,6 +87,10 @@ namespace JSharp_Server.Comms
             }).Start();
         }
 
+        /// <summary>
+        /// Getter
+        /// </summary>
+        /// <returns></returns>
         public Replyer GetReplyer()
         {
             return replyer;

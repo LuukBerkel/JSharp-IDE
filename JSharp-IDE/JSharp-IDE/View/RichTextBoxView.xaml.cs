@@ -46,28 +46,27 @@ namespace JSharp_IDE.View
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             RichTextBox rtb = sender as RichTextBox;
-            //If a timer has finished, start a new one. (Basically to prevent a timer from constantly starting again.)
-            if (!FileUpdateTimer.Enabled && TimerFinished)
+            if (RichTextBoxViewModel.Enabled)
             {
-                FileUpdateTimer.Start();
                 Project.SendFileToServer();
-            }
 
-
-
-            //Remove this event to prevent a recursive call
-            rtb.TextChanged -= CodeTextBox_TextChanged;
-            int result = 0;
-            Task.Run(async () =>
-            {
-                result = await TextFormatter.OnTextChanged(rtb);
+                //Remove this event to prevent a recursive call
+                rtb.TextChanged -= CodeTextBox_TextChanged;
+                int result = 0;
+                Task.Run(async () =>
+                {
+                    result = await TextFormatter.OnTextChanged(rtb);
                 //Update after the previous update was finished.
                 if (result == 1)
-                {
+                    {
                     //Add this event back when the operation is finished.
                     rtb.TextChanged += CodeTextBox_TextChanged;
-                }
-            });
+                    }
+                });
+            } else
+            {
+                FileUpdateTimer.Start();
+            }
         }
 
         private void CodeTextBox_Pasting(object sender, DataObjectPastingEventArgs e)

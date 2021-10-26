@@ -274,7 +274,7 @@ namespace JSharp_IDE
                             MainWindow.CodePanels.Items.Dispatcher.Invoke(() =>
                             {
 
-
+                                RichTextBoxViewModel.Enabled = false;
                                 
 
                                 FlowDocument doc = box.Document;
@@ -292,8 +292,6 @@ namespace JSharp_IDE
 
 
                                 }
-
-                               
 
 
 

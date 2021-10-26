@@ -11,7 +11,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "JSharp-Shared", "JSharp-Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestShared", "UnitTestShared\UnitTestShared.csproj", "{AD3A1D42-D48F-401D-9811-51722D6783D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestIDE", "UnitTestIDE\UnitTestIDE.csproj", "{B6AFCB05-65BB-4051-8BEB-B2BBF82CD5C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestIDE", "UnitTestIDE\UnitTestIDE.csproj", "{B6AFCB05-65BB-4051-8BEB-B2BBF82CD5C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestServer", "UnitTestServer\UnitTestServer.csproj", "{B218790C-DC52-4576-9124-1D26F2AD2F38}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -41,6 +43,10 @@ Global
 		{B6AFCB05-65BB-4051-8BEB-B2BBF82CD5C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6AFCB05-65BB-4051-8BEB-B2BBF82CD5C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6AFCB05-65BB-4051-8BEB-B2BBF82CD5C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B218790C-DC52-4576-9124-1D26F2AD2F38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B218790C-DC52-4576-9124-1D26F2AD2F38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B218790C-DC52-4576-9124-1D26F2AD2F38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B218790C-DC52-4576-9124-1D26F2AD2F38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

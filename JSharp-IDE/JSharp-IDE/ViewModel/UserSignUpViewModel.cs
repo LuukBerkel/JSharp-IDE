@@ -75,7 +75,9 @@ namespace JSharp_IDE.ViewModel
 
                                     Connection c = Connection.GetConnection(Settings.GetServerAddress(), port);
                                     c.SendCommand(JSONCommand.Login());
+                                    c.SetErrorQueu("Login error....");
                                     c.SendCommand(JSONCommand.HostProject(mProjectName, usernames, files));
+                                    c.SetErrorQueu("Project error....");
                                 }
                             }
                         }

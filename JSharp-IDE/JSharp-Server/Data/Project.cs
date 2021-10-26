@@ -95,12 +95,19 @@ namespace JSharp_Server.Data
         /// <param name="s"></param>
         public void AddSession(Session s)
         {
+            //For the members
             foreach (string username in users)
             {
-                if (username == s.UserAcount.Username || s.UserAcount.Username == owner.Username)
+                if (username == s.UserAcount.Username)
                 {
                     this.activeUsers.Add(s);
                 }
+            }
+
+            //For the owner
+            if (s.UserAcount.Username == owner.Username)
+            {
+                this.activeUsers.Add(s);
             }
          
         }

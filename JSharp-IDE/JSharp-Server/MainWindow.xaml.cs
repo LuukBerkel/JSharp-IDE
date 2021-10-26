@@ -31,12 +31,12 @@ namespace JSharp_Server
         public MainWindow()
         {
             InitializeComponent();
-            main = this;
-
-            server = new Server(System.Net.IPAddress.Any, 6969);
-            server.Start();
 
             this.Closed += OnClose;
+
+            main = this;
+            server = new Server(System.Net.IPAddress.Any, 6969);
+            server.Start();
         }
 
         private void OnClose(object sender, EventArgs e)

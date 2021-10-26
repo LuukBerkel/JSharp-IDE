@@ -34,6 +34,7 @@ namespace JSharp_Server.Data
             projects = new List<Project>();
             active = new List<Session>();
             this.users = Proccessing.LoadUserData();
+
         }
 
         /// <summary>
@@ -132,6 +133,7 @@ namespace JSharp_Server.Data
                 {
                     project.AddSession(session);
                     projects.Add(project);
+                  
                     MainWindow.SetListview(projects);
                     return true;
                 };
@@ -285,9 +287,11 @@ namespace JSharp_Server.Data
             foreach (Project p in projects)
             {
                 //If project is found it is added for demolition
-                if (p.GetSessions().Contains(session) && session.UserAcount == p.owner)
+                if (p.GetSessions().Where(s => s.UserAcount.Username == session.UserAcount.Username).ToList().Count > 0 && session.UserAcount == p.owner)
                 {
                     forRemovalProjects.Add(p);
+
+                 
 
                     //Notifying members...
 

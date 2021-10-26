@@ -51,6 +51,7 @@ namespace JSharp_IDE.ViewModel
 
                         Connection c = Connection.GetConnection(Settings.GetServerAddress(), int.Parse(Settings.GetServerPort()));
                         c.SendCommand(JSONCommand.SignUp());
+                        c.SetErrorQueu("Signup failed....");
                     },
                     param => true);
                 }

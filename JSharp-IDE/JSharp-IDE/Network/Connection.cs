@@ -3,6 +3,7 @@ using JSharp_Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -26,8 +27,26 @@ namespace JSharp_IDE.Network
         private TcpClient tcpClient;
         private Thread readThread;
 
+        private Queue<string> feedbackQueu;
+
+        /// <summary>
+        /// Delivers feedback to the users in the gui.
+        /// </summary>
+        /// <param name="errorMessage"></param>
+        public void SetErrorQueu(string errorMessage)
+        {
+            feedbackQueu.Enqueue(errorMessage);
+        }
+
+        /// <summary>
+        /// Connects with the server
+        /// </summary>
+        /// <param name="ip">IP-address</param>
+        /// <param name="port">Portnumber</param>
         public Connection(string ip, int port)
         {
+            feedbackQueu = new Queue<string>();
+            //Trying to connect to the sever
             try
             {
                 this.tcpClient = new TcpClient(ip, port);
@@ -40,6 +59,7 @@ namespace JSharp_IDE.Network
                 IsConnectedToServer = false;
             }
 
+            //Reading data form the server
             this.readThread = new Thread(() =>
             {
                 while (IsConnectedToServer)
@@ -53,6 +73,9 @@ namespace JSharp_IDE.Network
             this.readThread.Start();
         }
 
+        /// <summary>
+        /// Ends the connection with the server.
+        /// </summary>
         public void Stop()
         {
             IsConnectedToServer = false;
@@ -61,6 +84,10 @@ namespace JSharp_IDE.Network
             Debug.WriteLine("Closed connection with the server.");
         }
 
+        /// <summary>
+        /// Sends a command to the server.
+        /// </summary>
+        /// <param name="o"></param>
         public void SendCommand(object o)
         {
             try
@@ -133,12 +160,16 @@ namespace JSharp_IDE.Network
         [Command("OK")]
         private void Ok(JObject json)
         {
+            //Deques it because it is ok
+            this.feedbackQueu.Dequeue();
             Debug.WriteLine("Action successfull");
         }
 
         [Command("FAILED")]
         private void Failed(JObject json)
         {
+            //Show the dequed message because an error
+            MessageBox.Show(this.feedbackQueu.Dequeue(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             Debug.WriteLine("Action failed");
         }
 

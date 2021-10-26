@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -92,6 +93,7 @@ namespace JSharp_IDE
                     compileTask.StartInfo.RedirectStandardInput = true;
                     compileTask.StartInfo.RedirectStandardOutput = true;
                     compileTask.StartInfo.RedirectStandardError = true;
+                    compileTask.StartInfo.CreateNoWindow = true;
                     compileTask.Start();
 
                     //Execution
@@ -141,14 +143,15 @@ namespace JSharp_IDE
                     executeTask.StartInfo.WorkingDirectory = pathOut;
                     executeTask.StartInfo.RedirectStandardInput = true;
                     executeTask.StartInfo.RedirectStandardOutput = true;
+                    executeTask.StartInfo.CreateNoWindow = true;
                     executeTask.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
                     {
-                        
+
                         if (!String.IsNullOrEmpty(e.Data))
                         {
                             Debug.WriteLine(e.Data);
                             this.mwvm.DebugWindow += "\n" + e.Data;
-                           
+
                         }
                     });
 
@@ -158,15 +161,71 @@ namespace JSharp_IDE
                     executeTask.StandardInput.WriteLine(executeCommand);
                     executeTask.StandardInput.Flush();
                     executeTask.StandardInput.Close();
-                    executeTask.BeginOutputReadLine();
+                   executeTask.BeginOutputReadLine();
 
-                  
+
                     executeTask.WaitForExit();
                     executeTask.Close();
                 }
             }).Start();
         }
 
+        public string MainSearcher(string pathSrc)
+        {
+           return MainFinder(pathSrc);
+        }
+
+
+
+        private string MainFinder(string pathFiles)
+        {
+            //If there is something in the directory
+            if (Directory.GetDirectories(pathFiles).Length > 0
+                || Directory.GetFiles(pathFiles).Length > 0)
+            {
+                //Search for files
+                string[] files = Directory.GetFiles(pathFiles);
+                foreach (string file in files)
+                {
+                    if (file.Contains(".java"))
+                    {
+                        string data = File.ReadAllText(file);
+
+                        //Rip people that write it in mulptiple rules...
+                        if (data.Contains("public static void main(String[] args)"))
+                        {
+                            FileInfo fileInfo = new FileInfo(file);
+                            string filename = fileInfo.Name;
+                            filename = filename.Remove(filename.IndexOf(fileInfo.Extension));
+                            return filename;
+                        }
+                    }
+                }
+
+                //Search for direcories
+                string[] directory = Directory.GetDirectories(pathFiles);
+                if (directory.Length > 0)
+                {
+                    foreach (string dir in directory)
+                    {
+                        string data = MainFinder(dir);
+                        if (data != "")
+                        {
+                            string target = new DirectoryInfo(dir).Name;
+                            return target + "." + data;
+                        }
+                    }
+                }
+            }
+
+            return "";
+
+        }
+        
+
 
     }
 }
+
+
+  

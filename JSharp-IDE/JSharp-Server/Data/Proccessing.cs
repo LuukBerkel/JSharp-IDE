@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -21,8 +22,10 @@ namespace JSharp_Server.Data
             List<User> users = new List<User>();
 
             //Filling the list if the file exists...
-            if (File.Exists(Directory.GetCurrentDirectory() + @"\usersData.txt")) {
-                string data = File.ReadAllText(Directory.GetCurrentDirectory() + @"\usersData.txt");
+            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "userData.txt"))) {
+                string data = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "userData.txt"));
+             
+
 
                 //Filling...
                 JArray array = JArray.Parse(data);
@@ -31,6 +34,8 @@ namespace JSharp_Server.Data
                     users.Add(o.ToObject<User>());
                 }
             }
+
+            
 
             //Returning list.
             return users;
@@ -43,7 +48,7 @@ namespace JSharp_Server.Data
         public static void SaveUserData(IList<User> users)
         {
             JArray data = JArray.FromObject(users);
-            File.WriteAllText(Directory.GetCurrentDirectory() + @"\userData.txt", data.ToString());
+            File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory() , "userData.txt"), data.ToString());
         }
 
         //This is the algoritm for hashing passwords..

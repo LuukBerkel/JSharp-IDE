@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using ToastNotifications.Messages;
 
 namespace JSharp_IDE.ViewModel
 {
@@ -34,9 +35,7 @@ namespace JSharp_IDE.ViewModel
                     rtb.TextChanged += CodeTextBox_TextChanged;
                     }
                 });
-            }
-
-
+            } 
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ToastNotifications.Messages;
 
 namespace JSharp_IDE.View
 {
@@ -41,7 +42,7 @@ namespace JSharp_IDE.View
         private void ElapsedHandler(object sender, ElapsedEventArgs e)
         {
             RichTextBoxViewModel.Enabled = true;
-           
+            Project.notifier.ShowInformation($"The project is unlocked by the previous member.");
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -66,8 +67,6 @@ namespace JSharp_IDE.View
                 });
             } else
             {
-
-              
                 FileUpdateTimer.Start();
             }
         }

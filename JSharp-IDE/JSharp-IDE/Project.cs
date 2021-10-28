@@ -298,7 +298,7 @@ namespace JSharp_IDE
                                 {
                                     //Enable not edit timer
                                     RichTextBoxViewModel.Enabled = false;
-                                    notifier.ShowInformation($"The section {item.Tag} is locked.");
+                                    notifier.ShowInformation($"The project is locked by someone else who is editing {item.Tag} to prevent mergeconflicts the server pull afterwards.");
                                 } else
                                 {
                                     //I know it isn't clean but it is simple.....

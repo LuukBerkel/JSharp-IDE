@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using ToastNotifications.Messages;
 
 namespace JSharp_IDE.ViewModel
 {
@@ -79,6 +80,11 @@ namespace JSharp_IDE.ViewModel
                                     c.SendCommand(JSONCommand.HostProject(mProjectName, usernames, files));
                                     c.SetErrorQueu("Project error....");
                                 }
+
+
+
+                                Project.notifier.ShowInformation("Project is now hosting.");
+
                             }
                         }
                     },

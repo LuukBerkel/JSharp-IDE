@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using ToastNotifications.Messages;
 
 namespace JSharp_IDE.Network
 {
@@ -212,6 +213,8 @@ namespace JSharp_IDE.Network
                 Project.UpdateTreeView(Project.ProjectDirectory);
             Debug.WriteLine("Updated file(s)");
             Debug.WriteLine("Received all project data");
+
+            Project.notifier.ShowInformation("Project is now downloaded and ready for edit.");
         }
 
         /// <summary>

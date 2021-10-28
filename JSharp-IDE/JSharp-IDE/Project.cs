@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace JSharp_IDE
 {
@@ -17,12 +21,27 @@ namespace JSharp_IDE
     {
         public static string ProjectDirectory { get; set; }
         public static string ProjectName { get; set; }
-        public static NotificationWindow notification;
 
-        /// <summary>
-        /// Creates a new project with the correct file structure.
-        /// </summary>
-        public static void CreateNewProject()
+
+        public static Notifier notifier =  new Notifier(cfg =>
+        {
+            cfg.PositionProvider = new WindowPositionProvider(
+                parentWindow: Application.Current.MainWindow,
+                corner: Corner.BottomRight,
+                offsetX: 10,
+                offsetY: 10);
+
+            cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                notificationLifetime: TimeSpan.FromSeconds(7),
+                maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+
+            cfg.Dispatcher = Application.Current.Dispatcher;
+        });
+
+    /// <summary>
+    /// Creates a new project with the correct file structure.
+    /// </summary>
+    public static void CreateNewProject()
         {
             string path = OpenFolderDialog();
             if (path != null)
@@ -255,6 +274,7 @@ namespace JSharp_IDE
                 Debug.WriteLine($"Full path: {Path.Combine(ProjectDirectory, path)}\n" +
                                 $"Updating file {path}: {data}");
 
+               
 
                 //Check if the folder structure exists.
                 new FileInfo(Path.Combine(ProjectDirectory, path)).Directory.Create();
@@ -269,7 +289,7 @@ namespace JSharp_IDE
 
                         if (item.Tag.ToString() == path)
                         {
-                            RichTextBoxViewModel.Enabled = false;
+                        
 
                             RichTextBox box = item.Content as RichTextBox;
                             MainWindow.CodePanels.Items.Dispatcher.Invoke(() =>
@@ -278,12 +298,7 @@ namespace JSharp_IDE
                                 {
                                     //Enable not edit timer
                                     RichTextBoxViewModel.Enabled = false;
-
-                                   
-                                        notification = new NotificationWindow("This section is edit right now, this notification will dissappear when it is available.");
-                                        notification.Show();
-                                  
-                                    
+                                    notifier.ShowInformation($"The section {item.Tag} is locked.");
                                 } else
                                 {
                                     //I know it isn't clean but it is simple.....
@@ -301,11 +316,7 @@ namespace JSharp_IDE
                                     p.Inlines.Add(new Run(line));
                                     p.Margin = new Thickness(0);
                                     doc.Blocks.Add(p);
-
-
-                                    Task.Run(async () => await TextFormatter.OnTextChanged(box));
-
-
+                                    Task.Run(async () => await TextFormatter.OnTextNewLine(box, line));
                                 }
 
 

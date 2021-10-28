@@ -25,7 +25,7 @@ namespace JSharp_IDE.View
     {
         public RichTextBox RichTextBox;
         public static Timer FileUpdateTimer;
-        private bool TimerFinished = true;
+
 
         public RichTextBoxView()
         {
@@ -41,7 +41,7 @@ namespace JSharp_IDE.View
         private void ElapsedHandler(object sender, ElapsedEventArgs e)
         {
             RichTextBoxViewModel.Enabled = true;
-            Project.notification.Close();
+           
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -66,6 +66,7 @@ namespace JSharp_IDE.View
                 });
             } else
             {
+
               
                 FileUpdateTimer.Start();
             }

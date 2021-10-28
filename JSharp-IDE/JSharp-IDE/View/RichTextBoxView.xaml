@@ -11,4 +11,6 @@
         <local:RichTextBoxViewModel/>
     </UserControl.DataContext>
     <RichTextBox x:Name="CodeTextBox" KeyDown="CodeTextBox_KeyDown" TextChanged="CodeTextBox_TextChanged" Background="#FF323232" Foreground="White" CaretBrush="#FFD1D1D1" DataObject.Pasting="CodeTextBox_Pasting" AcceptsTab="False" />
+    
+    
 </UserControl>

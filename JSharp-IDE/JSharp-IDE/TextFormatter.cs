@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -50,38 +51,7 @@ namespace JSharp_IDE
         }
 
 
-        public static async Task<int> OnTextNewLine(RichTextBox rtb, string text)
-        {
-            await Task.Run(() =>
-            {
-                //Filter on all the defined words and give them the correct color. 
-                rtb.Dispatcher.Invoke(() =>
-                {
-                    BlockCollection blocks = rtb.Document.Blocks;
-                    if (blocks != null)
-                    {
-                        for (int i = 0; i < blocks.Count; i++)
-                        {
-
-                            // Check if the user is typing within this block. 
-                            var start = blocks.ElementAt(i).ContentStart;
-                            TextRange range = new TextRange(blocks.ElementAt(i).ContentStart, blocks.ElementAt(i).ContentEnd.GetPositionAtOffset(-1));
-
-                            if (range.Text == text)
-                            {
-                                ChangeSelectedTextColor(range, standardColor);
-                                CheckSyntaxAtBlock(blocks.ElementAt(i));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.WriteLine("OnTextReloaded: block == null");
-                    }
-                });
-            });
-            return 1;
-        }
+        
 
         public static async Task<int> OnTextPasted(RichTextBox rtb)
         {

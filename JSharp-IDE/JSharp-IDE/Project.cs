@@ -269,21 +269,23 @@ namespace JSharp_IDE
                             MainWindow.CodePanels.Items.Dispatcher.Invoke(() =>
                             {
 
-
+                                //Disabling input if there are changes
                                 if (RichTextBoxViewModel.Enabled)
                                 {
                                     RichTextBoxViewModel.Enabled = false;
                                     RichTextBoxView.FileUpdateTimer.Start();
                                 } else
                                 {
+                                    //Extending input disabled timer so there ar no conflicts
                                     RichTextBoxView.FileUpdateTimer.Stop();
                                     RichTextBoxView.FileUpdateTimer.Start();
                                 }
-                                
 
+                                //Updating textview.
                                 FlowDocument doc = box.Document;
                                 doc.Blocks.Clear();
                                 int count = 0;
+
                                 //Add each line to the document as a separate block.
                                 foreach (string line in File.ReadAllLines(Path.Combine(ProjectDirectory, path)))
                                 {
@@ -292,14 +294,9 @@ namespace JSharp_IDE
                                     p.Margin = new Thickness(0);
                                     doc.Blocks.Add(p);
                                     count++;
-                                 
-                                        //Task.Run(async () => await TextFormatter.OnTextNewLine(box, line));
-                                    
-
                                 }
 
-
-
+                               
                             });
 
 

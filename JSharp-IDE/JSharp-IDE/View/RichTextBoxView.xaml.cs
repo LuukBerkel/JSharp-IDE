@@ -26,6 +26,8 @@ namespace JSharp_IDE.View
         public RichTextBox RichTextBox;
         public static Timer FileUpdateTimer;
         private bool TimerFinished = true;
+        private RichTextBox box;
+        private string previous;
 
         public RichTextBoxView()
         {
@@ -41,6 +43,7 @@ namespace JSharp_IDE.View
         private void ElapsedHandler(object sender, ElapsedEventArgs e)
         {
             RichTextBoxViewModel.Enabled = true;
+            Task.Run(async () => await TextFormatter.OnTextPasted(box));
         }
 
         private void CodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -48,7 +51,12 @@ namespace JSharp_IDE.View
             RichTextBox rtb = sender as RichTextBox;
             if (RichTextBoxViewModel.Enabled)
             {
-                Project.SendFileToServer();
+                //Echo fix....
+                if (StringFromRichTextBox(rtb) != previous)
+                {
+                    Project.SendFileToServer();
+                }
+
 
                 //Remove this event to prevent a recursive call
                 rtb.TextChanged -= CodeTextBox_TextChanged;
@@ -63,7 +71,10 @@ namespace JSharp_IDE.View
                     rtb.TextChanged += CodeTextBox_TextChanged;
                     }
                 });
+                box = rtb;
+                previous = StringFromRichTextBox(rtb);
             }
+            previous = StringFromRichTextBox(rtb);
         }
 
         private void CodeTextBox_Pasting(object sender, DataObjectPastingEventArgs e)
@@ -89,6 +100,26 @@ namespace JSharp_IDE.View
                 default:
                     break;
             }
+        }
+
+
+        public static string StringFromRichTextBox(RichTextBox rtb)
+        {
+            if (rtb != null)
+            {
+                TextRange textRange = new TextRange(
+                    // TextPointer to the start of content in the RichTextBox.
+                    rtb.Document.ContentStart,
+                    // TextPointer to the end of content in the RichTextBox.
+                    rtb.Document.ContentEnd
+                );
+
+                // The Text property on a TextRange object returns a string
+                // representing the plain text content of the TextRange.
+                return textRange.Text;
+            }
+
+            return "";
         }
     }
 }

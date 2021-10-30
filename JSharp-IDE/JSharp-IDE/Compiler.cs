@@ -23,8 +23,7 @@ namespace JSharp_IDE
 
         public void Compile(string pathOut, string pathSrc, string pathLib, string pathRes)
         {
-            new Thread(() =>
-            {
+          
                 using (var compileTask = new Process())
                 {
                     //Checks
@@ -109,7 +108,7 @@ namespace JSharp_IDE
                     compileTask.WaitForExit();
                     compileTask.Close();
                 }
-            }).Start();
+     
         }
 
         public void Execute(string pathOut, string pathLib, string pathRes, string main)

@@ -15,6 +15,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace JSharp_IDE.View
 {
@@ -25,9 +29,10 @@ namespace JSharp_IDE.View
     {
         public RichTextBox RichTextBox;
         public static Timer FileUpdateTimer;
-        private bool TimerFinished = true;
         private RichTextBox box;
         private string previous;
+
+      
 
         public RichTextBoxView()
         {
@@ -42,6 +47,7 @@ namespace JSharp_IDE.View
 
         private void ElapsedHandler(object sender, ElapsedEventArgs e)
         {
+            Project.notifier.ShowInformation("The project is unlocked.");
             RichTextBoxViewModel.Enabled = true;
             Task.Run(async () => await TextFormatter.OnTextPasted(box));
         }
@@ -57,7 +63,6 @@ namespace JSharp_IDE.View
                     Project.SendFileToServer();
                 }
 
-
                 //Remove this event to prevent a recursive call
                 rtb.TextChanged -= CodeTextBox_TextChanged;
                 int result = 0;
@@ -71,8 +76,9 @@ namespace JSharp_IDE.View
                     rtb.TextChanged += CodeTextBox_TextChanged;
                     }
                 });
+
+                //Setting backwards variabels
                 box = rtb;
-                previous = StringFromRichTextBox(rtb);
             }
             previous = StringFromRichTextBox(rtb);
         }
@@ -121,5 +127,7 @@ namespace JSharp_IDE.View
 
             return "";
         }
+
+
     }
 }

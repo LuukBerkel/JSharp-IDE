@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace JSharp_IDE
 {
@@ -17,6 +21,20 @@ namespace JSharp_IDE
     {
         public static string ProjectDirectory { get; set; }
         public static string ProjectName { get; set; }
+        public static Notifier notifier = new Notifier(cfg =>
+        {
+            cfg.PositionProvider = new WindowPositionProvider(
+                parentWindow: Application.Current.MainWindow,
+                corner: Corner.BottomRight,
+                offsetX: 10,
+                offsetY: 10);
+
+            cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                notificationLifetime: TimeSpan.FromSeconds(7),
+                maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+
+            cfg.Dispatcher = Application.Current.Dispatcher;
+        });
 
         /// <summary>
         /// Creates a new project with the correct file structure.
@@ -263,8 +281,6 @@ namespace JSharp_IDE
                     {
                         if (item.Tag.ToString() == path)
                         {
-                            RichTextBoxViewModel.Enabled = false;
-
                             RichTextBox box = item.Content as RichTextBox;
                             MainWindow.CodePanels.Items.Dispatcher.Invoke(() =>
                             {
@@ -274,6 +290,7 @@ namespace JSharp_IDE
                                 {
                                     RichTextBoxViewModel.Enabled = false;
                                     RichTextBoxView.FileUpdateTimer.Start();
+                                    notifier.ShowInformation("The project is locked.");
                                 } else
                                 {
                                     //Extending input disabled timer so there ar no conflicts

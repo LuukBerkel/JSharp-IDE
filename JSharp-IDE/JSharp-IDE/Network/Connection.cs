@@ -1,4 +1,5 @@
-﻿using JSharp_Shared;
+﻿using JSharp_IDE.View;
+using JSharp_Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -14,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using ToastNotifications.Messages;
 
 namespace JSharp_IDE.Network
 {
@@ -211,6 +213,9 @@ namespace JSharp_IDE.Network
                 Project.UpdateTreeView(Project.ProjectDirectory);
             Debug.WriteLine("Updated file(s)");
             Debug.WriteLine("Received all project data");
+
+
+            Application.Current.Dispatcher.Invoke(() => Project.notifier.ShowInformation("Project is now downloaded and ready for edit."));
         }
 
         /// <summary>

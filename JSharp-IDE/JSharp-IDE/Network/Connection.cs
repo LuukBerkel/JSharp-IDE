@@ -1,4 +1,4 @@
-﻿using JSharp_Shared;
+﻿using JSharp_IDE.View;
 using JSharp_Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using ToastNotifications.Messages;
 
 namespace JSharp_IDE.Network
 {
@@ -148,7 +149,6 @@ namespace JSharp_IDE.Network
         /// <param name="json">The json with a command in it.</param>
         private void Command(JObject json)
         {
-            Debug.WriteLine(json.ToString());
             JToken token;
             if (json.TryGetValue("instruction", out token))
             {
@@ -177,6 +177,7 @@ namespace JSharp_IDE.Network
         private void Ok(JObject json)
         {
             //Deques it because it is ok
+            if (this.feedbackQueu.Count > 0)
             this.feedbackQueu.Dequeue();
             Debug.WriteLine("Action successfull");
         }
@@ -189,7 +190,8 @@ namespace JSharp_IDE.Network
         private void Failed(JObject json)
         {
             //Show the dequed message because an error
-            MessageBox.Show(this.feedbackQueu.Dequeue(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (this.feedbackQueu.Count > 0)
+                MessageBox.Show(this.feedbackQueu.Dequeue(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             Debug.WriteLine("Action failed");
         }
 
@@ -207,8 +209,13 @@ namespace JSharp_IDE.Network
                 {
                     Project.UpdateFile(file.SelectToken("filePath").ToString(), file.SelectToken("data").ToString());
                 }
+
+                Project.UpdateTreeView(Project.ProjectDirectory);
             Debug.WriteLine("Updated file(s)");
             Debug.WriteLine("Received all project data");
+
+
+            Application.Current.Dispatcher.Invoke(() => Project.notifier.ShowInformation("Project is now downloaded and ready for edit."));
         }
 
         /// <summary>
@@ -223,6 +230,7 @@ namespace JSharp_IDE.Network
             if (json.SelectToken("data.flag").ToString() == "0")
             {
                 //Remove files
+                
 
             } else
             {
@@ -233,6 +241,10 @@ namespace JSharp_IDE.Network
                 }
             }
             Debug.WriteLine("Updated file(s)");
+            MainWindow.CodePanels.Dispatcher.Invoke(() =>
+            {
+                MainWindow.CodePanels.UpdateLayout();
+            });
         }
 
         /// <summary>

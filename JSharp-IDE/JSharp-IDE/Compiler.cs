@@ -30,8 +30,7 @@ namespace JSharp_IDE
         /// <param name="pathRes">Resources directory</param>
         public void Compile(string pathOut, string pathSrc, string pathLib, string pathRes)
         {
-            new Thread(() =>
-            {
+          
                 using (var compileTask = new Process())
                 {
                     //Checks
@@ -116,7 +115,7 @@ namespace JSharp_IDE
                     compileTask.WaitForExit();
                     compileTask.Close();
                 }
-            }).Start();
+     
         }
 
         /// <summary>

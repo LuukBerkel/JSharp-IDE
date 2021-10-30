@@ -42,6 +42,7 @@ namespace JSharp_Server.Comms
                 //Handeling of the client
                 Session session = new Session(this.listener.EndAcceptTcpClient(ar), manager);
                 session.StartSession();
+                this.manager.AddSession(session);
 
                 //For the next client
                 this.listener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);

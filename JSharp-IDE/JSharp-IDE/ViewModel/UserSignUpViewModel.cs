@@ -1,5 +1,6 @@
 ﻿using JSharp_IDE.Network;
 using JSharp_IDE.Utils;
+using JSharp_IDE.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using ToastNotifications.Messages;
 
 namespace JSharp_IDE.ViewModel
 {
@@ -86,11 +88,15 @@ namespace JSharp_IDE.ViewModel
                                     c.SendCommand(JSONCommand.HostProject(mProjectName, usernames, files));
                                     c.SetErrorQueu("Project error....");
                                 }
+
+                                Project.notifier.ShowInformation("The project is hosting.");
                             }
                         }
                     },
                     param => true);
+                  
                 }
+
                 return mHostCommand;
             }
         }

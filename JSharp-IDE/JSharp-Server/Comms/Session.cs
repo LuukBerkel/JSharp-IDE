@@ -1,6 +1,5 @@
 ﻿using JSharp_Shared;
 using JSharp_Server.Data;
-using JSharp_Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -59,10 +58,6 @@ namespace JSharp_Server.Comms
 
                         if (decoded != null)
                         {
-
-                            //Debug output
-                            MainWindow.SetDebugOutput(encoded);
-
                             //Decoding data
                             this.interpreter.Command(decoded);
                         }

@@ -77,11 +77,18 @@ namespace JSharp_Server.Comms
                 {
                     this.Authorized = true;
                     this.replyer.Succes();
+
+                    //Debug output
+                    MainWindow.SetDebugOutput("Login in succefull");
+
                     return;
                 }
 
                 //Else ...
                 this.replyer.Failed();
+
+                //Debug output
+                MainWindow.SetDebugOutput("Login in Failed");
             }
         }
 
@@ -101,11 +108,18 @@ namespace JSharp_Server.Comms
                 if (manager.AddUser(username.ToString(), password.ToString()))
                 {
                     this.replyer.Succes();
+
+                    //Debug output
+                    MainWindow.SetDebugOutput("Register is succesfull");
+
                     return;
                 }
 
                 //Else..
                 this.replyer.Failed();
+
+                //Debug output
+                MainWindow.SetDebugOutput("Register is failed");
             }
         }
 
@@ -122,6 +136,7 @@ namespace JSharp_Server.Comms
             JToken file = json.SelectToken("data.files");
             if(name != null && user != null && file != null)
             {
+
                 //Getting name
                 string project = name.ToString();
 
@@ -166,6 +181,8 @@ namespace JSharp_Server.Comms
         [Authorization(true, "changeProject")]
         private void ChangeProject(JObject json)
         {
+           
+
             //Parsing data
             JToken userToken = json.SelectToken("data.userFlag");
             JToken userList = json.SelectToken("data.users");
@@ -175,6 +192,9 @@ namespace JSharp_Server.Comms
             //For the users if they are in the message
             if (userToken != null && userList != null)
             {
+                //Debug output
+                MainWindow.SetDebugOutput("File change request");
+
                 //Getting flags
                 int userFlag = int.Parse(userToken.ToString());
                 bool deleting = userFlag == 0 ? true : false;
@@ -229,9 +249,10 @@ namespace JSharp_Server.Comms
         [Authorization(true, "removeProject")]
         private void RemoveProject(JObject json)
         {
+
             bool done = this.manager.RemoveProject(session);
-            if (done) this.replyer.Succes();
-            else this.replyer.Failed();
+            if (done) { this.replyer.Succes(); MainWindow.SetDebugOutput("Remove succesfull"); }
+            else { this.replyer.Failed(); MainWindow.SetDebugOutput("Remove failed"); }
         }
 
         /// <summary>
@@ -241,14 +262,12 @@ namespace JSharp_Server.Comms
         [Authorization(true, "joinProject")]
         private void JoinProject(JObject json)
         {
-
-
             JToken projectname = json.GetValue("project");
             if (projectname != null)
             {
                 bool done = this.manager.JoinProject(session, projectname.ToString(), replyer);
-                if (done) this.replyer.Succes();
-                else this.replyer.Failed();
+                if (done) { this.replyer.Succes(); MainWindow.SetDebugOutput(session.UserAcount.Username + " has succesfully joined " + projectname.ToString()); }
+                else { this.replyer.Failed(); MainWindow.SetDebugOutput("Somebody failed to join"); }
             }
         }
     }

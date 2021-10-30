@@ -76,7 +76,7 @@ namespace JSharp_Server.Data
                 foreach (User user in this.users)
                 {
                     //if it are ther credentails then and not already online..
-                    if (user.Password == Proccessing.HashUserPassword(password) && user.Username == username && active.Where(e => e.UserAcount != user).ToList().Count <= 0)
+                    if (user.Password == Proccessing.HashUserPassword(password) && user.Username == username && active.Where(e => e.UserAcount == user).ToList().Count <= 0)
                     {
                         return user;
                     }
@@ -251,7 +251,7 @@ namespace JSharp_Server.Data
                         MainWindow.SetDebugOutput(user);
                     }
 
-                    if (p.GetUsers().Where(e => e == session.UserAcount.Username).ToList().Count > 0 && p.name == projectname)
+                    if (session.UserAcount != null && p.GetUsers().Where(e => e == session.UserAcount.Username).ToList().Count > 0 && p.name == projectname)
                     {
                         p.AddSession(session);
                         replyer.SendAll(p.GetFiles(), p.name);
@@ -293,12 +293,15 @@ namespace JSharp_Server.Data
             //Removing session form sessions
             foreach (Session s in active)
             {
-                MainWindow.SetDebugOutput(s.UserAcount.Username);
-                if (s == session)
+                if (s.UserAcount != null)
                 {
-                    MainWindow.SetDebugOutput("deleting");
-                    active.Remove(session);
-                    break;
+                    MainWindow.SetDebugOutput(s.UserAcount.Username);
+                    if (s == session)
+                    {
+                        MainWindow.SetDebugOutput("deleting");
+                        active.Remove(session);
+                        break;
+                    }
                 }
             }
         }

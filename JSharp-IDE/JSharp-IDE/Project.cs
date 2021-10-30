@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace JSharp_IDE
 {
@@ -17,6 +21,20 @@ namespace JSharp_IDE
     {
         public static string ProjectDirectory { get; set; }
         public static string ProjectName { get; set; }
+        public static Notifier notifier = new Notifier(cfg =>
+        {
+            cfg.PositionProvider = new WindowPositionProvider(
+                parentWindow: Application.Current.MainWindow,
+                corner: Corner.BottomRight,
+                offsetX: 10,
+                offsetY: 10);
+
+            cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                notificationLifetime: TimeSpan.FromSeconds(7),
+                maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+
+            cfg.Dispatcher = Application.Current.Dispatcher;
+        });
 
         /// <summary>
         /// Creates a new project with the correct file structure.
@@ -47,13 +65,13 @@ namespace JSharp_IDE
         public static void SignInToProject()
         {
             string path = OpenFolderDialog();
+            ProjectDirectory = path;
             if (path != null)
             {
                 Directory.CreateDirectory(Path.Combine(path, "src"));
                 Directory.CreateDirectory(Path.Combine(path, "out"));
                 Directory.CreateDirectory(Path.Combine(path, "lib"));
                 Directory.CreateDirectory(Path.Combine(path, "res"));
-                UpdateTreeView(path);
             }
         }
 
@@ -261,28 +279,67 @@ namespace JSharp_IDE
         {
             try
             {
-                //Update file on disk
-                Debug.WriteLine($"Full path: {Path.Combine(ProjectDirectory, path)}\n" +
-                                $"Updating file {path}: {data}");
                 //Check if the folder structure exists.
                 new FileInfo(Path.Combine(ProjectDirectory, path)).Directory.Create();
                 //Combine the path with the computers folder path to get the exact location.
                 File.WriteAllBytes(Path.Combine(ProjectDirectory, path), Convert.FromBase64String(data));
                 //Update file in editor
+
+
                 foreach (TabItem item in MainWindow.CodePanels.Items)
                 {
-                    if (item.Tag.ToString() == path)
+                    MainWindow.CodePanels.Dispatcher.Invoke(() =>
                     {
-                        RichTextBoxView box = item.Content as RichTextBoxView;
-                        box.Dispatcher.Invoke(() =>
+                        if (item.Tag.ToString() == path)
                         {
-                            box.Update(path);
-                        });
-                        //Check syntax on the whole document.
-                        Task.Run(async () => await TextFormatter.OnTextPasted(box.RichTextBox));
-                        break;
-                    }
+                            RichTextBox box = item.Content as RichTextBox;
+                            MainWindow.CodePanels.Items.Dispatcher.Invoke(() =>
+                            {
+
+                                //Disabling input if there are changes
+                                if (RichTextBoxViewModel.Enabled)
+                                {
+                                    RichTextBoxViewModel.Enabled = false;
+                                    RichTextBoxView.FileUpdateTimer.Start();
+                                    notifier.ShowInformation("The project is locked.");
+                                } else
+                                {
+                                    //Extending input disabled timer so there ar no conflicts
+                                    RichTextBoxView.FileUpdateTimer.Stop();
+                                    RichTextBoxView.FileUpdateTimer.Start();
+                                }
+
+                                //Updating textview.
+                                FlowDocument doc = box.Document;
+                                doc.Blocks.Clear();
+                                int count = 0;
+
+                                //Add each line to the document as a separate block.
+                                foreach (string line in File.ReadAllLines(Path.Combine(ProjectDirectory, path)))
+                                {
+                                    Paragraph p = new Paragraph();
+                                    p.Inlines.Add(new Run(line));
+                                    p.Margin = new Thickness(0);
+                                    doc.Blocks.Add(p);
+                                    count++;
+                                }
+
+                               
+                            });
+
+
+                        }
+
+
+
+                    });
+                   
+
+
+
                 }
+
+         
             } catch (Exception e)
             {
                 Debug.WriteLine($"File update failed: {e.Message}");
@@ -313,14 +370,20 @@ namespace JSharp_IDE
                     localPath = (MainWindow.CodePanels.SelectedItem as TabItem).Tag.ToString();
                 }
             });
-            Debug.WriteLine("Updating file " + localPath);
-            localPath = GetLocalPath(localPath);
-            Debug.WriteLine("Localpath: " + localPath);
-            MainWindowViewModel.SaveAllOpenedFiles();
-            Connection c = Connection.Instance;
-            if (c != null && localPath != null)
+
+            if (localPath != null)
             {
-                c.SendCommand(JSONCommand.UpdateFiles(new NetworkFile[] { new NetworkFile(localPath, File.ReadAllBytes(Path.Combine(ProjectDirectory, localPath))) }, 1));
+                Debug.WriteLine("Updating file " + localPath);
+                localPath = GetLocalPath(localPath);
+                Debug.WriteLine("Localpath: " + localPath);
+                MainWindowViewModel.SaveAllOpenedFiles();
+                Connection c = Connection.Instance;
+                if (c != null && localPath != null)
+                {
+                    c.SendCommand(JSONCommand.UpdateFiles(new NetworkFile[] { new NetworkFile(localPath, File.ReadAllBytes(Path.Combine(ProjectDirectory, localPath))) }, 1));
+
+
+                }
             }
         }
 

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -18,7 +19,7 @@ namespace JSharp_IDE
         // Keywords
         // The color determines which color the regex matches get.
         private static SolidColorBrush keyWordColor = Brushes.Orange;
-        private static string keywords = @"(\b(public|private|class|void|import|protected|static|final|enum|synchronized|super|this|boolean|while|for|;|true|false|case|break|if|switch|else|int|new|return|try|catch|finally|implements|extends)\b\s*)";
+        private static string keywords = @"(\b(public|private|class|void|import|protected|static|final|enum|synchronized|super|this|boolean|while|for|;|true|false|case|break|if|switch|else|int|new|return|try|catch|finally|implements|extends|package)\b\s*)";
         private static string symbols = @"(;|,)";
 
         // Annotations
@@ -57,11 +58,9 @@ namespace JSharp_IDE
             return 1;
         }
 
-        /// <summary>
-        /// Checks the whole file for regex
-        /// </summary>
-        /// <param name="rtb"></param>
-        /// <returns>1 when finished</returns>
+
+        
+
         public static async Task<int> OnTextPasted(RichTextBox rtb)
         {
             await Task.Run(() =>

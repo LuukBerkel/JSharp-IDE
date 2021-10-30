@@ -1,0 +1,44 @@
+﻿<Window x:Class="JSharp_IDE.View.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:JSharp_IDE.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="350">
+    <Window.DataContext>
+        <local:SettingsViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Username" Grid.Row="0" Grid.Column="0"/>
+        <Label Content="Password" Grid.Row="1" Grid.Column="0"/>
+
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding UserName}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password}" />
+
+        <Button Content="Sign up" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Command="{Binding SignUpCommand}"/>
+
+        <Label Content="Server Address" Grid.Row="3" Grid.Column="0"/>
+        <Label Content="Server Port" Grid.Row="4" Grid.Column="0"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Address}"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Port}" />
+
+        <Label Content="Java bin directory" Grid.Row="5" Grid.Column="0"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding JavaDir}"/>
+        <Button Content="Apply all" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding ApplyCommand}"/>
+    </Grid>
+</Window>

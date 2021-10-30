@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RootNamespace>JSharp_IDE</RootNamespace>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <Import Project="..\JSharp-Shared\JSharp-Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <None Remove="icons8-ok-50 %281%29.png" />
+    <None Remove="Resources\errror_icon.png" />
+    <None Remove="Resources\Hammer_30x.png" />
+    <None Remove="Resources\oke_icon.png" />
+    <None Remove="Resources\Run_16x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="4.0.0" />
+    <PackageReference Include="ToastNotifications.Messages" Version="2.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\oke_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\errror_icon.png" />
+    <Resource Include="Resources\Hammer_30x.png" />
+    <Resource Include="Resources\Run_16x.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>

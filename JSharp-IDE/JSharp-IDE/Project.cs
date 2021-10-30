@@ -274,7 +274,16 @@ namespace JSharp_IDE
                             MainWindow.CodePanels.Items.Dispatcher.Invoke(() =>
                             {
 
-                                RichTextBoxViewModel.Enabled = false;
+
+                                if (RichTextBoxViewModel.Enabled)
+                                {
+                                    RichTextBoxViewModel.Enabled = false;
+                                    RichTextBoxView.FileUpdateTimer.Start();
+                                } else
+                                {
+                                    RichTextBoxView.FileUpdateTimer.Stop();
+                                    RichTextBoxView.FileUpdateTimer.Start();
+                                }
                                 
 
                                 FlowDocument doc = box.Document;

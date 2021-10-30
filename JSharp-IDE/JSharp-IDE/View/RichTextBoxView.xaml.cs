@@ -24,7 +24,7 @@ namespace JSharp_IDE.View
     public partial class RichTextBoxView : UserControl
     {
         public RichTextBox RichTextBox;
-        private Timer FileUpdateTimer;
+        public static Timer FileUpdateTimer;
         private bool TimerFinished = true;
 
         public RichTextBoxView()
@@ -63,9 +63,6 @@ namespace JSharp_IDE.View
                     rtb.TextChanged += CodeTextBox_TextChanged;
                     }
                 });
-            } else
-            {
-                FileUpdateTimer.Start();
             }
         }
 

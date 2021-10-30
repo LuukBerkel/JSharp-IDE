@@ -32,7 +32,7 @@ namespace JSharp_IDE.View
             InitializeComponent();
             //Assign the xml object to the code variable.
             RichTextBox = CodeTextBox;
-            FileUpdateTimer = new Timer(2000);
+            FileUpdateTimer = new Timer(7000);
             FileUpdateTimer.Elapsed += ElapsedHandler;
             //Only call the event once.
             FileUpdateTimer.AutoReset = false;

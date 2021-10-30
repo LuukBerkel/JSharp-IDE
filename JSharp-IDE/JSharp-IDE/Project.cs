@@ -250,22 +250,17 @@ namespace JSharp_IDE
         {
             try
             {
-                //Update file on disk
-                Debug.WriteLine($"Full path: {Path.Combine(ProjectDirectory, path)}\n" +
-                                $"Updating file {path}: {data}");
-
-
                 //Check if the folder structure exists.
                 new FileInfo(Path.Combine(ProjectDirectory, path)).Directory.Create();
                 //Combine the path with the computers folder path to get the exact location.
                 File.WriteAllBytes(Path.Combine(ProjectDirectory, path), Convert.FromBase64String(data));
                 //Update file in editor
+
+
                 foreach (TabItem item in MainWindow.CodePanels.Items)
                 {
                     MainWindow.CodePanels.Dispatcher.Invoke(() =>
                     {
-
-
                         if (item.Tag.ToString() == path)
                         {
                             RichTextBoxViewModel.Enabled = false;
@@ -288,6 +283,7 @@ namespace JSharp_IDE
 
                                 FlowDocument doc = box.Document;
                                 doc.Blocks.Clear();
+                                int count = 0;
                                 //Add each line to the document as a separate block.
                                 foreach (string line in File.ReadAllLines(Path.Combine(ProjectDirectory, path)))
                                 {
@@ -295,10 +291,10 @@ namespace JSharp_IDE
                                     p.Inlines.Add(new Run(line));
                                     p.Margin = new Thickness(0);
                                     doc.Blocks.Add(p);
-
-
-                                    //Task.Run(async () => await TextFormatter.OnTextPasted(box));
-
+                                    count++;
+                                 
+                                        //Task.Run(async () => await TextFormatter.OnTextNewLine(box, line));
+                                    
 
                                 }
 

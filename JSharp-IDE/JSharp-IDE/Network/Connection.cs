@@ -147,7 +147,6 @@ namespace JSharp_IDE.Network
         /// <param name="json">The json with a command in it.</param>
         private void Command(JObject json)
         {
-            Debug.WriteLine(json.ToString());
             JToken token;
             if (json.TryGetValue("instruction", out token))
             {

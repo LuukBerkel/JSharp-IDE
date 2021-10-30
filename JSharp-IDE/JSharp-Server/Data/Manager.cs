@@ -293,12 +293,15 @@ namespace JSharp_Server.Data
             //Removing session form sessions
             foreach (Session s in active)
             {
-                MainWindow.SetDebugOutput(s.UserAcount.Username);
-                if (s == session)
+                if (s.UserAcount != null)
                 {
-                    MainWindow.SetDebugOutput("deleting");
-                    active.Remove(session);
-                    break;
+                    MainWindow.SetDebugOutput(s.UserAcount.Username);
+                    if (s == session)
+                    {
+                        MainWindow.SetDebugOutput("deleting");
+                        active.Remove(session);
+                        break;
+                    }
                 }
             }
         }
